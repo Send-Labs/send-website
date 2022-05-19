@@ -1,0 +1,108 @@
+@import '~antd/dist/antd.css';
+
+@bgcolor:black;
+
+body{
+    // background-color: @bgcolor;
+}
+#app{
+    height: 100vh;
+    background: #18191c;
+    padding: 0px 30px;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    .topBotton{
+        background: rgb(35, 37, 48);
+        border: rgb(35, 37, 48);
+        border-radius: 12px;
+        margin-left: 8px;
+        margin-top: 3px;
+        padding: 10px;
+
+        &:hover{
+            background: rgb(35, 37, 48);
+        }
+        &:active{
+            background: rgb(35, 37, 48) ;
+        }
+        &:focus{
+           background: rgb(35, 37, 48);  
+        }
+    }
+    .btn{
+        margin-left: 8px;
+        border: rgb(35, 37, 48);
+        border-radius: 12px;
+        background: rgb(35, 37, 48);
+        &:hover{
+            background: rgb(35, 37, 48);
+            color: black;
+        }
+    }
+    .topImage{
+        width: 60px;
+        height: 50px;
+        // margin-right: 8px;
+        // background: white;
+        // color: white;
+    }
+    .ant-dropdown-menu-title-content{
+
+    }
+    .tabs{
+        background-color: #18191c;
+    }
+
+    .right{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        .topConnect{
+            border: none !important;
+            background-color: #EFEFEF !important;
+            color : #000000;
+            text-decoration: none;
+            transition: background-color 2s;
+            font-family: 'roc-grotesk', sans-serif;
+            &:hover{
+                background-color: #bfbfbf !important;
+            }
+        }
+    }
+
+}
+
+
+
+footer{
+    text-align: center;
+    // margin-bottom: 10%;
+    .footerTop{
+        color: rgb(143, 155, 179);
+        font-size: 12px;
+        font-weight: 400;
+    }
+    .footerMid{
+
+    }
+    .footerBot{
+        color: rgb(143, 155, 179);
+        width: 100%;
+        font-size: 12px;
+        margin-top: 25px;
+        align-items: center;
+        text-decoration: underline;
+    }
+}
+.chooseBtn{
+    .ant-radio-button-wrapper:first-child{
+        border-radius: 12px 0 0 12px;
+    }
+    .ant-radio-button-wrapper:last-child{
+        border-radius:0 12px  12px 0;
+    }
+}

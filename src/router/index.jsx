@@ -10,7 +10,6 @@ const BaseRouter =()=>(
                 <Route path='/transfer' element={<Transfer />}> </Route>
                 <Route path='/pool' element={<Pool />}> </Route>
             </Route>
-            
         </Routes>
     </Router>
 )
