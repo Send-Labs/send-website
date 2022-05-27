@@ -44,7 +44,7 @@ header{
         }
     }
     .topImage{
-        width: 60px;
+        width: 120px;
         height: 50px;
         // margin-right: 8px;
         // background: white;
@@ -56,7 +56,6 @@ header{
     .tabs{
         background-color: #18191c;
     }
-
     .right{
         display: flex;
         flex-direction: row;
@@ -70,6 +69,11 @@ header{
             font-family: 'roc-grotesk', sans-serif;
             &:hover{
                 background-color: #bfbfbf !important;
+            }
+        }
+        .menu{
+            & > a:hover{
+                background: #000000 !important;
             }
         }
     }
@@ -96,6 +100,13 @@ footer{
         margin-top: 25px;
         align-items: center;
         text-decoration: underline;
+        margin-bottom: 10px;
+        a{
+            color: rgb(143, 155, 179);
+            &:hover{
+                color: white;
+            }
+        }
     }
 }
 .chooseBtn{

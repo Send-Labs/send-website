@@ -14,6 +14,8 @@ export default function YourPools() {
         { title: 'Your Pool Tokens', dataIndex: 'yourpooltokens', key: 'yourpooltokens' ,},
         { title: 'Pooled Tokens', dataIndex: 'pooledtoken', key: 'pooledtoken' ,},
         { title: 'Volume(24h)', dataIndex: 'volumeday', key: 'volumeday' ,},
+        { title: 'Reward', dataIndex: 'reward', key: 'reward' ,},
+        { title: 'Pending Reward', dataIndex: 'pendingreward', key: 'pendingreward' ,},
         // { title: 'APY', dataIndex: 'apy', key: 'apy', },
         // {
         //   title: 'Action',
