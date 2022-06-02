@@ -18,18 +18,21 @@ export default function PoolCard() {
               </div>
               {/* <label>Token</label> */}
               <div className='tokenName'>USDT</div>
-              <label>Wallet Balance</label>
-              <div className='walletBalance'>-</div>
-            </div>
-            <div className='cardRight'>
+              <div className='liquidityNum'>$111M</div>
               <div className='chain'>
               <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px'}}><img src={Ethereum} style={{width:'12px',height:'12px '}}/>Ethereum</span>
               </div>
+
+            </div>
+            <div className='cardRight'>
+
               {/* <label>Liquidity</label> */}
+              <div className='walletBalance'>-</div>
+              <label>Wallet Balance</label>
               
-              <div className='liquidityNum'>$111M</div>
-              <label>Volume(24h)</label>
               <div className='volumeNum'>620.5</div>
+              <label>Volume(24h)</label>
+              
             </div>
           </div>
         </Button>
