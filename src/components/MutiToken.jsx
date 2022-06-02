@@ -105,7 +105,7 @@ export default function MutiToken() {
     });
     
   return (
-    <div className='mutiChoose'>
+    <div className='mutiToken'>
         <span style={{color :'#999999'}}>Token</span>
         <select multiple data-placeholder="">
             <option selected>All Chains</option>

@@ -16,7 +16,7 @@
         font-size: 14px;
         min-height: 44px;
         box-shadow: 0 4px 16px 0 rgba(#162A5A, .12);
-        transition: box-shadow .3s ease;
+        transition: box-shadow .1s ease;
         &:hover {
             box-shadow: 0 4px 24px -1px rgba(#162A5A, .16);
         }
@@ -36,7 +36,7 @@
                 height: 8px;
                 border-bottom: 8px solid #99A3BA;
                 top: 43%;
-                transition: all .3s ease;
+                transition: all .1s ease;
             }
             &:before {
                 right: 12px;
@@ -55,7 +55,7 @@
             cursor: pointer;
             top: 8px;
             line-height: 28px;
-            transition: all .3s ease;
+            transition: all .1s ease;
             &.hide {
                 opacity: 0;
                 visibility: hidden;
@@ -116,19 +116,19 @@
             }
             &.notShown {
                 opacity: 0;
-                transition: opacity .3s ease;
+                transition: opacity .1s ease;
                 &:before {
                     width: 28px;
-                    transition: width .45s cubic-bezier(.87,-.41,.19,1.44) .2s;
+                    transition: width .3s cubic-bezier(.87,-.41,.19,1.44) .1s;
                 }
                 i {
                     opacity: 0;
-                    transition: all .3s ease .3s;
+                    transition: all .1s ease .1s;
                 }
                 em {
                     opacity: 0;
                     transform: translate(-6px, 0);
-                    transition: all .4s ease .3s;
+                    transition: all .2s ease .1s;
                 }
                 &.shown {
                     opacity: 1;
@@ -147,20 +147,20 @@
             &.remove {
                 &:before {
                     width: 28px;
-                    transition: width .4s cubic-bezier(.87,-.41,.19,1.44) 0s;
+                    transition: width .2s cubic-bezier(.87,-.41,.19,1.44) 0s;
                 }
                 i {
                     opacity: 0;
-                    transition: all .3s ease 0s;
+                    transition: all .1s ease 0s;
                 }
                 em {
                     opacity: 0;
                     transform: translate(-12px, 0);
-                    transition: all .4s ease 0s;
+                    transition: all .2s ease 0s;
                 }
                 &.disappear {
                     opacity: 0;
-                    transition: opacity .5s ease 0s;
+                    transition: opacity .2s ease 0s;
                 }
             }
         }
@@ -181,7 +181,7 @@
         transform: translate(0, 20px) scale(.8);
         transform-origin: 0 0;
         filter: drop-shadow(0 12px 20px rgba(#162A5A, .08));
-        transition: all .4s ease, transform .4s cubic-bezier(.87,-.41,.19,1.44), filter .3s ease .2s;
+        transition: all .2s ease, transform .2s cubic-bezier(.87,-.41,.19,1.44), filter .1s ease .1s;
         li {
             color: white;
             background: rgb(35, 35, 35);
@@ -189,7 +189,7 @@
             cursor: pointer;
             overflow: hidden;
             position: relative;
-            transition: background .3s ease, color .3s ease, transform .3s ease .3s, opacity .5s ease .3s, border-radius .3s ease .3s;
+            transition: background .1s ease, color .1s ease, transform .1s ease .1s, opacity .3s ease .1s, border-radius .1s ease .1s;
             &:first-child {
                 border-radius: 8px 8px 0 0;
                 &:last-child {
