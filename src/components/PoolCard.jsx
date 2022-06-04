@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'antd'
 import '../pages/less/PoolCard.less'
 import Usdt from '../assets/USDT.svg'
-import Ethereum from '../assets/ethereum-eth-logo.png'
+// import Ethereum from '../assets/ethereum-eth-logo.svg'
 import { Link } from 'react-router-dom'
 export default function PoolCard() {
 
@@ -20,7 +20,7 @@ export default function PoolCard() {
               <div className='tokenName'>USDT</div>
               <div className='liquidityNum'>$111M</div>
               <div className='chain'>
-              <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px'}}><img src={Ethereum} style={{width:'12px',height:'12px '}}/>Ethereum</span>
+              <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px'}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>
               </div>
 
             </div>

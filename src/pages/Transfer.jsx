@@ -5,12 +5,14 @@ import { CloseOutlined , SettingOutlined,DownOutlined,SwapOutlined} from '@ant-d
 import {Link} from 'react-router-dom';
 import './less/Transfer.less';
 import USDT from '../assets/USDT.svg'
+//import {ReactComponent as Ether} from "../assets/ethereum-eth-logo.svg"
+import Bnb from '../assets/bnb-logo.svg'
+import Eth from '../assets/ETH-01.svg'
 export default function Transfer() {
   
-  // function handleChange(value) {
-  //   console.log(`selected ${value}`);
-  // };
   const USD = <img src={USDT} style={{width: '16px',marginTop:'-3px'}}></img>;
+  const ETH = <span style={{borderRadius:'99px',background:'#757575',marginBottom:'5px'}}><img src={Eth} style={{width: '30px',height:'30px',borderRadius:'99px',marginBottom:'3px'}}></img></span>
+  const BNB = <span style={{borderRadius:'99px',}}><img src={Bnb} style={{width: '30px',height:'30px',marginBottom:'3px',borderRadius:'99px'}}></img></span>
   const advancedshow = function(){
     var advance = document.getElementsByClassName('advanceCard');
     console.log(advance)
@@ -44,22 +46,23 @@ export default function Transfer() {
   return (
     <div>
         <div id='cardBody'>
-            <Card className='mainCard' bordered={false} style={{marginTop: '45px', borderRadius: '16px',background: '#202121',} }>
+            <Card className='mainCard' bordered={false} style={{marginTop: '45px', borderRadius: '16px',background: 'rgb(32, 33, 33)',} }>
               <div className='transferTop'>
                 <Button  onClick={advancedshow} type="link" icon={<SettingOutlined style={{color : 'white'}} />} ></Button>
               </div>
+              <label style={{color : 'white'}}>From</label>
                 <div className='transferItemTop'>
                   <div className='transferItemTopLeft'>
-                    <label style={{color : 'white'}}>From</label>
+                    
 
                     <div className='selectAll'>
-                      <Button className='networkSelect' style={{height:'100%',width:'200px'}} onClick={()=>{var advance = document.getElementsByClassName('networkselectCard');
+                      <Button className='networkSelect' style={{height:'85px',width:'200px'}} onClick={()=>{var advance = document.getElementsByClassName('networkselectCard');
                         advance[0].style.visibility = 'visible';}}>
                           <span style={{marginLeft:'-120px',color:'#999999'}}>Network</span>
                           <div className='networkShow'>
                             <div className='leftPart'>
                               <span style={{marginRight:'5px'}}>{USD}</span>
-                              <span style={{marginTop:'10px'}}>Select</span>
+                              <span style={{marginTop:'10px',fontSize:'16px',color:'white'}}>Select</span>
                             </div>
                           <DownOutlined style={{fontsize:'16px',marginLeft:'5px',color:'#FBFBFC',marginTop:'13px'}}/>
                           </div>
@@ -67,20 +70,20 @@ export default function Transfer() {
 
                       <Button className='tokenSelect' style={{height:'100%',width:'150px'}} onClick={()=>{var advance = document.getElementsByClassName('tokenselectCard');
                         advance[0].style.visibility = 'visible';}}>
-                        <span style={{marginLeft:'-80px',color:'#999999'}}>Token</span>
+                        <span style={{marginLeft:'-80px',color:'#999999',}}>Token</span>
                         <div className='tokenShow'>
                           <div className='leftPart'>
-                            <span style={{marginRight:'5px'}}>{USD}</span>
-                            <span>Select</span>
+                            <span style={{marginRight:'5px',}}>{USD}</span>
+                            <span style={{fontSize:'16px',color:'white'}}>Select</span>
                           </div>
                           <DownOutlined style={{fontsize:'16px',marginLeft:'5px',color:'#FBFBFC',marginTop:'13px'}}/>
                         </div>
                       </Button>
 
-                      <Button className='address' style={{height:'100%',width:'100px'}} >
-                        <span style={{marginLeft:'-20px ',color:'#999999'}}>Address</span>
+                      <Button className='address' style={{height:'100%',width:'160px'}} >
+                        <span style={{marginLeft:'-50px',color:'#999999'}}>Address</span>
                         <div className='addressShow'>
-                          <span>00000</span>
+                          <span style={{color:'white',}}>0xCed5...c87f</span>
                         </div>
                       </Button>
                     </div>
@@ -92,14 +95,14 @@ export default function Transfer() {
                   <div className='transferItemTopRight'>
                   </div>
                 </div>
-                <Card style={{padding: '15px 0px',background: 'rgb(23, 23, 26)',marginTop: '8px',borderRadius: '16px',border: 'none'}}>
+                <Card style={{padding: '0px 0px',background: '#040000',marginTop: '8px',borderRadius: '8px',border: 'none'}}>
                   <div className='inside'>
                     <div className='topLine'>
-                      <label className='labelStyle'>Send:</label>
+                      <label className='labelStyle' style={{marginTop:'5px',marginBottom:'-5px'}}>Send</label>
                       
                     </div>
                     <div className='botLine'>
-                      <InputNumber min={0.0}  max={10} defaultValue={0.0} bordered={false} style={{color : 'white'}}/>
+                      <Input defaultValue={0.0} bordered={false} style={{color : 'white',background:'#040000',paddingBottom:'10px',paddingTop:'10px'}} className='sendInput' />
 
                     </div>
                   </div>
@@ -107,36 +110,40 @@ export default function Transfer() {
                 <div className='turnBtn'>
                   <Button className='turnAround' style={{fontSize:'20px'}} ><SwapOutlined rotate={90} style={{color : 'white'}}/></Button>
                 </div>
+                <label style={{color : 'white',marginRight:'12px'}}>To</label>
                 <div className='transferItemTop'>
+                  
                   <div className='transferItemTopLeft'>
-                    <label style={{color : 'white',marginRight:'12px'}}>To</label>
-                    <div className='selectAll'>
-                      <Button className='networkSelect' style={{height:'100%',width:'200px'}} onClick={()=>{var advance = document.getElementsByClassName('networkselectCard');
+                    
+                  <div className='selectAll'>
+                      <Button className='networkSelect' style={{height:'85px',width:'200px'}} onClick={()=>{var advance = document.getElementsByClassName('networkselectCard');
                         advance[0].style.visibility = 'visible';}}>
                           <span style={{marginLeft:'-120px',color:'#999999'}}>Network</span>
                           <div className='networkShow'>
                             <div className='leftPart'>
                               <span style={{marginRight:'5px'}}>{USD}</span>
-                              <span style={{marginTop:'10px'}}>Select</span>
+                              <span style={{marginTop:'10px',fontSize:'16px',color:'white'}}>Select</span>
                             </div>
                           <DownOutlined style={{fontsize:'16px',marginLeft:'5px',color:'#FBFBFC',marginTop:'13px'}}/>
                           </div>
                       </Button>
 
-                      <Button className='tokenSelect' style={{height:'100%',width:'150px'}}>
-                        <span style={{marginLeft:'-80px',color:'#999999'}}>Token</span>
+                      <Button className='tokenSelect' style={{height:'100%',width:'150px'}} onClick={()=>{var advance = document.getElementsByClassName('tokenselectCard');
+                        advance[0].style.visibility = 'visible';}}>
+                        <span style={{marginLeft:'-80px',color:'#999999',}}>Token</span>
                         <div className='tokenShow'>
                           <div className='leftPart'>
-                            <span style={{marginRight:'5px'}}>{USD}</span>
-                            <span>Select</span>
+                            <span style={{marginRight:'5px',}}>{USD}</span>
+                            <span style={{fontSize:'16px',color:'white'}}>Select</span>
                           </div>
                           <DownOutlined style={{fontsize:'16px',marginLeft:'5px',color:'#FBFBFC',marginTop:'13px'}}/>
                         </div>
                       </Button>
-                      <Button className='address' style={{height:'100%',width:'100px'}} onClick={()=>{}}>
-                        <span style={{marginLeft:'-20px ',color:'#999999'}}>Address</span>
+
+                      <Button className='address' style={{height:'100%',width:'160px'}} >
+                        <span style={{color:'#999999',marginLeft:'0px'}}>Address</span>
                         <div className='addressShow'>
-                          <span>00000</span>
+                          <span style={{color:'white',}}>0xCed5...c87f</span>
                         </div>
                       </Button>
                     </div>
@@ -145,12 +152,16 @@ export default function Transfer() {
                     
                   </div>
                 </div>
-                <Card style={{padding: '15px 0px',background: 'rgb(23, 23, 26)',marginTop: '8px',borderRadius: '16px',border: 'none'}}>
-                  <div className='topLine'>
-                    <label className='labelStyle'>Receive (estimated):</label>
-                  </div>
-                  <div className='botLine'>
-                    <InputNumber min={0.0}  max={10} defaultValue={0.0} bordered={false} style={{color : 'white'}}/>
+                <Card style={{padding: '0px 0px',background: '#040000',marginTop: '8px',borderRadius: '8px',border: 'none'}}>
+                  <div className='inside'>
+                    <div className='topLine'>
+                      <label className='labelStyle' style={{marginTop:'5px',marginBottom:'-5px'}}>Receive (estimated)</label>
+                      
+                    </div>
+                    <div className='botLine'>
+                      <Input defaultValue={0.0} bordered={false} style={{color : 'white',background:'#040000',paddingBottom:'10px',paddingTop:'10px'}} className='sendInput' />
+
+                    </div>
                   </div>
                 </Card>
                 <div className='error'></div>
@@ -181,12 +192,14 @@ export default function Transfer() {
               <hr style={{border:'0',backgroundColor:'#757575',height:'1px'}}/>
               <div className='networkBtn'>
                 <Button className='networkSel'>
-                  {USD}
-                  <span style={{marginLeft:'5px'}}>Etherenum</span>
+                  <div>
+                  {ETH}
+                  <span style={{marginLeft:'5px',fontSize:'16px'}}>Ethereum</span>
+                  </div>
                   </Button>
                   <Button className='networkSel'>
-                  {USD}
-                  <span style={{marginLeft:'5px'}}>BNB Chain</span>
+                  {BNB}
+                  <span style={{marginLeft:'5px',fontSize:'16px'}}>BNB Chain</span>
                   </Button>
                   <Button className='networkSel'>
                   {USD}

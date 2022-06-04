@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Card ,Select,Breadcrumb, Input} from 'antd';
 import Usdt from '../assets/USDT.svg'
-import Ethereum from '../assets/ethereum-eth-logo.png'
+//import Ethereum from '../assets/ethereum-eth-logo.svg'
 import '../pages/less/FarmAndPool.less'
 import { Link } from 'react-router-dom';
 export default function FarmAndPool() {
@@ -18,7 +18,7 @@ export default function FarmAndPool() {
                 <div className='farmCardTop'>
                     <span style={{color : '#9F9E9F'}}>USDT</span>
                     <div className='right'>
-                        <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px',color:'#202121'}}><img src={Ethereum} style={{width:'12px',height:'12px',}}/>Ethereum</span>
+                        <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px',color:'#202121'}}><img  style={{width:'12px',height:'12px',}}/>Ethereum</span>
                     </div>
                 </div>
                 <span style={{color:'#9F9E9F'}}>Total Amount</span>

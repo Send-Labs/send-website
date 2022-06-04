@@ -8,6 +8,7 @@
         border: none;
     }
 }
+
 .advanceCard{
     // z-index: 16;
     position: absolute !important;
@@ -49,48 +50,51 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin-left: 20px;
+    
     .networkSelect{
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-        background: #18191C;
+        background: #040000;
         border:none;
+        font-weight: 300 !important;
         &:hover{
-            background: #18191C;
+            background: #040000;
             border: none;
         }
         &:focus{
-            background: #18191C;
+            background: #040000;
         }
     }
     .tokenSelect{
-        margin-left: 2px;
-        margin-right: 2px;
-        background: #18191C;
+        margin-left: 1px;
+        margin-right: 1px;
+        background: #040000;
         border: none;
+        font-weight: 300 !important;
         &:hover{
-            background: #18191C;
+            background: #040000;
             border: none;
         }
         &:focus{
-            background: #18191C;
+            background: #040000;
         }
     }
     .address{
-        background: #18191C;
+        background: #040000;
         border: none;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
+        font-weight: 300 !important;
         &:hover{
-            background: #18191C;
+            background: #040000;
             border: none;
         }
         &:focus{
-            background: #18191C;
+            background: #040000;
         }
         .addressShow{
             color:#999999;
-            font-size: 20px;
+            font-size: 16px;
             margin-top: 5px;
         }
     }
@@ -102,14 +106,14 @@
     
     border: none !important;
     color: #EFEEEE !important;
-    background: #18191C !important;
+    background: #040000 !important;
     border-radius: 8px !important;
-    width: 45%;
-    height: 40px;
+    width: 48%;
+    height: 50px !important;
     margin-top: 10px;
     text-align: left !important;
     &:hover{
-        background: #757575 !important;
+        background: #373536 !important;
     }
 }
 .networkBtn{
@@ -130,7 +134,7 @@
     text-align: left !important;
     font-size: 20px !important;
     &:hover{
-        background: #757575 !important;
+        background: #373536 !important;
     }
 }
 .networkBtn{
@@ -138,7 +142,7 @@
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-    
+    // height: 30px !important;
 }
 .networkShow{
     display: flex;
@@ -188,6 +192,9 @@
         
     }
 }
+.sendInput{
+    background: #040000 !important;
+}
 .transferTop{
     display: flex;
     flex-direction: row;
@@ -197,14 +204,14 @@
 .ant-input-suffix{
     color:#757575;
 }
-.ant-input{
-    background-color: #202121 !important;
-    color: #EFEEEE !important;
+// .ant-input{
+//     background-color: #202121 !important;
+//     color: #EFEEEE !important;
     
-}
-.ant-input-affix-wrapper{
-    background: #202121 !important;
-}
+// }
+// .ant-input-affix-wrapper{
+//     background: #202121 !important;
+// }
 .advanceInput{
     border-radius: 8px !important;
     border: 1px solid #757575 !important;
@@ -316,8 +323,12 @@
 }
 
 .labelStyle{
-    color: rgb(143, 155, 179);
+    color: #999999;
     float: left;
     font-size: 12px;
-    font-weight: 600;
+    
+    margin-top: 15px !important;
+    margin-bottom: -30px !important;
+    font-family: Light 300;
+    margin-left: -10px !important;
 }
