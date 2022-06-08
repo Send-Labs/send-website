@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'antd'
 import '../pages/less/PoolCard.less'
 import Usdt from '../assets/USDT.svg'
-// import Ethereum from '../assets/ethereum-eth-logo.svg'
+import Ethereum from '../assets/ETH-01.svg'
 import { Link } from 'react-router-dom'
 export default function PoolCard() {
 
@@ -12,27 +12,32 @@ export default function PoolCard() {
         <Button className='cardBtn' >
           
           <div className='mainCard'>
-            <div className='cardLeft'>
-              <div className='icon'>
-                <img src={Usdt}></img>
+            <div className='cardTop'>
+              <div className='topLeft'>
+                <div className='icon'>
+                  <img src={Usdt}></img>
+                </div>
+                {/* <label>Token</label> */}
+                <div className='tokenName'>USDT</div>
               </div>
-              {/* <label>Token</label> */}
-              <div className='tokenName'>USDT</div>
-              <div className='liquidityNum'>$111M</div>
               <div className='chain'>
-              <span style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px'}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>
+              <div style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px',width:'110%'}}><img src={Ethereum} style={{width:'12px',height:'12px',marginBottom:'3%',marginLeft:'3%'}} alt=''/>Ethereum</div>
               </div>
 
             </div>
-            <div className='cardRight'>
-
-              {/* <label>Liquidity</label> */}
-              <div className='walletBalance'>-</div>
-              <label>Wallet Balance</label>
-              
-              <div className='volumeNum'>620.5</div>
-              <label>Volume(24h)</label>
-              
+            <div className='cardBottom'>
+              <div className='bot'>
+                <div className='liquidityNum'>$111M</div>
+                <label>Liquidity</label>
+              </div>
+              <div className='bot'>
+                <div className='volumeNum'>620.5</div>
+                <label>Volume</label>
+              </div>
+              <div className='bot'>
+                <div className='walletBalance'>-</div>
+                <label>Wallet Balance</label>
+              </div>
             </div>
           </div>
         </Button>

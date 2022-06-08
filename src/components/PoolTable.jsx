@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from 'antd'
 import '../pages/less/PoolTable.less'
 //import Ethereum from '../assets/ethereum-eth-logo.svg'
-import USDC from '../assets/usd-coin-usdc-logo.png'
+import USDC from '../assets/usd-coin-usdc-logo.svg'
 import BUSD from '../assets/binance-usd-busd-logo.png'
 export default function PoolTable() {
     const columns = [

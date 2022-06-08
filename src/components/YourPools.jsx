@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from 'antd'
 import '../pages/less/YourPools.less'
 
-import USDC from '../assets/usd-coin-usdc-logo.png'
+// import USDC from '../assets/usd-coin-usdc-logo.png'
 import BUSD from '../assets/binance-usd-busd-logo.png'
 export default function YourPools() {
     const columns = [
