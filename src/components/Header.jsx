@@ -42,7 +42,7 @@ export default function Header() {
   return (
     <header>
             
-                <div className='left'>
+                <div className='left' style={{display: 'flex',alignItems: 'center'}}>
                     <img src={sendFinance} className='topImage' ></img>
                     {/* <Button className='btn'>1</Button>
                     <Button className='btn'>1</Button>

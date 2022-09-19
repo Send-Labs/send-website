@@ -30,8 +30,8 @@ export default function MessageItem(props) {
               <div className='msg-truncate'>22222222222222222222222222222222</div>
             </div>
           </div>
-          <div>
-           <span className="msg-opacity-30">9/13, 11:00 PM</span>
+          <div className='msg_flex'>
+           <span className="msg-opacity-30">11:00 PM</span>
           </div>
         </div>
       </div>

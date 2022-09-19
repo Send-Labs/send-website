@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, InputNumber, Input, Divider, Switch } from 'antd';
 import { Menu, Space } from 'antd';
-import { EditOutlined, SettingOutlined, PlusOutlined, ArrowLeftOutlined, MessageOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EditOutlined, SettingOutlined, PlusOutlined, ArrowLeftOutlined, MessageOutlined, UnlockOutlined,SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import '../less/Message.less';
 import MessageItem from './MessageItem';
@@ -11,6 +11,7 @@ import HeadImg from './HeadImg';
 export default function Message() {
 
   const [action, setAction] = useState(0);
+  const [iw, setIw] = useState(100);
   // useEffect(()=>{
 
   // },)
@@ -20,7 +21,7 @@ export default function Message() {
         <div className='msg_main' >
           <div className='friendlist msg_flex msg_flex_col'>
             <div className='header msg_flex msg_flex_between msg_items_center msg_border_b'>
-              <div>Message</div>
+              <div><Input style={{ color: 'white', background: '#040000', height: '30px' }} prefix={<SearchOutlined style={{ color: '#ffffff)' }} />}/></div>
               <div onClick={() => setAction(0)}><EditOutlined /></div>
             </div>
             <div className='msg_list'>
@@ -67,7 +68,7 @@ export default function Message() {
 
                   </div>
                   <br />
-                  <Button type='primary' size='large' className='cardButton'>Create thread</Button>
+                  <Button type='primary' size='large' className='cardButton'>Send Message</Button>
                 </div>
               </>
             }
