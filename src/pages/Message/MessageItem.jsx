@@ -24,10 +24,10 @@ export default function MessageItem(props) {
         <div className='msg_flex msg-grow msg_flex_between msg-pr-2 msg-truncate'>
           <div className='msg-truncate msg-flex-col msg-max-w-full'>
             <div>
-              <div style={{fontSize:'16px'}}>doctor&nbsp;<span style={{fontSize:'12px',color:'rgba(255,255,255,0.4)'}}>0xeb...89e1</span></div>
+              <div style={{fontSize:'16px',fontWeight:'400'}}>doctor&nbsp;<span style={{fontSize:'12px',fontWeight:'normal',color:'rgba(255,255,255,0.4)'}}>0xeb...89e1</span></div>
             </div>
             <div className='msg-truncate'>
-              <div className='msg-truncate'><span style={{display:'inline-block',minWidth:'20px',height:'20px',borderRadius:'10px',textAlign:'center',background:'gray',padding:'0 3px'}}>221</span>&nbsp;you:hello</div>
+              <div className='msg-truncate'><span style={{display:'inline-block',minWidth:'20px',height:'20px',borderRadius:'10px',textAlign:'center',background:'#5966F3',padding:'0 5px',fontSize:'12px'}}>221</span>&nbsp;you:hello</div>
             </div>
           </div>
           <div className='msg_flex msg_items_end'>
