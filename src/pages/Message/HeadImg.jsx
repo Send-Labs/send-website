@@ -7,7 +7,7 @@ import '../less/Message.less';
 
 export default function MessageItem(props) {
 
-  const {checked}=props;
+  const {checked,data}=props;
   // useEffect(()=>{
 
   // },)
@@ -24,7 +24,12 @@ export default function MessageItem(props) {
         <div className='msg_flex msg-grow msg_flex_between msg-pr-2 msg-truncate'>
           <div className='msg-truncate msg-flex-col msg-max-w-full'>
             <div>
-              <div>22</div>
+              <div>{data.map((item,index)=>{
+                if(item.checked){
+                  return index;
+                }
+
+              })}</div>
             </div>
             <div className='msg-truncate'>
             <LockOutlined />

@@ -18,7 +18,7 @@ export default function MessageItem(props) {
             <div className={`msg_flex msg-flex-col msg-justify-end msg_items_center msg-border ${!self&&'msg_bg_subtle_night'}`}>
               <div className='msg-py-2 msg-px-4'>
                   <div>123</div>
-                  <div className='mst-opacity-50 msg-font-base'>9/13, 10:28 PM</div>
+                  <div className='mst-opacity-50 msg-xs-small'>10:28 PM</div>
               </div>
             </div>
         </div>

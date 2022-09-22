@@ -24,14 +24,14 @@ export default function MessageItem(props) {
         <div className='msg_flex msg-grow msg_flex_between msg-pr-2 msg-truncate'>
           <div className='msg-truncate msg-flex-col msg-max-w-full'>
             <div>
-              <div>22</div>
+              <div style={{fontSize:'16px'}}>doctor&nbsp;<span style={{fontSize:'12px',color:'rgba(255,255,255,0.4)'}}>0xeb...89e1</span></div>
             </div>
             <div className='msg-truncate'>
-              <div className='msg-truncate'><span style={{display:'inline-block',minWidth:'20px',height:'20px',borderRadius:'10px',textAlign:'center',background:'gray',padding:'0 3px'}}>221</span>222222222222222222222</div>
+              <div className='msg-truncate'><span style={{display:'inline-block',minWidth:'20px',height:'20px',borderRadius:'10px',textAlign:'center',background:'gray',padding:'0 3px'}}>221</span>&nbsp;you:hello</div>
             </div>
           </div>
-          <div className='msg_flex'>
-           <span className="msg-opacity-30">11:00 PM</span>
+          <div className='msg_flex msg_items_end'>
+           <span className="msg-opacity-30 msg-xs-small">11:00 PM</span>
           </div>
         </div>
       </div>

@@ -90,7 +90,8 @@ export default function Message() {
                         return item;
                       })
                       return newData;
-                  })
+                  });
+                  setAction(1);
                 }}><MessageItem checked={item.checked} /></div>)
               }
             </div>
@@ -128,10 +129,14 @@ export default function Message() {
             {
               action == 1 && <>
                 <div className='header msg_flex msg_flex_between msg_items_center msg_border_b'>
-                  <HeadImg />
+                  <HeadImg data={list}/>
                   <div><SettingOutlined /></div>
                 </div>
                 <div className='detail_list msg_flex msg-flex-col-reverse'>
+{
+   list.map((item,index)=><DetailItem />)
+}
+                  
                   <DetailItem />
                   <DetailItem />
                   <DetailItem />
