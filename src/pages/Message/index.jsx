@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import { Button, Card, InputNumber, Input, Divider, Switch } from 'antd';
 import { Menu, Space } from 'antd';
 import { EditOutlined, SettingOutlined, PlusOutlined, ArrowLeftOutlined, MessageOutlined, UnlockOutlined,SearchOutlined } from '@ant-design/icons';
@@ -12,6 +12,7 @@ export default function Message() {
 
   const [action, setAction] = useState(0);
   const [iw, setIw] = useState(100);
+  const inputRef = useRef(null);
   const [list, setList] = useState([{
     checked:false,
   },{
@@ -76,7 +77,11 @@ export default function Message() {
         <div className='msg_main' >
           <div className='friendlist msg_flex msg_flex_col'>
             <div className='header msg_flex msg_flex_between msg_items_center msg_border_b'>
-              <div><Input style={{ color: 'white', background: 'transparent',border: 'transparent', height: '30px' }} prefix={<SearchOutlined style={{ color: '#ffffff)' }} />}/></div>
+              <div><Input ref={inputRef} style={{ color: 'white', background: 'transparent',border: 'transparent', height: '30px' }} prefix={<SearchOutlined onClick={()=>{
+                inputRef.current.focus({
+                  cursor: 'start',
+                });
+              }} style={{ color: '#ffffff',cursor:'pointer' }} />}/></div>
               <div onClick={() => setAction(0)}><EditOutlined /></div>
             </div>
             <div className='msg_list'>
@@ -94,6 +99,7 @@ export default function Message() {
                   setAction(1);
                 }}><MessageItem checked={item.checked} /></div>)
               }
+              <p><br /></p>
             </div>
           </div>
           <div className='msgdetails msg-w-full msg_flex msg_flex_col'>

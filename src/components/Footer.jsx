@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer>
         <div className='footerTop'>
-            <span>Powered by Send Network</span>
+            <span>Powered by Way Network</span>
         </div>
         <div className='footerMid'></div>
         <div className='footerBot'>
