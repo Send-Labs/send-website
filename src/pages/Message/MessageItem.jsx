@@ -27,7 +27,7 @@ export default function MessageItem(props) {
               <div>22</div>
             </div>
             <div className='msg-truncate'>
-              <div className='msg-truncate'>22222222222222222222222222222222</div>
+              <div className='msg-truncate'><span style={{display:'inline-block',minWidth:'20px',height:'20px',borderRadius:'10px',textAlign:'center',background:'gray',padding:'0 3px'}}>221</span>222222222222222222222</div>
             </div>
           </div>
           <div className='msg_flex'>
