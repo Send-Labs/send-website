@@ -24,7 +24,7 @@ export default function PoolTable() {
         {
           key: 1,
           name: <span><img src={USDC} style={{width:'32px',height:'32px ',marginRight:'3px'}}/>USDC</span> ,
-          network:<span style={{background:'grey',height:'32px',borderRadius:'0.25rem',fontSize:'10px',}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>,
+          network:<span style={{background:'5966F3',height:'32px',borderRadius:'0.25rem',fontSize:'10px',}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>,
           liquidity:'---',
           volume:'---'
         //   chain: ,
@@ -34,7 +34,7 @@ export default function PoolTable() {
         {
           key: 2,
           name:<span><img src={BUSD} style={{width:'32px',height:'32px ',marginRight:'3px'}}/>BUSD</span>,
-          network:<span style={{background:'grey',height:'32px',borderRadius:'0.25rem',fontSize:'10px',}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>,
+          network:<span style={{background:'5966F3',height:'32px',borderRadius:'0.25rem',fontSize:'10px',}}><img  style={{width:'12px',height:'12px '}}/>Ethereum</span>,
         },
         {
           key: 3,

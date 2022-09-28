@@ -251,7 +251,7 @@ export default function Transfer() {
                   </Button>
                   <Button className='tokenSel'>
                   {}
-                  <span style={{marginLeft:'5px'}}>STG</span>
+                  <span style={{marginLeft:'5px'}}>BUSD</span>
                   </Button>
               </div>
  

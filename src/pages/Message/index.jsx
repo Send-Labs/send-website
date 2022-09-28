@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react'
 import { Button, Card, InputNumber, Input, Divider, Switch } from 'antd';
 import { Menu, Space } from 'antd';
-import { EditOutlined, SettingOutlined, PlusOutlined, ArrowLeftOutlined, MessageOutlined, UnlockOutlined,SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, SettingOutlined,TeamOutlined, PlusOutlined, ArrowLeftOutlined, MessageOutlined, UnlockOutlined,SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import '../less/Message.less';
 import MessageItem from './MessageItem';
@@ -82,7 +82,7 @@ export default function Message() {
                   cursor: 'start',
                 });
               }} style={{ color: '#ffffff',cursor:'pointer' }} />}/></div>
-              <div onClick={() => setAction(0)}><EditOutlined /></div>
+              <div ><TeamOutlined />&nbsp;<EditOutlined onClick={() => setAction(0)} /></div>
             </div>
             <div className='msg_list'>
               {

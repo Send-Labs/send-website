@@ -2,10 +2,13 @@ import React from 'react'
 import {Button} from 'antd'
 import '../pages/less/PoolCard.less'
 import Usdt from '../assets/USDT.svg'
-import Ethereum from '../assets/ETH-01.svg'
+import Ethereum from '../assets/ETH-01.svg';
+import Arbitrum from '../assets/Arbitrum-01.svg';
+import Fox from '../assets/fox-logo-01-01.svg';
+import Polygon from '../assets/polygon-matic-logo.svg';
 import { Link } from 'react-router-dom'
-export default function PoolCard() {
-
+export default function PoolCard(props) {
+const {index}=props;
   return (
     <div id='poolCard'>
       <Link to='/farm'>
@@ -18,10 +21,10 @@ export default function PoolCard() {
                   <img src={Usdt}></img>
                 </div>
                 {/* <label>Token</label> */}
-                <div className='tokenName'>USDT</div>
+                <div className='tokenName'>{index>2&&'USDT'||'USDC'}</div>
               </div>
               <div className='chain'>
-              <div style={{background:'grey',borderRadius:'0.25rem',fontSize:'10px',width:'110%'}}><img src={Ethereum} style={{width:'12px',height:'12px',marginBottom:'3%',marginLeft:'3%'}} alt=''/>Ethereum</div>
+              <div style={{background:'#5966F3',borderRadius:'0.25rem',fontSize:'10px',width:'110%',padding:'0 10px'}}>{index==1&&'Ethereum'||'Fox'}</div>
               </div>
 
             </div>

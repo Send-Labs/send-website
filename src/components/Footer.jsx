@@ -6,7 +6,6 @@ export default function Footer() {
         <div className='footerTop'>
             <span>Powered by Way Network</span>
         </div>
-        <div className='footerMid'></div>
         <div className='footerBot'>
             <a>WhitePaper</a>
             <a style={{marginLeft: '24px'}}>Github</a>

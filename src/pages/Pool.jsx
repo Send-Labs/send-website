@@ -27,10 +27,10 @@ export default function Pool() {
         </div>
         {/* <Button type='primary' className='connectBtn' style={{marginTop:'20px'}}>Connect Wallet</Button> */}
         <div className='cardShow'>
-            <PoolCard></PoolCard>
-            <PoolCard></PoolCard>
-            <PoolCard></PoolCard>
-            <PoolCard></PoolCard>
+            <PoolCard index={1}></PoolCard>
+            <PoolCard index={2}></PoolCard>
+            <PoolCard index={3}></PoolCard>
+            <PoolCard index={4}></PoolCard>
             <PoolCard></PoolCard>
             <PoolCard></PoolCard>
             <PoolCard></PoolCard>
