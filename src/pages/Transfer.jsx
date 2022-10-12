@@ -90,12 +90,12 @@ export default function Transfer() {
                         </div>
                       </Button>
 
-                      <Button className='address' style={{height:'100%',width:'100%'}} >
+                      {/* <Button className='address' style={{height:'100%',width:'100%'}} >
                         <span style={{marginRight:'43%',color:'#999999'}}>Address</span>
                         <div className='addressShow'>
                           <span style={{color:'white',}}>0xCed5...c87f</span>
                         </div>
-                      </Button>
+                      </Button> */}
                     </div>
 
 

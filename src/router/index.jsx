@@ -11,7 +11,7 @@ const BaseRouter =()=>(
                 <Route path="/" element={<Message />} index></Route>
                 <Route path='/message' element={<Message />}> </Route>
 
-                <Route path='/transfer' element={<Transfer />}>
+                <Route path='/exchange' element={<Transfer />}>
                     
                  </Route>
                 <Route path='/pool' element={<Pool />}> </Route>

@@ -25,7 +25,7 @@ export default function Tabs() {
             <label class="tab" for="radio-1"><Link to='/message' onClick={tabs}>Message</Link></label>
             
             <input type="radio" id="radio-1" name="tabs" />
-            <label class="tab" for="radio-1"><Link to='/transfer' onClick={tabsBridge}>Bridge</Link></label>
+            <label class="tab" for="radio-1"><Link to='/exchange' onClick={tabsBridge}>Exchange</Link></label>
 
             <input type="radio" id="radio-2" name="tabs" />
             <label class="tab" for="radio-2"><Link to='/pool' onClick={tabsRoll}>Pool</Link></label>
