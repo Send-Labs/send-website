@@ -1,7 +1,7 @@
 {
   "name": "app1",
   "private": true,
-  "author": "wangzhe409 <wangzhe18@jd.com>",
+  "author": "doctor",
   "scripts": {
     "dev": "umi dev",
     "build": "umi build",
