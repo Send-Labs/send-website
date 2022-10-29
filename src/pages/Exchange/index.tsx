@@ -19,7 +19,7 @@ const HomePage = (props: any) => {
   }, []);
   return (
     <div style={{padding:'50px 0'}} className='flex flex-center'>
-  <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1f2229', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem' }}>
+  <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: 'rgba(32, 33, 33, 0.8)', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem' }}>
       <div className='flex flex-between gap-2'>
         <span>Exchange</span>
         <span><SettingOutlined /></span>

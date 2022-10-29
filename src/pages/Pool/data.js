@@ -74,7 +74,7 @@ export const poolColumnsTemplate = [
     render: (item) => <KpToken pool={true} name={item.name} />,
   },
   {
-    title: 'LTV',
+    title: 'Reserves',
     width: '16%',
     dataIndex: 'ltv',
     defaultSortOrder: 'descend',
@@ -83,7 +83,7 @@ export const poolColumnsTemplate = [
     render: (text) => `${text.toFixed(3)}%`,
   },
   {
-    title: 'Total Supply',
+    title: 'Deposited',
     width: '16%',
     dataIndex: 'totalSupply',
     sorter: (a, b) => a.totalSupply - b.totalSupply,
@@ -96,7 +96,7 @@ export const poolColumnsTemplate = [
     ),
   },
   {
-    title: 'Supply APR',
+    title: 'Shares',
     width: '16%',
     dataIndex: 'supplyApr',
     sorter: (a, b) => a.supplyApr - b.supplyApr,
@@ -104,7 +104,7 @@ export const poolColumnsTemplate = [
     render: (text) => `${text.toFixed(3)}%`,
   },
   {
-    title: 'Total Borrow',
+    title: 'APY',
     width: '16%',
     dataIndex: 'address',
     sorter: (a, b) => a.totalBorrow - b.totalBorrow,
@@ -113,14 +113,14 @@ export const poolColumnsTemplate = [
       <KpTotal number={item.totalBorrow} name={item.name} />
     ),
   },
-  {
-    width: '19%',
-    title: 'Borrow APR',
-    dataIndex: 'borrowApr',
-    sorter: (a, b) => a.borrowApr - b.borrowApr,
-    showSorterTooltip: false,
-    render: (text) => `${text.toFixed(3)}%`,
-  },
+  // {
+  //   width: '19%',
+  //   title: 'Borrow APR',
+  //   dataIndex: 'borrowApr',
+  //   sorter: (a, b) => a.borrowApr - b.borrowApr,
+  //   showSorterTooltip: false,
+  //   render: (text) => `${text.toFixed(3)}%`,
+  // },
   Table.EXPAND_COLUMN,
 ];
 // export const childColumns = [

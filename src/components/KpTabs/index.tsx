@@ -7,18 +7,18 @@ const marketTabs = [
     name: 'Supply',
     checked: true,
   },
-  {
-    name: 'Borrow',
-    checked: false,
-  },
+  // {
+  //   name: 'Borrow',
+  //   checked: false,
+  // },
   {
     name: 'Withdraw',
     checked: false,
   },
-  {
-    name: 'Repay',
-    checked: false,
-  },
+  // {
+  //   name: 'Repay',
+  //   checked: false,
+  // },
 ];
 
 const marginTabs = [

@@ -16,6 +16,7 @@ export default {
     baseSeparator: '-',
   },
   theme: {
+    'primary-color':'rgb(89, 102, 243)',
     'table-header-bg': '#0e1118',
     'table-header-color': '#ffffff',
     'table-selected-row-bg': '#0e1118',

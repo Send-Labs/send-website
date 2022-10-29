@@ -486,7 +486,7 @@ const Page = (props) => {
 
       <Row>
         <Col className={styles.main} span={24}>
-          <KpRpc totalSupply={totalSupply} totalBorrows={totalBorrows} />
+          {/* <KpRpc totalSupply={totalSupply} totalBorrows={totalBorrows} /> */}
           <Row>
             <Col span={16}>
               <div>
