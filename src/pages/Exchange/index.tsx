@@ -25,7 +25,7 @@ const HomePage = (props: any) => {
         <span><SettingOutlined /></span>
       </div>
       <TokenInput />
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center' }}> 
         <SwapOutlined rotate={90} style={{ color: 'white' }} />
       </div>
       <TokenInput />
