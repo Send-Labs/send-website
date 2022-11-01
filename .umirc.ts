@@ -26,6 +26,7 @@ export default {
     'table-border-color': 'rgba(0,0,0,0)',
     'tabs-card-head-background': '#1b1d23',
     'tabs-card-gutter': '0',
+    'tabs-card-tab-active-border-top': '2px solid rgb(89, 102, 243)',
     'text-color': '#ffffff',
     'body-background': '#0e1118',
     'component-background': '#0e1118',

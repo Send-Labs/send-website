@@ -109,10 +109,10 @@ export default function Message() {
                   <div onClick={() => setAction(1)}><ArrowLeftOutlined />&nbsp;&nbsp;&nbsp;&nbsp;Send Message</div>
                 </div>
                 <div className='msg-max-w-sm'>
-                  <h1 className='msg-mt-8 msg-mb-4'>Create thread</h1>
+                  {/* <h1 className='msg-mt-8 msg-mb-4'>Create thread</h1> */}
                   <p>Enter recipient address</p>
                   <Input style={{ color: 'white', background: '#040000', height: '50px' }} />
-                  <p className='mst-opacity-50 msg-font-base'>Link twitter twitter.cardinal.so and domain naming.bonfida.org</p>
+                  {/* <p className='mst-opacity-50 msg-font-base'>Link twitter twitter.cardinal.so and domain naming.bonfida.org</p> */}
                   <Divider className='mst-opacity-50' style={{ background: '#ffffff' }} />
                   <div className='msg_flex msg_flex_between msg_bg_subtle_night msg-py-3 msg-px-4 msg-rounded-2xl'>
                     <span><MessageOutlined />&nbsp;&nbsp;Off-chain</span>

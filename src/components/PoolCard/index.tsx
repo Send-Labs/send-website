@@ -8,7 +8,7 @@ import Fox from '@/assets/fox-logo-01-01.svg';
 import Polygon from '@/assets/polygon-matic-logo.svg';
 import { Link } from 'react-router-dom'
 export default function PoolCard(props) {
-const {index}=props;
+const {index,chain}=props;
   return (
     <div id='poolCard'>
       <Link to='/farm'>
@@ -24,7 +24,7 @@ const {index}=props;
                 <div className='tokenName'>{index>2&&'USDT'||'USDC'}</div>
               </div>
               <div className='chain'>
-              <div style={{background:'#5966F3',borderRadius:'0.25rem',fontSize:'10px',width:'110%',padding:'0 10px'}}>{index==1&&'Ethereum'||'Fox'}</div>
+              <div style={{background:'#5966F3',borderRadius:'0.25rem',fontSize:'10px',minWidth:'75px',padding:'0 10px'}}>{chain}</div>
               </div>
 
             </div>

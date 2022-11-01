@@ -459,28 +459,22 @@ const Page = (props) => {
   return (
     <div className={styles.market}>
       <Row gutter={16}>
-        <Col  span={6}>
-          <PoolCard />
+        <Col span={6}>
+          <PoolCard chain="BNB" />
         </Col>
-        <Col  span={6}>
-          <PoolCard />
+        <Col span={6}>
+          <PoolCard chain="Ethereum" />
         </Col>
-        <Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
-        </Col><Col  span={6}>
-          <PoolCard />
+        <Col span={6}>
+          <PoolCard chain="Polygon" />
+        </Col><Col span={6}>
+          <PoolCard chain="Avalanche" />
+        </Col><Col span={6}>
+          <PoolCard chain="Arbitrum" />
+        </Col><Col span={6}>
+          <PoolCard chain="Optimism" />
+        </Col><Col span={6}>
+          <PoolCard chain="Fox" />
         </Col>
       </Row>
 
@@ -577,7 +571,7 @@ const Page = (props) => {
                 )}
             </Col>
             <Col
-              
+
               span={8}
               style={{ paddingLeft: '25px' }}
             >
