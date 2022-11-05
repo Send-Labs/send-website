@@ -54,7 +54,7 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div>
-        <Button>Connect</Button>
+        <Button>Connect Wallet</Button>
         <Drawer
           title="Select a Token"
           className={styles.h100}

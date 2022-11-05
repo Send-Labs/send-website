@@ -222,7 +222,7 @@ const KpTotal = (props: any) => {
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <Button disabled={!active} onClick={onButtonClicked}>
-            {step == 'approve' ? 'Approve' : selectedTab}
+            {step == 'approve' ? 'Connect Wallet' : selectedTab}
           </Button>
         </div>
       </div>

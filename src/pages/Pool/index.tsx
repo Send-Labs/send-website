@@ -458,7 +458,7 @@ const Page = (props) => {
 
   return (
     <div className={styles.market}>
-      <Row gutter={16}>
+      <Row gutter={20}>
         <Col span={6}>
           <PoolCard chain="BNB" />
         </Col>
