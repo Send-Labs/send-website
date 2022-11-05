@@ -21,13 +21,13 @@ export default function Tabs() {
     return (
         <div className="tabs">
             <input type="radio" id="radio-1" name="tabs" checked />
-            <label onClick={tabs} className="tab" htmlFor="radio-1"><Link to='/message' >Message</Link></label>
+            <Link to='/message' ><label onClick={tabs} className="tab" htmlFor="radio-1">Message</label></Link>
 
             <input type="radio" id="radio-3" name="tabs" />
-            <label  onClick={tabsBridge} className="tab" htmlFor="radio-3"><Link to='/exchange'>Exchange</Link></label>
+            <Link to='/exchange'><label  onClick={tabsBridge} className="tab" htmlFor="radio-3">Exchange</label></Link>
 
             <input type="radio" id="radio-2" name="tabs" />
-            <label  onClick={tabsRoll} className="tab" htmlFor="radio-2"><Link to='/pool'>Pool</Link></label>
+            <Link to='/pool'><label  onClick={tabsRoll} className="tab" htmlFor="radio-2">Pool</label></Link>
 
             <span className="glider"></span>
         </div>

@@ -24,7 +24,7 @@ const {index,chain}=props;
                 <div className='tokenName'>{index>2&&'USDT'||'USDC'}</div>
               </div>
               <div className='chain'>
-              <div style={{background:'#5966F3',borderRadius:'0.25rem',fontSize:'10px',minWidth:'75px',padding:'0 10px'}}>{chain}</div>
+              <div style={{background:'#5966F3',borderRadius:'2px',fontSize:'10px',minWidth:'75px',padding:'0 10px'}}>{chain}</div>
               </div>
 
             </div>

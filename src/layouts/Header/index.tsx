@@ -53,7 +53,7 @@ export default function Header() {
                   <Tabs></Tabs>
                 </div>
                 <div className='right'>
-                  <Button type='primary' className='topConnect' style={{borderRadius:'12px',marginTop:'3px'}}>Connect Wallet</Button>
+                  <Button type='primary' className='topConnect' style={{marginTop:'3px'}}>Connect Wallet</Button>
                 </div>
     </header>
   )
