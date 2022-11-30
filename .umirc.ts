@@ -36,16 +36,11 @@ export default {
   },
   model: {},
   routes: [
-    { path: '/', redirect: '/message' },
+    { path: '/', redirect: '/transfer' },
     {
-      path: '/exchange',
+      path: '/transfer',
       title: 'Send Finance',
-      component: '@/pages/Exchange',
-    },
-    {
-      path: '/message',
-      title: 'Send Finance',
-      component: '@/pages/Message',
+      component: '@/pages/Transfer',
     },
     {
       path: '/pool',
