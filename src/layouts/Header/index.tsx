@@ -42,7 +42,7 @@ export default function Header() {
   return (
     <header style={{ padding: '0 30px' }}>
 
-      <div className='left' style={{ display: 'flex', alignItems: 'center' }}>
+      <div className='left' style={{ display: 'flex', alignItems: 'center',width:'200px' }}>
         <img src={sendFinance} className='topImage' ></img>
         {/* <Button className='btn'>1</Button>
                     <Button className='btn'>1</Button>
