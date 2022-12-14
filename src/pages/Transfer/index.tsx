@@ -73,7 +73,7 @@ const HomePage = (props: any) => {
           <span>Transfer</span>
           <span><SettingOutlined /></span>
         </div>
-        <TokenInput currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
+        <TokenInput max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
         <div style={{ textAlign: 'center' }}>
           <div className='swap-hover' onClick={handSwap}>
             <SwapOutlined rotate={90} style={{ color: '#ffffff' }} />
@@ -94,7 +94,7 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div>
-        <Button style={{ marginTop: '-10px', height: 'auto', padding: '8px 0' }}>Connect Wallet</Button>
+        <Button className='wbtn' style={{ marginTop: '-10px', height: 'auto', padding: '8px 0' }}>Connect Wallet</Button>
         <Drawer
           title="Select a Token"
           className={styles.h100}
