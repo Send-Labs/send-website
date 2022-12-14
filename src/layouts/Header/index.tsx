@@ -49,15 +49,11 @@ export default function Header() {
                     <Button className='btn'>1</Button> */}
       </div>
 
-      <div className='mid'>
+      <div className='mid' style={{display:'flex',alignItems:'center'}}>
         <Tabs></Tabs>
       </div>
       <div className='right'>
-        <Button type='primary' className='topConnect' style={{ marginTop: '3px',
-        height: '52px',
-        borderRadius: '99px',
-        fontSize:' 1.25em',
-    width:' 200px'}}>Connect Wallet</Button>
+        <Button type='primary' className='topConnect'>Connect Wallet</Button>
     </div>
     </header >
   )

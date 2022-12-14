@@ -50,12 +50,12 @@ export const getPoolAddr = (key) => pools[key].address;
 
 // tokenlist
 export const tokenListPolygon = [
-  // {
-  //   key: '1',
-  //   name: 'BTC',
-  //   pools: [1],
-  //   icon: '/btc.svg',
-  // },
+  {
+    key: '1',
+    name: 'BTC',
+    pools: [1],
+    icon: '/btc.svg',
+  },
   {
     key: '2',
     name: 'MATIC',
@@ -78,6 +78,30 @@ export const tokenListPolygon = [
     address: getContractAddr('usdc'),
     decimals: 6,
     icon: '/usdc.svg',
+    pools: ['main pool'],
+  },
+  {
+    key: '7',
+    name: 'BNB',
+    address: getContractAddr('usdc'),
+    decimals: 6,
+    icon: '/bnb.svg',
+    pools: ['main pool'],
+  },
+  {
+    key: '5',
+    name: 'USDT',
+    address: getContractAddr('usdc'),
+    decimals: 6,
+    icon: '/usdt.svg',
+    pools: ['main pool'],
+  },
+  {
+    key: '6',
+    name: 'BUSD',
+    address: getContractAddr('usdc'),
+    decimals: 6,
+    icon: '/busd.svg',
     pools: ['main pool'],
   },
 ];

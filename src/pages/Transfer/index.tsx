@@ -16,7 +16,7 @@ const HomePage = (props: any) => {
   });
   useEffect(() => {
     activate(injected, (error) => {
-      
+
     });
 
   }, []);
@@ -24,22 +24,62 @@ const HomePage = (props: any) => {
   const onClose = () => {
     setVisible(false);
   };
-  const onSelectTokenCurrent = (item) => {
-    // setR1(item);
+  const onSelectTokenCurrent = (item: any) => {
     setVisible(false);
+    if (selectFrom) {
+      setCurrentFromToken(item);
+    }
+    else {
+      setCurrentToToken(item);
+    }
   };
+  const onSelectChainCurrent = (item: any) => {
+    setOpen(false);
+    setCurrentToChain(item);
+  };
+  const [open, setOpen] = useState(false);
+  const chainList = [
+    {
+      'symbol': 'Ethereum',
+      'icon': '/eth.svg'
+    },
+    {
+      'symbol': 'BNB Chain',
+      'icon': '/bnb.svg'
+    },
+    {
+      'symbol': 'Polygon',
+      'icon': '/polygon.svg'
+    },
+    {
+      'symbol': 'Optimism',
+      'icon': '/optimism.png'
+    }
+  ];
+  const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
+  const [currentToChain, setCurrentToChain] = useState(chainList[0]);
+  const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[1]);
+  const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
+  const [selectFrom, setSelectFrom] = useState(true);
+
+  const handSwap=()=>{
+    setCurrentToToken(currentFromToken);
+    setCurrentFromToken(currentToToken);
+  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: 'rgba(32, 33, 33, 0.8)', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between gap-2'>
-          <span>Exchange</span>
+          <span>Transfer</span>
           <span><SettingOutlined /></span>
         </div>
-        <TokenInput selectToken={() => { setVisible(true); }} title="From" />
+        <TokenInput currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
         <div style={{ textAlign: 'center' }}>
-          <SwapOutlined rotate={90} style={{ color: 'white' }} />
+          <div className='swap-hover' onClick={handSwap}>
+            <SwapOutlined rotate={90} style={{ color: '#ffffff' }} />
+          </div>
         </div>
-        <TokenInput selectToken={() => { setVisible(true); }} title="To" choose/>
+        <TokenInput currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
         <div>
           <div className='flex flex-between gap-2'>
             <div>Rate</div>
@@ -54,7 +94,7 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div>
-        <Button>Connect Wallet</Button>
+        <Button style={{ marginTop: '-10px', height: 'auto', padding: '8px 0' }}>Connect Wallet</Button>
         <Drawer
           title="Select a Token"
           className={styles.h100}
@@ -83,11 +123,37 @@ const HomePage = (props: any) => {
                 onClick={() => onSelectTokenCurrent(item)}
               >
                 <div>
-                  <img src={item.icon} />
+                  <img src={item.icon} style={{ marginRight: '15px' }} />
                   <p>{item.name}</p>
                 </div>
                 <div>
                   <p>0</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Drawer>
+        <Drawer
+          title="Select Target Chain"
+          className={styles.h100}
+          placement="bottom"
+          onClose={() => setOpen(false)}
+          visible={open}
+          getContainer={false}
+          maskClosable={false}
+          // closeIcon={false}
+          style={{ position: 'absolute' }}
+          bodyStyle={{ paddingTop: '0' }}
+        >
+          <div className={styles.tokenlist}>
+            {chainList.map((item) => (
+              <div
+                className={styles.item}
+                onClick={() => onSelectChainCurrent(item)}
+              >
+                <div>
+                  <img src={item.icon} style={{ marginRight: '15px' }} />
+                  <p>{item.symbol}</p>
                 </div>
               </div>
             ))}

@@ -1,36 +1,38 @@
 @import '~antd/dist/antd.less';
 
 @bgcolor: black;
+
 @font-face {
     font-family: Karla;
     src: url('/Karla.ttf');
 }
+
 body {
     margin: 0;
     padding: 0;
     background: #040000;
-     font-family: 'Karla', sans-serif;
+    font-family: 'Karla', sans-serif;
 }
 
 a {
     text-decoration: unset;
     color: #ffffff;
-    &:hover{
-    color: #ffffff;
+
+    &:hover {
+        color: #ffffff;
 
     }
 }
 
 header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     margin-top: 20px;
 
     .topBotton {
         background: rgb(35, 37, 48);
         border: rgb(35, 37, 48);
-    border-radius: 2px;
+        border-radius: 2px;
         margin-left: 8px;
         margin-top: 3px;
         padding: 10px;
@@ -51,7 +53,7 @@ header {
     .btn {
         margin-left: 8px;
         border: rgb(35, 37, 48);
-    border-radius: 2px;
+        border-radius: 2px;
         background: rgb(35, 37, 48);
 
         &:hover {
@@ -125,21 +127,24 @@ footer {
     position: relative;
     background-color: #18191c;
     box-shadow: 0 0 0.5px 0 rgba(#EFEFEF, 0.15), 0 3px 6px 0 rgba(#EFEFEF, 0.15);
-    padding: 0.35rem;
+    // padding: 0.35rem;
     border-radius: 99px; // just a high number to create pill effect
 
     * {
         z-index: 2;
     }
 }
+
 // tabs
-.ant-tabs-top > .ant-tabs-nav::before,
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
-  border: 0;
+.ant-tabs-top>.ant-tabs-nav::before,
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+    border: 0;
 }
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
-  border-top: 2px solid transparent;
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+    border-top: 2px solid transparent;
 }
+
 input[type="radio"] {
     display: none;
 }
@@ -148,9 +153,9 @@ input[type="radio"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 54px;
-    width: 200px;
-    font-size: 1.25rem;
+    height: 40px;
+    width: 160px;
+    font-size: 18px;
     font-weight: 500;
     border-radius: 99px; // just a high number to create pill effect
     cursor: pointer;
@@ -168,8 +173,8 @@ input[type="radio"] {
 .glider {
     position: absolute;
     display: flex;
-    height: 54px;
-    width: 200px;
+    height: 40px;
+    width: 160px;
     background-color: #505050;
     z-index: 1;
     border-radius: 99px; // just a high number to create pill effect
@@ -271,6 +276,8 @@ input[type="radio"] {
             padding-right: 1rem;
             min-height: 3.5rem;
             font-size: 20px;
+
+
         }
 
         .msg_flex {
@@ -527,9 +534,11 @@ input[type="radio"] {
 .gap-2 {
     gap: 0.5rem;
 }
+
 .gap-5 {
     gap: 2rem;
 }
+
 .text-gray-4 {
     color: #96a2b4;
 }
@@ -547,22 +556,83 @@ input[type="radio"] {
 }
 
 // tabs
-.ant-tabs-top > .ant-tabs-nav::before,
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
-  border: 0;
+.ant-tabs-top>.ant-tabs-nav::before,
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+    border: 0;
 }
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
-  border-top: 2px solid transparent;
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab {
+    border-top: 2px solid transparent;
 }
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active {
-  border-top: 2px solid rgb(89, 102, 243);
-  font-weight: bold;
+
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active {
+    border-top: 2px solid rgb(89, 102, 243);
+    font-weight: bold;
 }
+
 // tabs
 
-.ant-switch{
-    background-color:#ffffff;
+.ant-switch {
+    background-color: #ffffff;
 }
-.ant-switch-checked{
-    background-color:rgb(89, 102, 243);
+
+.ant-switch-checked {
+    background-color: rgb(89, 102, 243);
+}
+
+.topConnect {
+    background: #ffffff;
+    color: #000;
+    border-radius: 30px;
+    padding: 8px 26px;
+    height: auto;
+    border: 0;
+
+    &:hover {
+        background: #505050;
+    }
+}
+
+.ant-drawer-body::-webkit-scrollbar {
+    display: none;
+}
+
+.mid {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+    inset: 0px;
+    height: 86px;
+}
+
+.fw-bold {
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+}
+
+.token-hover {
+
+    padding: 1px 8px;
+
+    &:hover {
+        background: #505050;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+
+.swap-hover {
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    display: inline-block;
+    background: #505050;
+    border-radius: 50px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+        opacity: 1;
+    }
 }
