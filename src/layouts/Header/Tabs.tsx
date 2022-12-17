@@ -24,7 +24,7 @@ export default function Tabs() {
             <Link to='/transfer' ><label onClick={tabs} className="tab" htmlFor="radio-1">Transfer</label></Link>
 
             <input type="radio" id="radio-3" name="tabs" />
-            <Link to='/pool'><label  onClick={tabsBridge} className="tab" htmlFor="radio-3">Pool</label></Link>
+            <Link to='/pool'><label  onClick={tabsBridge} className="tab" htmlFor="radio-3">Pools</label></Link>
 
             {/* <input type="radio" id="radio-2" name="tabs" />
             <Link to='/pool'><label  onClick={tabsRoll} className="tab" htmlFor="radio-2">Pool</label></Link> */}

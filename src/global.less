@@ -175,7 +175,7 @@ input[type="radio"] {
     display: flex;
     height: 40px;
     width: 160px;
-    background-color: #505050;
+    background-color: #ff5c28;
     z-index: 1;
     border-radius: 99px; // just a high number to create pill effect
     transition: 0.25s ease-out;
@@ -480,13 +480,13 @@ input[type="radio"] {
             background: transparent !important;
 
             &:focus {
-                border-color: #5966F3 !important;
+                border-color: #ff5c28 !important;
                 box-shadow: unset !important;
             }
         }
 
         .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-            border-color: #5966F3 !important;
+            border-color: #ff5c28 !important;
             box-shadow: unset !important;
         }
     }
@@ -566,10 +566,25 @@ input[type="radio"] {
 }
 
 .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active {
-    border-top: 2px solid rgb(89, 102, 243);
+    border-top: 2px solid #ff5c28;
     font-weight: bold;
 }
-
+tr.ant-table-expanded-row > td, tr.ant-table-expanded-row:hover > td{
+    background: unset;
+    padding:0;
+}
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab{
+    background-color: #18191c;
+}
+.ant-table-column-sorters{
+    justify-content: unset;
+}
+.ant-table-column-title{
+    flex:unset;
+}
+td.ant-table-column-sort{
+    background-color: unset;
+}
 // tabs
 
 .ant-switch {
@@ -577,7 +592,7 @@ input[type="radio"] {
 }
 
 .ant-switch-checked {
-    background-color: rgb(89, 102, 243);
+    background-color: #ff5c28;
 }
 
 .topConnect {
@@ -652,6 +667,8 @@ input[type="radio"] {
         color: #ffffff;
     }
 }
-.ant-btn:hover, .ant-btn:focus{
+.ant-btn:focus{
     color: unset;
+    border-color: unset;
+    background: #505050;
 }

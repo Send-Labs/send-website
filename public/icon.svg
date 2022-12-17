@@ -281,7 +281,7 @@
 	.st275{fill:#FDBF08;}
 	.st276{fill:#FAB91A;}
 	.st277{fill:#F9C107;}
-	.st278{fill:rgb(89, 102, 243);}
+	.st278{fill:#ff5c28;}
 	.st279{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
 	.st280{fill:#10B981;}
 	.st281{fill:#F7B91C;}
@@ -490,7 +490,7 @@
 	.st484{fill:#F4CD1E;}
 	.st485{fill-rule:evenodd;clip-rule:evenodd;fill:#010101;}
 	.st486{fill-rule:evenodd;clip-rule:evenodd;fill:#F5C701;}
-	.st487{fill-rule:evenodd;clip-rule:evenodd;fill:rgb(89, 102, 243);}
+	.st487{fill-rule:evenodd;clip-rule:evenodd;fill:#ff5c28;}
 	.st488{fill:none;stroke:#000000;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 	.st489{fill-rule:evenodd;clip-rule:evenodd;fill:#1EAA39;}
 	.st490{fill:#F7931A;}
@@ -528,7 +528,7 @@
 	.st522{fill:#21242A;}
 	.st523{fill:#004FFF;}
 	.st524{fill:#212121;}
-	.st525{fill:rgb(89, 102, 243);}
+	.st525{fill:#ff5c28;}
 	.st526{fill:#F3B919;}
 	.st527{fill:#5551FF;}
 	.st528{fill:#0A0A0A;}

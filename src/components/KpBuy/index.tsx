@@ -21,9 +21,9 @@ import {
   formatEther,
 } from '@ethersproject/units';
 const infolistMain = [
-  ['User borrow limit', '$0.00'],
-  ['Utilization', '0%'],
-  ['Supply APR', '3.41%'],
+  ['Share Of Pool', '8.02%'],
+  ['Volume (7d)', '$293,349.89'],
+  ['APR', '3.41%'],
 ];
 const infolistMore = [
   ['Reserve deposit limit', '1,000,000,000 USDC'],

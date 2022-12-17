@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { useEffect, useState } from 'react';
 import TokenInput from '@/components/TokenInput';
-import { SettingOutlined, SwapOutlined } from '@ant-design/icons';
+import { SettingOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
 import { Button, Drawer } from 'antd';
 import styles from './index.less';
@@ -26,12 +26,8 @@ const HomePage = (props: any) => {
   };
   const onSelectTokenCurrent = (item: any) => {
     setVisible(false);
-    if (selectFrom) {
-      setCurrentFromToken(item);
-    }
-    else {
-      setCurrentToToken(item);
-    }
+    setCurrentFromToken(item);
+    setCurrentToToken(item);
   };
   const onSelectChainCurrent = (item: any) => {
     setOpen(false);
@@ -58,14 +54,10 @@ const HomePage = (props: any) => {
   ];
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
   const [currentToChain, setCurrentToChain] = useState(chainList[0]);
-  const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[1]);
+  const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
   const [selectFrom, setSelectFrom] = useState(true);
 
-  const handSwap=()=>{
-    setCurrentToToken(currentFromToken);
-    setCurrentFromToken(currentToToken);
-  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: 'rgba(32, 33, 33, 0.8)', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
@@ -73,10 +65,10 @@ const HomePage = (props: any) => {
           <span>Transfer</span>
           <span><SettingOutlined /></span>
         </div>
-        <TokenInput max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
+        <TokenInput chooseToken max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
         <div style={{ textAlign: 'center' }}>
-          <div className='swap-hover' onClick={handSwap}>
-            <SwapOutlined rotate={90} style={{ color: '#ffffff' }} />
+          <div className='swap-hover'>
+            <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
         </div>
         <TokenInput currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
