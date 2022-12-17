@@ -60,7 +60,7 @@ const HomePage = (props: any) => {
 
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
-      <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: 'rgba(32, 33, 33, 0.8)', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
+      <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between gap-2'>
           <span>Transfer</span>
           <span><SettingOutlined /></span>
@@ -88,7 +88,7 @@ const HomePage = (props: any) => {
         </div>
         <Button className='wbtn' style={{ marginTop: '-10px', height: 'auto', padding: '8px 0' }}>Connect Wallet</Button>
         <Drawer
-          title="Select a Token"
+          title="Select Token"
           className={styles.h100}
           placement="bottom"
           onClose={onClose}
@@ -126,7 +126,7 @@ const HomePage = (props: any) => {
           </div>
         </Drawer>
         <Drawer
-          title="Select Target Chain"
+          title="Select  Chain"
           className={styles.h100}
           placement="bottom"
           onClose={() => setOpen(false)}

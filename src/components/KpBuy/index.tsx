@@ -52,6 +52,7 @@ const KpTotal = (props: any) => {
     selectedTab,
     ...rest
   } = props;
+  debugger;
   const { active, account, chainId, library } = useWeb3React();
   const [passedVal, setPassedVal] = useState();
 

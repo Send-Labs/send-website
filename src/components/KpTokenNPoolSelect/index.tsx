@@ -32,8 +32,8 @@ const KpBigInput = (props: any) => {
   const selectToken = () => {
     onSelectToken();
   };
-  const selectPool = (key, name) => {
-    onSelectPool(key, name);
+  const selectPool = () => {
+    onSelectPool();
   };
 
   const menu = (props) => (
@@ -52,26 +52,18 @@ const KpBigInput = (props: any) => {
       <div className={`${styles.root} ${styles.left}`} onClick={selectToken}>
         <label>Token</label>
         <Select
-          name={props.dataSource.r1.name || 'Select'}
-          icon={props.dataSource.r1.icon}
+          name={props.dataSource.r1.assets[0].name || 'Select'}
+          icon={props.dataSource.r1.assets[0].icon}
         />
       </div>
       {props.pool && (
-        <div className={`${styles.root} ${styles.right}`}>
-          <label>Pool</label>
-          <div style={{ height: '100%' }}>
-            <Dropdown overlay={menu}>
-              <div style={{ height: '100%' }}>
-                <Select
-                  name={
-                    (props.dataSource?.r2?.key && props.dataSource.r2.name) ||
-                    'Select'
-                  }
-                />
-              </div>
-            </Dropdown>
-          </div>
-        </div>
+        <div className={`${styles.root} ${styles.left}`} onClick={selectPool}>
+        <label>Network</label>
+        <Select
+          name={props.dataSource.r2.network.name || 'Select'}
+          icon={props.dataSource.r2.network.icon}
+        />
+      </div>
       )}
     </div>
   );

@@ -56,6 +56,8 @@ const Page = (props) => {
   const [selectedTab, setSelectedTab] = useState('Supply');
   const [pool, setPool] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  
   const [lm, setLm] = useState(false);
   const [r1, setR1] = useState({});
   const [r2, setR2] = useState({});
@@ -176,7 +178,24 @@ const Page = (props) => {
   };
   const totalSupply = 0;
   const totalBorrows = 0;
-
+  const chainList = [
+    {
+      'symbol': 'Ethereum',
+      'icon': '/eth.svg'
+    },
+    {
+      'symbol': 'BNB Chain',
+      'icon': '/bnb.svg'
+    },
+    {
+      'symbol': 'Polygon',
+      'icon': '/polygon.svg'
+    },
+    {
+      'symbol': 'Optimism',
+      'icon': '/optimism.png'
+    }
+  ];
   return (
     <div className={styles.market}>
       <Tabs
@@ -312,7 +331,7 @@ const Page = (props) => {
       <Modal
         open={open}
         footer={null}
-        bodyStyle={{ padding: '0',background: '#18191c' }}
+        bodyStyle={{ padding: '0'}}
         closable={false}
         onCancel={()=>setOpen(false)}
       >
@@ -324,7 +343,7 @@ const Page = (props) => {
             tabType="market"
           />
           <KpBuy
-            onSelectPool={onSelectPool}
+            onSelectPool={()=>setOpenDrawer(true)}
             onSelectToken={onSelectToken}
             selectedTab={selectedTab}
             KpTokenList={KpTokenList}
@@ -335,7 +354,7 @@ const Page = (props) => {
             open={() => props.setVisibleMetaMask(true)}
           />
           <Drawer
-            title="Select a Token"
+            title="Select Token"
             className={styles.h100}
             placement="bottom"
             onClose={onClose}
@@ -344,7 +363,6 @@ const Page = (props) => {
             maskClosable={false}
             // closeIcon={false}
             style={{ position: 'absolute' }}
-            bodyStyle={{background:'#18191c'}}
           >
             <div className={styles.title}>
               <div>
@@ -373,6 +391,32 @@ const Page = (props) => {
               ))}
             </div>
           </Drawer>
+          <Drawer
+          title="Select  Chain"
+          className={styles.h100}
+          placement="bottom"
+          onClose={() => setOpenDrawer(false)}
+          visible={openDrawer}
+          getContainer={false}
+          maskClosable={false}
+          // closeIcon={false}
+          style={{ position: 'absolute' }}
+          bodyStyle={{ paddingTop: '0' }}
+        >
+          <div className={styles.tokenlist}>
+            {chainList.map((item) => (
+              <div
+                className={styles.item}
+                onClick={() => onSelectChainCurrent(item)}
+              >
+                <div>
+                  <img src={item.icon} style={{ marginRight: '15px' }} />
+                  <p>{item.symbol}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Drawer>
         </div>
       </Modal>
 
