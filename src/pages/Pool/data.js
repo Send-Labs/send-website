@@ -360,7 +360,7 @@ export const childAssetColumns = [
     defaultSortOrder: 'descend',
     sorter: (a, b) => a - b,
     showSorterTooltip: false,
-    render: (text) => text && <><img style={{ width: '30px', marginRight: '5px' }} src={text.icon} />{text.name}</>,
+    render: (text) => text &&text.length>0 && <><img style={{ width: '30px', marginRight: '5px' }} src={text[0].icon} />{text[0].name}</>,
   },
   {
     title: 'Liquidity',
