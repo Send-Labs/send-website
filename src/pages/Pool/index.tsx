@@ -225,6 +225,8 @@ const Page = (props) => {
         onRow={(record2) => {
           return {
             onClick: (event) => {
+              setR1(record2);
+                                  setR2(record2);
               setOpen(true);
             }, // 点击行
           };
