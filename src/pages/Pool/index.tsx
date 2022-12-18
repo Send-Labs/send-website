@@ -57,7 +57,7 @@ const Page = (props) => {
   const [pool, setPool] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
-  
+
   const [lm, setLm] = useState(false);
   const [r1, setR1] = useState({});
   const [r2, setR2] = useState({});
@@ -94,8 +94,8 @@ const Page = (props) => {
     setVisible(true);
   };
   const onSelectTokenCurrent = (item) => {
-    setR1(item);
-    setVisible(false);
+    // setR1(item);
+    // setVisible(false);
   };
   const onSelectPool = (key, name) => {
     setR2((data) => {
@@ -207,7 +207,7 @@ const Page = (props) => {
           border: '1px solid #1b1d23',
           borderBottom: '0',
           transform: 'translateY(1px)',
-          marginBottom:'4px'
+          marginBottom: '4px'
         }}
       >
         <TabPane tab="My Pools" key="1">
@@ -218,15 +218,15 @@ const Page = (props) => {
         </TabPane>
       </Tabs>
       <Table
-        style={{ border: '1px solid #1b1d23',marginBottom:'50px'}}
+        style={{ border: '1px solid #1b1d23', marginBottom: '50px' }}
         columns={mypoololumns}
-        dataSource={(keyPool=="1"&&dataMyPool)||(keyPool=="2"&&dataAvailable)||(keyPool=="3"&&dataTopPool)}
+        dataSource={(keyPool == "1" && dataMyPool) || (keyPool == "2" && dataAvailable) || (keyPool == "3" && dataTopPool)}
         pagination={false}
         onRow={(record2) => {
           return {
             onClick: (event) => {
               setR1(record2);
-                                  setR2(record2);
+              setR2(record2);
               setOpen(true);
             }, // 点击行
           };
@@ -247,7 +247,7 @@ const Page = (props) => {
                     border: '1px solid #1b1d23',
                     borderBottom: '0',
                     transform: 'translateY(1px)',
-                    marginBottom:'4px'
+                    marginBottom: '4px'
                   }}
                 >
                   <TabPane tab="Assets" key="1"></TabPane>
@@ -310,9 +310,9 @@ const Page = (props) => {
                               dataSource={record.childData}
                               onRow={(record2) => {
                                 return {
-                                  onClick: (event) => {
-                                    setR1(record2);
-                                    setR2(record);
+                                  onClick: (event) => {debugger
+                                    setR1(record);
+                                    setR2(record2);
                                     setOpen(true);
                                   }, // 点击行
                                 };
@@ -333,9 +333,9 @@ const Page = (props) => {
       <Modal
         open={open}
         footer={null}
-        bodyStyle={{ padding: '0'}}
+        bodyStyle={{ padding: '0' }}
         closable={false}
-        onCancel={()=>setOpen(false)}
+        onCancel={() => setOpen(false)}
       >
 
         <div className={styles.action}>
@@ -345,7 +345,7 @@ const Page = (props) => {
             tabType="market"
           />
           <KpBuy
-            onSelectPool={()=>setOpenDrawer(true)}
+            onSelectPool={() => setOpenDrawer(true)}
             onSelectToken={onSelectToken}
             selectedTab={selectedTab}
             KpTokenList={KpTokenList}
@@ -380,7 +380,7 @@ const Page = (props) => {
               {getTokenList(chainId).map((item) => (
                 <div
                   className={styles.item}
-                  onClick={() => onSelectTokenCurrent(item)}
+                  // onClick={() => onSelectTokenCurrent(item)}
                 >
                   <div>
                     <img src={item.icon} style={{ marginRight: '15px' }} />
@@ -394,31 +394,31 @@ const Page = (props) => {
             </div>
           </Drawer>
           <Drawer
-          title="Select  Chain"
-          className={styles.h100}
-          placement="bottom"
-          onClose={() => setOpenDrawer(false)}
-          visible={openDrawer}
-          getContainer={false}
-          maskClosable={false}
-          // closeIcon={false}
-          style={{ position: 'absolute' }}
-          bodyStyle={{ paddingTop: '0' }}
-        >
-          <div className={styles.tokenlist}>
-            {chainList.map((item) => (
-              <div
-                className={styles.item}
-                onClick={() => onSelectChainCurrent(item)}
-              >
-                <div>
-                  <img src={item.icon} style={{ marginRight: '15px' }} />
-                  <p>{item.symbol}</p>
+            title="Select  Chain"
+            className={styles.h100}
+            placement="bottom"
+            onClose={() => setOpenDrawer(false)}
+            visible={openDrawer}
+            getContainer={false}
+            maskClosable={false}
+            // closeIcon={false}
+            style={{ position: 'absolute' }}
+            bodyStyle={{ paddingTop: '0' }}
+          >
+            <div className={styles.tokenlist}>
+              {chainList.map((item) => (
+                <div
+                  className={styles.item}
+                  // onClick={() => onSelectChainCurrent(item)}
+                >
+                  <div>
+                    <img src={item.icon} style={{ marginRight: '15px' }} />
+                    <p>{item.symbol}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Drawer>
+              ))}
+            </div>
+          </Drawer>
         </div>
       </Modal>
 

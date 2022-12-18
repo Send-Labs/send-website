@@ -60,8 +60,8 @@ const KpBigInput = (props: any) => {
         <div className={`${styles.root} ${styles.left}`} onClick={selectPool}>
         <label>Network</label>
         <Select
-          name={props.dataSource.r2.network.name || 'Select'}
-          icon={props.dataSource.r2.network.icon}
+          name={props.dataSource.r2.network[0].name || 'Select'}
+          icon={props.dataSource.r2.network[0].icon}
         />
       </div>
       )}

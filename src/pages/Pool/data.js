@@ -415,7 +415,7 @@ export const dataAssets = [
           name: 'USDT',
           icon: 'usdt.svg'
         }],
-        network: { name: 'Ethereum', icon: 'eth.svg' },
+        network: [{ name: 'Ethereum', icon: 'eth.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -427,7 +427,7 @@ export const dataAssets = [
           name: 'USDT',
           icon: 'usdt.svg'
         },],
-        network: { name: 'BNB Chain', icon: 'bnb.svg' },
+        network: [{ name: 'BNB Chain', icon: 'bnb.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -457,7 +457,7 @@ export const dataAssets = [
           name: 'BUSD',
           icon: 'busd.svg'
         }],
-        network: { name: 'Ethereum', icon: 'eth.svg' },
+        network: [{ name: 'Ethereum', icon: 'eth.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -469,7 +469,7 @@ export const dataAssets = [
           name: 'BUSD',
           icon: 'busd.svg'
         },],
-        network: { name: 'BNB Chain', icon: 'bnb.svg' },
+        network: [{ name: 'BNB Chain', icon: 'bnb.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -481,7 +481,7 @@ export const dataAssets = [
           name: 'BUSD',
           icon: 'busd.svg'
         },],
-        network: { name: 'Polygon', icon: 'polygon.svg' },
+        network: [{ name: 'Polygon', icon: 'polygon.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -493,7 +493,7 @@ export const dataAssets = [
           name: 'BUSD',
           icon: 'busd.svg'
         },],
-        network: { name: 'Optimism', icon: 'optimism.png' },
+        network: [{ name: 'Optimism', icon: 'optimism.png' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -519,7 +519,7 @@ export const dataAssets = [
           name: 'BTC',
           icon: 'btc.svg'
         }],
-        network: { name: 'Ethereum', icon: 'eth.svg' },
+        network: [{ name: 'Ethereum', icon: 'eth.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -531,7 +531,7 @@ export const dataAssets = [
           name: 'BTC',
           icon: 'btc.svg'
         },],
-        network: { name: 'BNB Chain', icon: 'bnb.svg' },
+        network: [{ name: 'BNB Chain', icon: 'bnb.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -557,7 +557,7 @@ export const dataAssets = [
           name: 'ETH',
           icon: 'eth.svg'
         }],
-        network: { name: 'Ethereum', icon: 'eth.svg' },
+        network: [{ name: 'Ethereum', icon: 'eth.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -569,7 +569,7 @@ export const dataAssets = [
           name: 'ETH',
           icon: 'eth.svg'
         },],
-        network: { name: 'BNB Chain', icon: 'bnb.svg' },
+        network: [{ name: 'BNB Chain', icon: 'bnb.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -601,7 +601,7 @@ export const dataAssets = [
           name: 'USDC',
           icon: 'usdc.svg'
         }],
-        network: { name: 'Ethereum', icon: 'eth.svg' },
+        network: [{ name: 'Ethereum', icon: 'eth.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -613,7 +613,7 @@ export const dataAssets = [
           name: 'USDC',
           icon: 'usdc.svg'
         },],
-        network: { name: 'BNB Chain', icon: 'bnb.svg' },
+        network: [{ name: 'BNB Chain', icon: 'bnb.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -625,7 +625,7 @@ export const dataAssets = [
           name: 'USDC',
           icon: 'usdc.svg'
         },],
-        network: { name: 'Arbitrum', icon: 'arbitrum.svg' },
+        network: [{ name: 'Arbitrum', icon: 'arbitrum.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -637,7 +637,7 @@ export const dataAssets = [
           name: 'USDC',
           icon: 'usdc.svg'
         },],
-        network: { name: 'Polygon', icon: 'polygon.svg' },
+        network: [{ name: 'Polygon', icon: 'polygon.svg' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',
@@ -649,7 +649,7 @@ export const dataAssets = [
           name: 'USDC',
           icon: 'usdc.svg'
         },],
-        network: { name: 'Optimism', icon: 'optimism.png' },
+        network: [{ name: 'Optimism', icon: 'optimism.png' }],
         liquidity: '$4,179,163.96',
         vol24h: '$26,068,439.18',
         vol7d: '$384,213.85',

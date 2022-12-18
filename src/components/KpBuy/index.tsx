@@ -215,7 +215,7 @@ const KpTotal = (props: any) => {
           passedVal={passedVal}
           setPassedVal={setPassedVal}
           KpTokenList={KpTokenList}
-          tokenName={props.dataSource.r1.name}
+          tokenName={props.dataSource.r2.name}
           // poolName={props.dataSource.r2.name}
         />
 

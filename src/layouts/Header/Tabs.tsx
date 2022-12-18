@@ -1,12 +1,12 @@
 import React from 'react'
-// import '../pages/less/Tabs.less'
+import { history } from "umi";
 import { Link } from 'react-router-dom'
 export default function Tabs() {
-    const tabsRoll = function () {
-        var tab = document.getElementsByClassName('glider');
-
-        tab[0].style.transform = 'translateX(200%)'
-    };
+    React.useLayoutEffect(() => {
+        if (history.location.pathname.indexOf('pool') > -1) {
+            tabsBridge();
+        }
+    });
     const tabs = function () {
         var tab = document.getElementsByClassName('glider');
 
@@ -24,10 +24,7 @@ export default function Tabs() {
             <Link to='/transfer' ><label onClick={tabs} className="tab" htmlFor="radio-1">Transfer</label></Link>
 
             <input type="radio" id="radio-3" name="tabs" />
-            <Link to='/pool'><label  onClick={tabsBridge} className="tab" htmlFor="radio-3">Pools</label></Link>
-
-            {/* <input type="radio" id="radio-2" name="tabs" />
-            <Link to='/pool'><label  onClick={tabsRoll} className="tab" htmlFor="radio-2">Pool</label></Link> */}
+            <Link to='/pool'><label onClick={tabsBridge} className="tab" htmlFor="radio-3">Pools</label></Link>
 
             <span className="glider"></span>
         </div>
