@@ -94,13 +94,12 @@ const Page = (props) => {
     setVisible(true);
   };
   const onSelectTokenCurrent = (item) => {
-    // setR1(item);
-    // setVisible(false);
+    setR1({assets:[{name:item.name,icon:item.icon}]});
+    setVisible(false);
   };
-  const onSelectPool = (key, name) => {
-    setR2((data) => {
-      return { key, name };
-    });
+  const onSelectChainCurrent = (item) => {
+    setR2({network:[{name:item.symbol,icon:item.icon}]});
+    setOpenDrawer(false);
   };
   const onChange = (key: any) => {
     setKey(key);
@@ -380,7 +379,7 @@ const Page = (props) => {
               {getTokenList(chainId).map((item) => (
                 <div
                   className={styles.item}
-                  // onClick={() => onSelectTokenCurrent(item)}
+                  onClick={() => onSelectTokenCurrent(item)}
                 >
                   <div>
                     <img src={item.icon} style={{ marginRight: '15px' }} />
@@ -409,7 +408,7 @@ const Page = (props) => {
               {chainList.map((item) => (
                 <div
                   className={styles.item}
-                  // onClick={() => onSelectChainCurrent(item)}
+                  onClick={() => onSelectChainCurrent(item)}
                 >
                   <div>
                     <img src={item.icon} style={{ marginRight: '15px' }} />

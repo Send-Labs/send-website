@@ -196,9 +196,6 @@ const KpTotal = (props: any) => {
     };
   }, [library]);
 
-  const printArgs = () => {
-    console.log('kpbuy, args: ', dataSource.r1, dataSource.r2, passedVal);
-  };
 
   return (
     <div className={styles.ki} {...rest}>
