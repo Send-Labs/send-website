@@ -48,8 +48,8 @@ const HomePage = (props: any) => {
       'icon': '/polygon.svg'
     },
     {
-      'symbol': 'Optimism',
-      'icon': '/optimism.png'
+      'symbol': 'Arbitrum',
+      'icon': '/arb.svg'
     }
   ];
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);

@@ -191,8 +191,8 @@ const Page = (props) => {
       'icon': '/polygon.svg'
     },
     {
-      'symbol': 'Optimism',
-      'icon': '/optimism.png'
+      'symbol': 'Arbitrum',
+      'icon': '/arb.svg'
     }
   ];
   return (

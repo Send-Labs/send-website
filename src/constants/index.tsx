@@ -9,8 +9,8 @@ const networks = [
     checked: false,
   },
   {
-    name: 'Optimism',
-    img: '/optimism.png',
+    name: 'Arbitrum',
+    img: '/art.png',
     id: 69,
     checked: false,
   },
