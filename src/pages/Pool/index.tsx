@@ -36,10 +36,16 @@ import {
 import styles from './index.less';
 import MarketDashboard from '@/components/KpMarketDashboard';
 
+import { hooks, metaMask } from '../../connectors/metaMask'
+import { Card } from './Card'
+
+const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
+
 const { TabPane } = Tabs;
 
 const Page = (props) => {
  
+  const chainId = useChainId()
 
   const tokenList = getTokenList(chainId);
 
@@ -360,7 +366,7 @@ const Page = (props) => {
             <hr />
 
             <div className={styles.tokenlist}>
-              {getTokenList(chainId).map((item) => (
+              {getTokenList(chainId)?.map((item) => (
                 <div
                   className={styles.item}
                   onClick={() => onSelectTokenCurrent(item)}
