@@ -1,18 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
-import { InjectedConnector } from '@web3-react/injected-connector';
 import {
   Row,
   Col,
-  Skeleton,
   Tabs,
-  Button,
   Table,
-  Affix,
   Drawer,
-  Slider,
-  TimePicker,
   Modal,
 } from 'antd';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
@@ -47,9 +39,7 @@ import MarketDashboard from '@/components/KpMarketDashboard';
 const { TabPane } = Tabs;
 
 const Page = (props) => {
-  let { library, deactivate, chainId, account, active, activate, error } =
-    useWeb3React();
-  chainId = getNetworks()[3].id;
+ 
 
   const tokenList = getTokenList(chainId);
 
@@ -72,12 +62,6 @@ const Page = (props) => {
   // const [tmpPools, setTmpPools] = useState({});
   const [testData, setTestData] = useState({});
 
-  const injected = new InjectedConnector({
-    supportedChainIds: [56],
-  });
-  useEffect(() => {
-    // activate(injected);
-  }, []);
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState('1');
   const [keyPool, setKeyPool] = useState('1');

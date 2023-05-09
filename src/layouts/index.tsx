@@ -1,23 +1,39 @@
-import { Web3ReactProvider } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
+import { useState } from "react";
+import { Web3ReactProvider, Web3ReactHooks } from "@web3-react/core";
+
+import type { MetaMask } from '@web3-react/metamask';
+import { hooks as metaMaskHooks, metaMask } from '../connectors/metaMask';
 import Footer from "./Footer";
 import Header from "./Header";
+import WalletProvider from "./WalletProvider";
+
 import styles from './index.less'
 import { Outlet } from 'umi';
-function getLibrary(provider: any) {
-  const library = new Web3Provider(provider)
-  library.pollingInterval = 8000
-  return library
-}
+const connectors: [MetaMask, Web3ReactHooks][] = [
+  [metaMask, metaMaskHooks]
+]
+
 const BasicLayout = () => {
-  return <Web3ReactProvider getLibrary={getLibrary}>
-    <div className={styles.main}>
-      <Header />
-      <div style={{flex:'1 1 auto'}}>
-        <Outlet />
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
+  return <Web3ReactProvider connectors={connectors}>
+    <WalletProvider.Provider value={{ isOpen, openModal, closeModal }}>
+      <div className={styles.main}>
+        <Header />
+        {/* <MetaMaskCard /> */}
+        <div style={{ flex: '1 1 auto' }}>
+          <Outlet />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </WalletProvider.Provider>
   </Web3ReactProvider>
 
 

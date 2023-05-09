@@ -3,23 +3,15 @@ import { connect, FormattedMessage } from 'umi';
 import { useModel } from 'umi';
 import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
 import { SettingOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
 import { Button, Drawer } from 'antd';
+import WalletProvider from '@/layouts/WalletProvider';
 import styles from './index.less';
 const HomePage = (props: any) => {
-  const { library, deactivate, chainId, account, active, activate } = useWeb3React();
-  const injected = new InjectedConnector({
-    supportedChainIds: [97, 56],
-  });
-  useEffect(() => {
-    activate(injected, (error) => {
-
-    });
-
-  }, []);
+  const {isOpen,closeModal,openModal}=useContext(WalletProvider)
   const [visible, setVisible] = useState(false);
   const onClose = () => {
     setVisible(false);

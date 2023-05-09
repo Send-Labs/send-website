@@ -1,10 +1,12 @@
 import React from 'react'
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button,Divider,Space } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import cbridge from '../assets/cbridge.png'
 import sendFinance from '@/assets/Send-Logo.svg'
 import Tabs from './Tabs';
-import styles from './index.less'
+import MetaMaskCard from "../MetaMaskCard";
+
+import './index.less'
 
 export default function Header() {
   const menu = (
@@ -42,19 +44,21 @@ export default function Header() {
   return (
     <header style={{ padding: '0 30px' }}>
 
-      <div className='left' style={{ display: 'flex', alignItems: 'center',width:'200px' }}>
+      <div className='left' style={{ display: 'flex', alignItems: 'center', width: '200px' }}>
         <img src={sendFinance} className='topImage' ></img>
         {/* <Button className='btn'>1</Button>
                     <Button className='btn'>1</Button>
                     <Button className='btn'>1</Button> */}
       </div>
 
-      <div className='mid' style={{display:'flex',alignItems:'center'}}>
+      <div className='mid' style={{ display: 'flex', alignItems: 'center' }}>
         <Tabs></Tabs>
       </div>
       <div className='right'>
-        <Button type='primary' className='topConnect'>Connect Wallet</Button>
-    </div>
+       <MetaMaskCard />
+          {/* <Button type='primary' className='topConnect'>Connect Wallet</Button> */}
+
+      </div>
     </header >
   )
 }
