@@ -64,7 +64,7 @@ export const MAINNET_CHAINS: ChainConfig = {
   },
   56: {
     urls: ['https://bsc-dataseed.binance.org'],
-    name: 'BSC',
+    name: 'BNB Chain',
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://arbiscan.io'],
     icon:'/bnb.svg'
@@ -76,10 +76,10 @@ export const MAINNET_CHAINS: ChainConfig = {
     nativeCurrency: MATIC,
     blockExplorerUrls: ['https://polygonscan.com'],
   },
-  421613: {
+  42161: {
     icon:'/arbitrum.svg',
-    urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://goerli-rollup.arbitrum.io/rpc'].filter(Boolean),
-    name: 'Arbitrum Goerli',
+    urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://endpoints.omniatech.io/v1/arbitrum/one/public'].filter(Boolean),
+    name: 'Arbitrum',
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://testnet.arbiscan.io'],
   },

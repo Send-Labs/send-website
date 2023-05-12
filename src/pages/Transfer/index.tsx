@@ -9,10 +9,19 @@ import { SettingOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
 import { Button, Drawer } from 'antd';
 import WalletProvider from '@/layouts/WalletProvider';
+import { hooks, metaMask } from '@/connectors/metaMask'
+import { Card } from './Card'
+
+const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
+
+import { CHAINS } from '@/chains'
+
 import styles from './index.less';
 const HomePage = (props: any) => {
   const {isOpen,closeModal,openModal}=useContext(WalletProvider)
   const [visible, setVisible] = useState(false);
+  const chainId = useChainId()
+
   const onClose = () => {
     setVisible(false);
   };
@@ -28,28 +37,50 @@ const HomePage = (props: any) => {
   const [open, setOpen] = useState(false);
   const chainList = [
     {
-      'symbol': 'Ethereum',
+      'name': 'Ethereum',
       'icon': '/eth.svg'
     },
     {
-      'symbol': 'BNB Chain',
+      'name': 'BNB Chain',
       'icon': '/bnb.svg'
     },
     {
-      'symbol': 'Polygon',
+      'name': 'Polygon',
       'icon': '/polygon.svg'
     },
     {
-      'symbol': 'Arbitrum',
+      'name': 'Arbitrum',
       'icon': '/arb.svg'
     }
   ];
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
   const [currentToChain, setCurrentToChain] = useState(chainList[0]);
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
-  const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
+  const [currentFromChain, setCurrentFromChain] = useState({});
   const [selectFrom, setSelectFrom] = useState(true);
+  const accounts = useAccounts()
+  const provider = useProvider()
 
+  useEffect(()=>{
+    setCurrentFromChain(CHAINS[chainId]);
+    console.log('accounts',accounts);
+  },[chainId]);
+  useEffect(() => {
+    if (provider && accounts?.length) {
+      let stale = false
+
+      void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
+        if (stale) return
+        debugger;
+        // setBalances(balances)
+      })
+
+      return () => {
+        stale = true
+        // setBalances(undefined)
+      }
+    }
+  }, [provider, accounts])
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
@@ -64,7 +95,7 @@ const HomePage = (props: any) => {
           </div>
         </div>
         <TokenInput currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
-        <div>
+        {/* <div>
           <div className='flex flex-between gap-2'>
             <div>Rate</div>
             <div>-</div>
@@ -77,7 +108,7 @@ const HomePage = (props: any) => {
             <div>Gas Estimate</div>
             <div>-</div>
           </div>
-        </div>
+        </div> */}
         <Button className='wbtn' style={{ marginTop: '-10px', height: 'auto', padding: '8px 0' }}>Connect Wallet</Button>
         <Drawer
           title="Select Token"
@@ -137,7 +168,7 @@ const HomePage = (props: any) => {
               >
                 <div>
                   <img src={item.icon} style={{ marginRight: '15px' }} />
-                  <p>{item.symbol}</p>
+                  <p>{item.name}</p>
                 </div>
               </div>
             ))}
