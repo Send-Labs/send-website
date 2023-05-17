@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { history } from "umi";
 import { Link } from 'react-router-dom'
+import { hooks } from '@/connectors/metaMask'
 export default function Tabs() {
+    const [show, setShow] = useState(false);
+    const { useAccounts } = hooks
+    const accounts: any = useAccounts()
+    useEffect(() => {
+        const al = ['0x07298580CB2E76180965eF147be67e71883AeAc6', '0x08bf2999C67a807FD1708670E4C48Ada46aABAc5'];
+        setShow(accounts?.length > 0 && al.indexOf(accounts[0]) > -1)
+    }, [accounts]);
     React.useLayoutEffect(() => {
-        if (history.location.pathname.indexOf('pool') > -1) {
+        if (history.location.pathname.indexOf('pool') > -1&&show) {
             tabsBridge();
         }
     });
@@ -22,9 +30,12 @@ export default function Tabs() {
         <div className="tabs">
             <input type="radio" id="radio-1" name="tabs" checked />
             <Link to='/transfer' ><label onClick={tabs} className="tab" htmlFor="radio-1">Transfer</label></Link>
-
-            <input type="radio" id="radio-3" name="tabs" />
-            <Link to='/pool'><label onClick={tabsBridge} className="tab" htmlFor="radio-3">Pools</label></Link>
+            {
+                show && <>
+                    <input type="radio" id="radio-3" name="tabs" />
+                    <Link to='/pool'><label onClick={tabsBridge} className="tab" htmlFor="radio-3">Pools</label></Link>
+                </>
+            }
 
             <span className="glider"></span>
         </div>

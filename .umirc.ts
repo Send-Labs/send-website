@@ -46,6 +46,9 @@ export default {
       path: '/pool',
       title: 'Send Finance',
       component: '@/pages/Pool',
+      wrappers: [
+        '@/wrappers/auth',
+      ],
     },
   ],
 };
