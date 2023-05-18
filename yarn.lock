@@ -2146,6 +2146,14 @@
     "@metamask/detect-provider" "^1.2.0"
     "@web3-react/types" "^8.2.0"
 
+"@web3-react/network@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.npmmirror.com/@web3-react/network/-/network-8.2.0.tgz#225ae9e135711e8c64ab3123570abaa5b82b8145"
+  integrity sha512-3OcJwuaot8A+VTSoCe17MZv/K/TNVw7DjtYoS7lBRS/CmzYIwP53Tosea4MkliOuXiUUKj7Ge1D2FpWohq6pHw==
+  dependencies:
+    "@ethersproject/providers" "^5"
+    "@web3-react/types" "^8.2.0"
+
 "@web3-react/store@^8.2.0":
   version "8.2.0"
   resolved "https://registry.npmmirror.com/@web3-react/store/-/store-8.2.0.tgz#4260c7d1fca3c8e0358f32ed8909a5d8dba69a80"

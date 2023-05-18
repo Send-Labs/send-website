@@ -19,6 +19,7 @@
     "@web3-react/core": "^8.2.0",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/metamask": "^8.2.1",
+    "@web3-react/network": "^8.2.0",
     "@web3-react/types": "^8.2.0",
     "@web3-react/url": "^8.2.0",
     "antd": "^4.24.10",
