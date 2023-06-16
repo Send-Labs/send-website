@@ -32,18 +32,18 @@ const HomePage = (props: any) => {
   };
   const [open, setOpen] = useState(false);
   const chainList = [
-    {
-      'name': 'Ethereum',
-      'icon': '/eth.svg'
-    },
+    // {
+    //   'name': 'Ethereum',
+    //   'icon': '/eth.svg'
+    // },
     {
       'name': 'BNB Chain',
       'icon': '/bnb.svg'
     },
-    {
-      'name': 'Polygon',
-      'icon': '/polygon.svg'
-    },
+    // {
+    //   'name': 'Polygon',
+    //   'icon': '/polygon.svg'
+    // },
     {
       'name': 'Arbitrum',
       'icon': '/arb.svg'
@@ -76,6 +76,7 @@ const HomePage = (props: any) => {
       }
     }
   }, [provider, accounts])
+  const setSelectFrom=()=>{}
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>

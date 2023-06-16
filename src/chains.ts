@@ -57,11 +57,11 @@ const getAlchemyUrlFor = (network: string) =>
 type ChainConfig = { [chainId: number]: BasicChainInformation | ExtendedChainInformation }
 
 export const MAINNET_CHAINS: ChainConfig = {
-  1: {
-    urls: [getInfuraUrlFor('mainnet'), getAlchemyUrlFor('eth-mainnet'), 'https://cloudflare-eth.com'].filter(Boolean),
-    name: 'Ethereum',
-    icon:'/eth.svg'
-  },
+  // 1: {
+  //   urls: [getInfuraUrlFor('mainnet'), getAlchemyUrlFor('eth-mainnet'), 'https://cloudflare-eth.com'].filter(Boolean),
+  //   name: 'Ethereum',
+  //   icon:'/eth.svg'
+  // },
   56: {
     urls: ['https://bsc-dataseed.binance.org'],
     name: 'BNB Chain',
@@ -69,13 +69,13 @@ export const MAINNET_CHAINS: ChainConfig = {
     blockExplorerUrls: ['https://arbiscan.io'],
     icon:'/bnb.svg'
   },
-  137: {
-    icon:'/polygon.svg',
-    urls: [getInfuraUrlFor('polygon-mainnet'), 'https://polygon-rpc.com'].filter(Boolean),
-    name: 'Polygon Mainnet',
-    nativeCurrency: MATIC,
-    blockExplorerUrls: ['https://polygonscan.com'],
-  },
+  // 137: {
+  //   icon:'/polygon.svg',
+  //   urls: [getInfuraUrlFor('polygon-mainnet'), 'https://polygon-rpc.com'].filter(Boolean),
+  //   name: 'Polygon Mainnet',
+  //   nativeCurrency: MATIC,
+  //   blockExplorerUrls: ['https://polygonscan.com'],
+  // },
   42161: {
     icon:'/arbitrum.svg',
     urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://endpoints.omniatech.io/v1/arbitrum/one/public'].filter(Boolean),
