@@ -3,9 +3,13 @@ import { useState } from 'react';
 import styles from './index.less';
 
 export default function (props: any) {
-    const { title, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken } = props;
+    const { title, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax } = props;
     const [active, setActive] = useState(false);
-    console.log(111,currentChain);
+    const [value,setValue]=useState("");
+    const handleChange=()=>{
+        onMax&&onMax()
+        setValue("0.9506");
+    }
     return <div className='text-gray-4 flex flex-column gap-2' >
         <div className={`flex flex-between flex-align-center`}>
             <div>{title}</div>
@@ -26,7 +30,7 @@ export default function (props: any) {
                     {chooseToken&&<DownOutlined />}
                 </div>
 
-                <input onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='0.0' className='flex-auto' style={{
+                <input value={value} onChange={e=>setValue(e.target.value)} onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='0.0' className='flex-auto' style={{
                     fontSize: '20px',
                     width: '100%',
                     color: '#fff',
@@ -36,7 +40,7 @@ export default function (props: any) {
 
             <div className='flex flex-between  gap-2'>
                 <div>Balance: 0.9506 {currentToken?.name}</div>
-                {max&&<span className='max'>Max</span>}
+                {max&&<span className='max' onClick={handleChange}>Max</span>}
             </div>
         </div>
 
