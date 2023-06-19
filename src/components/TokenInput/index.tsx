@@ -39,7 +39,7 @@ export default function (props: any) {
             </div>
 
             <div className='flex flex-between  gap-2'>
-                <div>Balance: 0.9506 {currentToken?.name}</div>
+                <div>Expect to receive: 0.9506 {currentToken?.name}</div>
                 {max&&<span className='max' onClick={handleChange}>Max</span>}
             </div>
         </div>

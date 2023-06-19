@@ -106,7 +106,7 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div> */}
-        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>Connect Wallet</Button>
+        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId&&'Confirm'||'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
