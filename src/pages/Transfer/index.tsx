@@ -91,7 +91,7 @@ const HomePage = (props: any) => {
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
         </div>
-        <TokenInput currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
+        <TokenInput currentChain={currentToChain} max currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
         {/* <div>
           <div className='flex flex-between gap-2'>
             <div>Rate</div>
