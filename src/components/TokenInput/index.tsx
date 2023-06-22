@@ -9,6 +9,7 @@ export default function (props: any) {
     const handleChange=()=>{
         onMax&&onMax()
         setValue("0.9506");
+        onChange("0.9506");
     }
     useEffect(()=>{setValue(defaultValue)},[defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
