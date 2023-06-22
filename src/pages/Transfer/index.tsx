@@ -15,6 +15,7 @@ import { CHAINS } from '@/chains'
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
+  const[value,setValue]=useState(2);
   const [visibleSetting, setVisibleSetting] = useState(false);
   const chainId = useChainId()
 
@@ -85,13 +86,13 @@ const HomePage = (props: any) => {
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
         </div>
-        <TokenInput chooseToken max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
+        <TokenInput defaultValue={value} onChange={(v:any)=>setValue(v)} chooseToken max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
         <div style={{ textAlign: 'center' }}>
           <div className='swap-hover'>
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
         </div>
-        <TokenInput currentChain={currentToChain} max currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
+        <TokenInput defaultValue={value} onChange={(v:any)=>setValue(v)} currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
         {/* <div>
           <div className='flex flex-between gap-2'>
             <div>Rate</div>

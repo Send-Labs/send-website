@@ -1,15 +1,16 @@
 import { DownOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import styles from './index.less';
 
 export default function (props: any) {
-    const { title, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax } = props;
+    const { title, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax,defaultValue,onChange } = props;
     const [active, setActive] = useState(false);
-    const [value,setValue]=useState("");
+    const [value,setValue]=useState(defaultValue);
     const handleChange=()=>{
         onMax&&onMax()
         setValue("0.9506");
     }
+    useEffect(()=>{setValue(defaultValue)},[defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
         <div className={`flex flex-between flex-align-center`}>
             <div>{title}</div>
@@ -30,7 +31,7 @@ export default function (props: any) {
                     {chooseToken&&<DownOutlined />}
                 </div>
 
-                <input value={value} onChange={e=>setValue(e.target.value)} onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='0.0' className='flex-auto' style={{
+                <input value={value} onChange={e=>{setValue(e.target.value);onChange(e.target.value)}} onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='0.0' className='flex-auto' style={{
                     fontSize: '20px',
                     width: '100%',
                     color: '#fff',
