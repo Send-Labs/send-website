@@ -67,7 +67,7 @@ export const MAINNET_CHAINS: ChainConfig = {
     name: 'BNB Chain',
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://arbiscan.io'],
-    icon:'/bnb.svg'
+    icon:'/bnb.svg',id:56
   },
   // 137: {
   //   icon:'/polygon.svg',
@@ -77,6 +77,7 @@ export const MAINNET_CHAINS: ChainConfig = {
   //   blockExplorerUrls: ['https://polygonscan.com'],
   // },
   42161: {
+    id:42161,
     icon:'/arb.svg',
     urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://endpoints.omniatech.io/v1/arbitrum/one/public'].filter(Boolean),
     name: 'Arbitrum',

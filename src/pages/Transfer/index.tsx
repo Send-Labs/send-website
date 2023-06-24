@@ -86,15 +86,16 @@ const HomePage = (props: any) => {
     }
   }, [provider, accounts])
   const handleSwitchChain = () => {
+    debugger;
     setCurrentFromChain(currentToChain);
-    setCurrentToToken(currentFromChain);
+    setCurrentToChain(currentFromChain);
     switchChain(currentToChain.id)
   }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
-          <span>Mode{currentChain}</span>
+          <span>Mode</span>
 
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
