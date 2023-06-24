@@ -1,10 +1,10 @@
-import { Button } from "antd";
 import React, { useState } from 'react';
-
+import { ReactComponent as IconTick } from "@/assets/icon_tick.svg";
+import styles from "./index.less";
 interface ButtonGroupProps {
     onSelect: (option: string) => void;
     children: any;
-    value?:string;
+    value?: string;
 }
 
 interface ButtonGroupItemProps {
@@ -16,8 +16,8 @@ interface ButtonGroupItemProps {
 
 const ButtonGroup: React.FC<ButtonGroupProps> & {
     Item: React.FC<ButtonGroupItemProps>;
-} = ({ children, onSelect,value }) => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(value||null);
+} = ({ children, onSelect, value }) => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(value || null);
 
     const handleSelect = (option: string) => {
         setSelectedOption(option);
@@ -25,7 +25,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> & {
     };
 
     return (
-        <div>
+        <div style={{display:'flex',alignItems:'center'}}>
             {React.Children.map(children, (child) =>
                 React.cloneElement(child as React.ReactElement<ButtonGroupItemProps>, {
                     onSelect: handleSelect,
@@ -42,12 +42,15 @@ const ButtonGroupItem: React.FC<ButtonGroupItemProps> = ({
     selected,
     value,
 }) => (
-    <Button
-    onClick={() => onSelect && onSelect(value)}
-    type={selected ? 'primary' : 'default'}
-    style={{ marginRight: '10px' }}>
-        {children}
-    </Button>
+    <div
+        onClick={() => onSelect && onSelect(value)}
+        className={`${styles.button} ${selected && styles.primary}`}
+        style={{ marginRight: '10px' }}>
+        <div>
+            {selected && <IconTick />}  {children}
+
+        </div>
+    </div>
 );
 
 ButtonGroup.Item = ButtonGroupItem;

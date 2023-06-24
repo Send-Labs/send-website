@@ -1,7 +1,7 @@
 import type { Web3ReactHooks } from '@web3-react/core'
 import type { MetaMask } from '@web3-react/metamask'
-import { useCallback, useEffect, useState } from 'react'
-
+import { useCallback, useEffect, useState, useContext } from 'react'
+import WalletProvider from "./WalletProvider";
 import { CHAINS, getAddChainParameters } from '../chains'
 import './index.less';
 function ChainSelect({
@@ -22,22 +22,7 @@ function ChainSelect({
         </div>
       ))}
     </>
-    // <select
-    //   value={activeChainId}
-    //   onChange={(event) => {
-    //     switchChain(Number(event.target.value))
-    //   }}
-    //   // disabled={switchChain === undefined}
-    // >
-    //   <option hidden disabled selected={activeChainId === undefined}>
-    //     Select chain
-    //   </option>
-    //   {chainIds.map((chainId) => (
-    //     <option key={chainId} value={chainId} selected={chainId === activeChainId}>
-    //       {CHAINS[chainId]?.name ?? chainId}
-    //     </option>
-    //   ))}
-    // </select>
+
   )
 }
 
@@ -59,7 +44,7 @@ export function ConnectWithSelect({
   setError: (error: Error | undefined) => void
 }) {
   const [desiredChainId, setDesiredChainId] = useState<number>(undefined)
-
+  const { currentChain } = useContext(WalletProvider);
   /**
    * When user connects eagerly (`desiredChainId` is undefined) or to the default chain (`desiredChainId` is -1),
    * update the `desiredChainId` value so that <select /> has the right selection.
@@ -73,7 +58,7 @@ export function ConnectWithSelect({
   const switchChain = useCallback(
     async (desiredChainId: number) => {
       setDesiredChainId(desiredChainId)
-
+      debugger;
       try {
         if (
           // If we're already connected to the desired chain, return
@@ -95,7 +80,12 @@ export function ConnectWithSelect({
     },
     [connector, activeChainId, setError]
   )
-
+  useEffect(() => {
+    if (currentChain != -1) {
+      switchChain(currentChain);
+    }
+    // alert(currentChain)
+  },[currentChain]);
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', backgroundColor: 'rgb(28, 27, 27)',
@@ -103,45 +93,6 @@ export function ConnectWithSelect({
       borderRadius: '5px'
     }}>
       <ChainSelect activeChainId={desiredChainId} switchChain={switchChain} chainIds={chainIds} />
-      {/* <button
-        onClick={() => {
-          if (connector?.deactivate) {
-            void connector.deactivate()
-          } else {
-            void connector.resetState()
-          }
-          setDesiredChainId(undefined)
-        }}
-      >
-        Disconnect
-      </button> */}
-      {/* <div style={{ marginBottom: '1rem' }} />
-      {isActive ? (
-        error ? (
-          <button onClick={() => switchChain(desiredChainId)}>Try again?</button>
-        ) : (
-          <button
-            onClick={() => {
-              if (connector?.deactivate) {
-                void connector.deactivate()
-              } else {
-                void connector.resetState()
-              }
-              setDesiredChainId(undefined)
-            }}
-          >
-            Disconnect
-          </button>
-        )
-      ) : (
-        <button
-          onClick={() => switchChain(desiredChainId)
-          }
-          disabled={isActivating || !desiredChainId}
-        >
-          {error ? 'Try again?' : 'Connect'}
-        </button>
-      )} */}
     </div>
   )
 }

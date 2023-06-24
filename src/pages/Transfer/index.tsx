@@ -4,10 +4,10 @@ import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
 import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { getTokenList } from '@/constants';
-import { Button, Drawer, Tooltip, Input } from 'antd';
+import { Button, Drawer, Tooltip, Input, Switch } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
-
+import WalletProvider from "@/layouts/WalletProvider";
 const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
 
 import { CHAINS } from '@/chains'
@@ -15,10 +15,11 @@ import { CHAINS } from '@/chains'
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
-  const[value,setValue]=useState(2);
+  const [value, setValue] = useState();
+  // const [currentChain, setCurrentChain] = useState(0);
   const [visibleSetting, setVisibleSetting] = useState(false);
   const chainId = useChainId()
-
+  const { currentChain,switchChain } = useContext(WalletProvider)!;
   const onClose = () => {
     setVisible(false);
   };
@@ -51,14 +52,14 @@ const HomePage = (props: any) => {
     }
   ];
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
-  const [currentToChain, setCurrentToChain] = useState(chainList[0]);
+  const [currentToChain, setCurrentToChain] = useState(chainList[1]);
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
-  const [currentFromChain, setCurrentFromChain] = useState({});
+  const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
   const accounts = useAccounts()
   const provider = useProvider()
 
   useEffect(() => {
-    setCurrentFromChain(CHAINS[chainId]);
+    setCurrentFromChain(CHAINS[chainId || 56]);
     console.log('accounts', accounts);
   }, [chainId]);
   useEffect(() => {
@@ -77,22 +78,54 @@ const HomePage = (props: any) => {
       }
     }
   }, [provider, accounts])
-  const setSelectFrom=()=>{}
+  const handleSwitchChain = () => {
+    // setCurrentFromChain(currentToChain);
+    // setCurrentToToken(currentFromChain);
+    switchChain(56);
+  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
-        <div className='flex flex-between gap-2'>
-          <span>Transfer</span>
+        <div className='flex flex-between flex-align-center' style={{marginBottom:'15px'}}>
+          <span>Mode</span>
+
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
+          <ButtonGroup value='FlashBridge' onSelect={() => { }}>
+            <ButtonGroup.Item value="FlashBridge">FlashBridge</ButtonGroup.Item>
+            <ButtonGroup.Item value="zkBridge">zkBridge</ButtonGroup.Item>
+          </ButtonGroup>
         </div>
-        <TokenInput defaultValue={value} onChange={(v:any)=>setValue(v)} chooseToken max currentChain={currentFromChain} currentToken={currentFromToken} selectToken={() => { setVisible(true); setSelectFrom(true); }} title="From" />
-        <div style={{ textAlign: 'center' }}>
+
+        <TokenInput
+          key="ti1"
+          defaultValue={value}
+          onChange={(v: any) => setValue(v)}
+          max
+          currentChain={currentFromChain}
+          currentToken={currentFromToken}
+          selectToken={() => { setVisible(true); }}
+          selectChain={() => { setOpen(true); }}
+          title="From"
+          // desc={`Balance: 0 ${currentFromToken?.name}`}
+          choose
+          chooseToken />
+        <div onClick={handleSwitchChain} style={{ textAlign: 'center' }}>
           <div className='swap-hover'>
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
         </div>
-        <TokenInput defaultValue={value} onChange={(v:any)=>setValue(v)} currentChain={currentToChain} currentToken={currentToToken} selectToken={() => { setVisible(true); setSelectFrom(false); }} selectChain={() => { setOpen(true); setSelectFrom(false); }} title="To" choose />
+        <TokenInput
+          key="ti2"
+          defaultValue={value}
+          onChange={(v: any) => setValue(v)}
+          currentChain={currentToChain}
+          currentToken={currentToToken}
+          selectToken={() => { setVisible(true); }}
+          selectChain={() => { setOpen(true); }}
+          title="To"
+          desc={value && `Expect to receive:${value} ${currentToToken?.name}`}
+          choose />
         {/* <div>
           <div className='flex flex-between gap-2'>
             <div>Rate</div>
@@ -107,7 +140,7 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div> */}
-        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId&&'Confirm'||'Connect Wallet'}</Button>
+        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && 'Confirm' || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}

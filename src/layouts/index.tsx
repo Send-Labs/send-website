@@ -14,17 +14,14 @@ const connectors: [MetaMask, Web3ReactHooks][] = [
 ]
 
 const BasicLayout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [currentChain, setCurrentChain] = useState(-1);
 
-  const openModal = () => {
-    setIsOpen(true);
+  const switchChain = (chainId:any) => {
+    setCurrentChain(chainId);
   }
 
-  const closeModal = () => {
-    setIsOpen(false);
-  }
   return <Web3ReactProvider connectors={connectors}>
-    <WalletProvider.Provider value={{ isOpen, openModal, closeModal }}>
+    <WalletProvider.Provider value={{ currentChain, switchChain }}>
       <div className={styles.main}>
         <Header />
         {/* <MetaMaskCard /> */}

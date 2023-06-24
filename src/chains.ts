@@ -77,7 +77,7 @@ export const MAINNET_CHAINS: ChainConfig = {
   //   blockExplorerUrls: ['https://polygonscan.com'],
   // },
   42161: {
-    icon:'/arbitrum.svg',
+    icon:'/arb.svg',
     urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://endpoints.omniatech.io/v1/arbitrum/one/public'].filter(Boolean),
     name: 'Arbitrum',
     nativeCurrency: ETH,

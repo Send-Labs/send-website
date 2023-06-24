@@ -169,7 +169,12 @@ input[type="radio"] {
         }
     }
 }
-
+.ant-btn-primary{
+    &:focus{
+        border-color: unset;
+        background: #505050;
+    }
+}
 .glider {
     position: absolute;
     display: flex;
@@ -625,6 +630,8 @@ td.ant-table-column-sort{
     font-weight: bold;
     color: #fff;
     font-size: 16px;
+    border-radius: 5px;
+    background: #040000;
 }
 
 .token-hover {
@@ -633,7 +640,6 @@ td.ant-table-column-sort{
 
     &:hover {
         background: #505050;
-        border-radius: 5px;
         cursor: pointer;
     }
 }
@@ -655,7 +661,7 @@ td.ant-table-column-sort{
 
 .max {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
+    color: #96a2b4;
     &:hover {
         cursor: pointer;
         color: #fff;

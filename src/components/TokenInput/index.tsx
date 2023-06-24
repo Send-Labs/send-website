@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react';
 import styles from './index.less';
 
 export default function (props: any) {
-    const { title, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax,defaultValue,onChange } = props;
+    const { title ,desc, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax,defaultValue,onChange } = props;
     const [active, setActive] = useState(false);
     const [value,setValue]=useState(defaultValue);
     const handleChange=()=>{
@@ -40,10 +40,11 @@ export default function (props: any) {
                 }} />
             </div>
 
-            <div className='flex flex-between  gap-2'>
-                <div>Expect to receive: 0.9506 {currentToken?.name}</div>
+           {desc&&<div className='flex flex-between  gap-2'>
+                {/* <div>{title=="From"&&'Balance'||'Expect to receive'}: 0.9506 {currentToken?.name}</div> */}
+                <div>{desc}</div>
                 {max&&<span className='max' onClick={handleChange}>Max</span>}
-            </div>
+            </div>}
         </div>
 
     </div>
