@@ -18,7 +18,7 @@ export default function (props: any) {
             <div className={`flex flex-align-center gap-2 fw-bold ${choose && 'token-hover'}`}>
                 <img src={currentChain?.icon} width="16" />
                 {
-                    choose && <div onClick={selectChain}>{currentChain?.name} <DownOutlined /></div>
+                    choose && <div onClick={selectChain} style={{fontSize:'14px'}}>{currentChain?.name} <DownOutlined  style={{fontSize:'12px'}} /></div>
                     ||
                     <div>{currentChain?.name} </div>
                 }
@@ -29,7 +29,7 @@ export default function (props: any) {
                 <div style={{padding:'1px 8px'}} className={`flex flex-align-center gap-2 fw-bold ${chooseToken&&'token-hover'}`} onClick={chooseToken&&selectToken}>
                     <img src={currentToken?.icon} width="25" />
                     <span>{currentToken?.name}</span>
-                    {chooseToken&&<DownOutlined />}
+                    {chooseToken&&<DownOutlined/>}
                 </div>
 
                 <input value={value} onChange={e=>{setValue(e.target.value);onChange(e.target.value)}} onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='0.0' className='flex-auto' style={{
