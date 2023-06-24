@@ -5,9 +5,11 @@ import { Button, Dropdown } from "antd";
 import { getName } from '../utils/utils'
 import { Accounts } from './Accounts'
 import { Chain } from './Chain'
-import { CHAINS } from '../chains'
+import WalletProvider from "./WalletProvider";
+import { CHAINS,getAddChainParameters } from '../chains'
 import { ConnectWithSelect } from './ConnectWithSelect'
 import { Status } from './Status'
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 interface Props {
   connector: MetaMask
@@ -43,6 +45,38 @@ export function Card({
       return `${startChars}...${endChars}`;
     }
   }
+  const [desiredChainId, setDesiredChainId] = useState<number>(-1)
+  const { currentChain } = useContext(WalletProvider)!;
+  const switchChain = useCallback(
+    async (desiredChainId: number) => {
+      setDesiredChainId(desiredChainId)
+      try {
+        if (
+          // If we're already connected to the desired chain, return
+          desiredChainId === activeChainId ||
+          // If they want to connect to the default chain and we're already connected, return
+          (desiredChainId === -1 && activeChainId !== undefined)
+        ) {
+          setError(undefined)
+          return
+        }
+
+
+        await connector.activate(getAddChainParameters(desiredChainId))
+
+        setError(undefined)
+      } catch (error) {
+        setError(error)
+      }
+    },
+    [connector, activeChainId, setError]
+  )
+  useEffect(() => {
+    if (currentChain != -1) {
+      switchChain(currentChain);
+    }
+    // alert(currentChain)
+  },[currentChain]);
   return (
     <div style={{ zIndex: 1 }}
     >
@@ -57,7 +91,7 @@ export function Card({
             isActivating={isActivating}
             isActive={isActive}
             error={error}
-            setError={setError}
+            switchChain={switchChain}
           />
         )}
       >

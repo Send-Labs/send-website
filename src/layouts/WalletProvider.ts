@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 interface WalletContextType {
-  currentChain: string;
-  switchChain: (chainId: string) => void;
+  currentChain: number;
+  switchChain: (chainId: number) => void;
 }
 
 const ModalContext = createContext<WalletContextType | null>(null);

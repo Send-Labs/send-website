@@ -16,7 +16,7 @@ import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState();
-  // const [currentChain, setCurrentChain] = useState(0);
+  const [direction, setDirection] = useState(0);
   const [visibleSetting, setVisibleSetting] = useState(false);
   const chainId = useChainId()
   const { currentChain, switchChain } = useContext(WalletProvider)!;
@@ -30,7 +30,12 @@ const HomePage = (props: any) => {
   };
   const onSelectChainCurrent = (item: any) => {
     setOpen(false);
-    setCurrentToChain(item);
+    if(direction==0){
+      switchChain(item.id);
+    }
+    else{
+      setCurrentToChain(item);
+    }
   };
   const [open, setOpen] = useState(false);
   const chainList = [
@@ -39,6 +44,7 @@ const HomePage = (props: any) => {
     //   'icon': '/eth.svg'
     // },
     {
+      'id':56,
       'name': 'BNB Chain',
       'icon': '/bnb.svg'
     },
@@ -47,6 +53,7 @@ const HomePage = (props: any) => {
     //   'icon': '/polygon.svg'
     // },
     {
+      'id':42161,
       'name': 'Arbitrum',
       'icon': '/arb.svg'
     }
@@ -79,15 +86,15 @@ const HomePage = (props: any) => {
     }
   }, [provider, accounts])
   const handleSwitchChain = () => {
-    // setCurrentFromChain(currentToChain);
-    // setCurrentToToken(currentFromChain);
-    switchChain(56);
+    setCurrentFromChain(currentToChain);
+    setCurrentToToken(currentFromChain);
+    switchChain(currentToChain.id)
   }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
-          <span>Mode</span>
+          <span>Mode{currentChain}</span>
 
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
@@ -107,7 +114,7 @@ const HomePage = (props: any) => {
           currentChain={currentFromChain}
           currentToken={currentFromToken}
           selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true); }}
+          selectChain={() => { setOpen(true);setDirection(0); }}
           title="From"
           // desc={`Balance: 0 ${currentFromToken?.name}`}
           choose
@@ -124,7 +131,7 @@ const HomePage = (props: any) => {
           currentChain={currentToChain}
           currentToken={currentToToken}
           selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true); }}
+          selectChain={() => { setOpen(true);setDirection(1); }}
           title="To"
           desc={value && `Expect to receive:${value} ${currentToToken?.name}`}
           choose />
