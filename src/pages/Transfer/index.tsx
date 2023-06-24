@@ -19,7 +19,7 @@ const HomePage = (props: any) => {
   // const [currentChain, setCurrentChain] = useState(0);
   const [visibleSetting, setVisibleSetting] = useState(false);
   const chainId = useChainId()
-  const { currentChain,switchChain } = useContext(WalletProvider)!;
+  const { currentChain, switchChain } = useContext(WalletProvider)!;
   const onClose = () => {
     setVisible(false);
   };
@@ -86,15 +86,17 @@ const HomePage = (props: any) => {
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
-        <div className='flex flex-between flex-align-center' style={{marginBottom:'15px'}}>
+        <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
           <span>Mode</span>
 
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
-          <ButtonGroup value='FlashBridge' onSelect={() => { }}>
-            <ButtonGroup.Item value="FlashBridge">FlashBridge</ButtonGroup.Item>
-            <ButtonGroup.Item value="zkBridge">zkBridge</ButtonGroup.Item>
-          </ButtonGroup>
+          <div style={{ marginRight: '-10px' }}>
+            <ButtonGroup value='FlashBridge' onSelect={() => { }}>
+              <ButtonGroup.Item value="FlashBridge">FlashBridge</ButtonGroup.Item>
+              <ButtonGroup.Item value="zkBridge">zkBridge</ButtonGroup.Item>
+            </ButtonGroup>
+          </div>
         </div>
 
         <TokenInput
