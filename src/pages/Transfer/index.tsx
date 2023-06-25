@@ -75,7 +75,6 @@ const HomePage = (props: any) => {
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
-debugger
       // const usdtContract = new Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
       // usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
       //   debugger;
@@ -83,8 +82,10 @@ debugger
       // }).catch(error => {
       //   console.error('Failed to fetch USDT balance:', error);
       // });
-      const usdtContract = new ethers.Contract('0x55d398326f99059fF775485246999027B3197955', USDTABI, provider);
-      usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
+      debugger
+      const usdtContract = new ethers.Contract(chainId==56&&'0x55d398326f99059fF775485246999027B3197955'||'0xf31e1AE27e7cd057C1D6795a5a083E0453D39B50', USDTABI, provider);
+      // const usdtContract = new ethers.Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
+      usdtContract.balanceOf(accounts[0]).then(balance => {
         // setUsdtBalance(balance.toString());
       // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
     const ba=  balance / Math.pow(10, 18).toString();
@@ -138,7 +139,7 @@ debugger
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true);setDirection(0); }}
           title="From"
-          desc={balance&&`Balance: ${balance} ${currentFromToken?.name}`}
+          desc={balance>=0&&`Balance: ${balance} ${currentFromToken?.name}`}
           choose
           chooseToken />
         <div onClick={handleSwitchChain} style={{ textAlign: 'center' }}>
