@@ -3,13 +3,13 @@ import { useState,useEffect } from 'react';
 import styles from './index.less';
 
 export default function (props: any) {
-    const { title ,desc, choose, selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax,defaultValue,onChange } = props;
+    const { title ,desc, choose, maxValue,selectToken, selectChain, currentToken, currentChain,max,chooseToken,onMax,defaultValue,onChange } = props;
     const [active, setActive] = useState(false);
     const [value,setValue]=useState(defaultValue);
     const handleChange=()=>{
         onMax&&onMax()
-        setValue("0.9506");
-        onChange("0.9506");
+        setValue(maxValue);
+        onChange(maxValue);
     }
     useEffect(()=>{setValue(defaultValue)},[defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >

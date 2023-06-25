@@ -139,6 +139,7 @@ const HomePage = (props: any) => {
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true);setDirection(0); }}
           title="From"
+          maxValue={balance}
           desc={balance>=0&&`Balance: ${balance} ${currentFromToken?.name}`}
           choose
           chooseToken />
