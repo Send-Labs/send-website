@@ -30,6 +30,9 @@ export default function MetaMaskCard() {
       console.debug('Failed to connect to network')
      
     })
+    debugger;
+  const a=  provider?.getSigner('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').connectUnchecked();
+    
     console.log(chainId2,'chainId2')
   }, [])
 

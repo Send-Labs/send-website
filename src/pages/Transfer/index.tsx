@@ -9,13 +9,17 @@ import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
 import WalletProvider from "@/layouts/WalletProvider";
 const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
-
+import { ethers } from 'ethers';
+import { BigNumber } from '@ethersproject/bignumber';
+import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
+import USDTABI from '@/abis/USDT.json'
 
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState();
+  const [balance, setBalance] = useState();
   const [direction, setDirection] = useState(0);
   const [visibleSetting, setVisibleSetting] = useState(false);
   const chainId = useChainId()
@@ -71,18 +75,35 @@ const HomePage = (props: any) => {
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
-      let stale = false
+debugger
+      // const usdtContract = new Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
+      // usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
+      //   debugger;
+      //   // setUsdtBalance(balance.toString());
+      // }).catch(error => {
+      //   console.error('Failed to fetch USDT balance:', error);
+      // });
+      const usdtContract = new ethers.Contract('0x55d398326f99059fF775485246999027B3197955', USDTABI, provider);
+      usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
+        // setUsdtBalance(balance.toString());
+      // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
+    const ba=  balance / Math.pow(10, 18).toString();
+    setBalance(ba);
+      }).catch(error => {
+        console.error('Failed to fetch USDT balance:', error);
+      });
+      // let stale = false
 
-      void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
-        if (stale) return
-        debugger;
-        // setBalances(balances)
-      })
+      // void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
+      //   if (stale) return
+      //   debugger;
+      //   // setBalances(balances)
+      // })
 
-      return () => {
-        stale = true
-        // setBalances(undefined)
-      }
+      // return () => {
+      //   stale = true
+      //   // setBalances(undefined)
+      // }
     }
   }, [provider, accounts])
   const handleSwitchChain = () => {
@@ -117,7 +138,7 @@ const HomePage = (props: any) => {
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true);setDirection(0); }}
           title="From"
-          // desc={`Balance: 0 ${currentFromToken?.name}`}
+          desc={balance&&`Balance: ${balance} ${currentFromToken?.name}`}
           choose
           chooseToken />
         <div onClick={handleSwitchChain} style={{ textAlign: 'center' }}>
@@ -134,7 +155,7 @@ const HomePage = (props: any) => {
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true);setDirection(1); }}
           title="To"
-          desc={value && `Expect to receive:${value} ${currentToToken?.name}`}
+          desc={ `Expect to receive: ${value||0} ${currentToToken?.name}`}
           choose />
         {/* <div>
           <div className='flex flex-between gap-2'>
