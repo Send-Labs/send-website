@@ -1,11 +1,15 @@
 import type { AddEthereumChainParameter } from '@web3-react/types'
 
-const ETH: AddEthereumChainParameter['nativeCurrency'] = {
+const BNB: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'BNB',
   symbol: 'BNB',
   decimals: 18,
 }
-
+const ETH: AddEthereumChainParameter['nativeCurrency'] = {
+  name: 'ETH',
+  symbol: 'ETH',
+  decimals: 18,
+}
 const MATIC: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Matic',
   symbol: 'MATIC',
@@ -65,7 +69,7 @@ export const MAINNET_CHAINS: ChainConfig = {
   56: {
     urls: ['https://bsc-dataseed.binance.org'],
     name: 'BNB Chain',
-    nativeCurrency: ETH,
+    nativeCurrency: BNB,
     blockExplorerUrls: ['https://arbiscan.io'],
     icon:'/bnb.svg',id:56
   },
@@ -79,10 +83,10 @@ export const MAINNET_CHAINS: ChainConfig = {
   42161: {
     id:42161,
     icon:'/arb.svg',
-    urls: [getInfuraUrlFor('arbitrum-goerli'), 'https://endpoints.omniatech.io/v1/arbitrum/one/public'].filter(Boolean),
+    urls: ['https://endpoints.omniatech.io/v1/arbitrum/one/public'],
     name: 'Arbitrum',
     nativeCurrency: ETH,
-    blockExplorerUrls: ['https://testnet.arbiscan.io'],
+    blockExplorerUrls: ['https://arbiscan.io'],
   },
 }
 

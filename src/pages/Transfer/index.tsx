@@ -13,7 +13,7 @@ import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
-import USDTABI from '@/abis/USDT.json'
+import USDTABI from '@/abis/USDTARB.json'
 
 import styles from './index.less';
 const HomePage = (props: any) => {
@@ -83,13 +83,13 @@ const HomePage = (props: any) => {
       //   console.error('Failed to fetch USDT balance:', error);
       // });
       debugger
-      const usdtContract = new ethers.Contract(chainId==56&&'0x55d398326f99059fF775485246999027B3197955'||'0xf31e1AE27e7cd057C1D6795a5a083E0453D39B50', USDTABI, provider);
+      const usdtContract = new ethers.Contract(chainId==56&&'0x55d398326f99059fF775485246999027B3197955'||'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', USDTABI, provider);
       // const usdtContract = new ethers.Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
         // setUsdtBalance(balance.toString());
       // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
-    const ba=  balance / Math.pow(10, 18).toString();
-    setBalance(ba);
+    const ba=  balance / Math.pow(10, chainId==56&&18||6).toString();
+    setBalance(ba.toFixed(4));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
       });
