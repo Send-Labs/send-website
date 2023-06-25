@@ -142,8 +142,8 @@ const HomePage = (props: any) => {
           desc={balance>=0&&`Balance: ${balance} ${currentFromToken?.name}`}
           choose
           chooseToken />
-        <div onClick={handleSwitchChain} style={{ textAlign: 'center' }}>
-          <div className='swap-hover'>
+        <div  style={{ textAlign: 'center' }}>
+          <div className='swap-hover' onClick={handleSwitchChain}>
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
         </div>
