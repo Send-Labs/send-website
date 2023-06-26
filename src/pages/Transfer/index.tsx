@@ -13,11 +13,16 @@ import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
+// import KpModal from "@/components/KpModal";
 import USDTABI from '@/abis/USDTARB.json'
+import SENDABI from '@/abis/SEND.json'
+
 
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
+  // const [sendContract, setSendContract] = useState();
+
   const [value, setValue] = useState();
   const [balance, setBalance] = useState();
   const [direction, setDirection] = useState(0);
@@ -34,10 +39,10 @@ const HomePage = (props: any) => {
   };
   const onSelectChainCurrent = (item: any) => {
     setOpen(false);
-    if(direction==0){
+    if (direction == 0) {
       switchChain(item.id);
     }
-    else{
+    else {
       setCurrentToChain(item);
     }
   };
@@ -48,7 +53,7 @@ const HomePage = (props: any) => {
     //   'icon': '/eth.svg'
     // },
     {
-      'id':56,
+      'id': 56,
       'name': 'BNB Chain',
       'icon': '/bnb.svg'
     },
@@ -57,7 +62,7 @@ const HomePage = (props: any) => {
     //   'icon': '/polygon.svg'
     // },
     {
-      'id':42161,
+      'id': 42161,
       'name': 'Arbitrum',
       'icon': '/arb.svg'
     }
@@ -82,17 +87,19 @@ const HomePage = (props: any) => {
       // }).catch(error => {
       //   console.error('Failed to fetch USDT balance:', error);
       // });
-      debugger
-      const usdtContract = new ethers.Contract(chainId==56&&'0x55d398326f99059fF775485246999027B3197955'||'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', USDTABI, provider);
+      const usdtContract = new ethers.Contract(chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', USDTABI, provider);
       // const usdtContract = new ethers.Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
         // setUsdtBalance(balance.toString());
-      // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
-    const ba=  balance / Math.pow(10, chainId==56&&18||6).toString();
-    setBalance(ba.toFixed(4));
+        // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
+        const ba = balance / Math.pow(10, chainId == 56 && 18 || 6).toString();
+        setBalance(ba.toFixed(4));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
       });
+
+      // setSendContract(new ethers.Contract(chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a', SENDABI, provider));
+
       // let stale = false
 
       // void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
@@ -137,13 +144,13 @@ const HomePage = (props: any) => {
           currentChain={currentFromChain}
           currentToken={currentFromToken}
           selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true);setDirection(0); }}
+          selectChain={() => { setOpen(true); setDirection(0); }}
           title="From"
           maxValue={balance}
-          desc={balance>=0&&`Balance: ${balance} ${currentFromToken?.name}`}
+          desc={balance >= 0 && `Balance: ${balance} ${currentFromToken?.name}`}
           choose
           chooseToken />
-        <div  style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
           <div className='swap-hover' onClick={handleSwitchChain}>
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
           </div>
@@ -155,9 +162,9 @@ const HomePage = (props: any) => {
           currentChain={currentToChain}
           currentToken={currentToToken}
           selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true);setDirection(1); }}
+          selectChain={() => { setOpen(true); setDirection(1); }}
           title="To"
-          desc={ `Expect to receive: ${value||0} ${currentToToken?.name}`}
+          desc={`Expect to receive: ${value || 0} ${currentToToken?.name}`}
           choose />
         {/* <div>
           <div className='flex flex-between gap-2'>
@@ -173,7 +180,12 @@ const HomePage = (props: any) => {
             <div>-</div>
           </div>
         </div> */}
-        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && 'Confirm' || 'Connect Wallet'}</Button>
+        <Button onClick={() => {
+          const sendContract = new ethers.Contract(chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a', SENDABI, provider?.getSigner(accounts[0]));
+          debugger;
+          // sendContract['sendToken(uint256,address,address,uint256)'](42161, '0xd151247C657F2168725D1DD012010F523C3a29f1', '0xebaD00B2BaD5a981658706d0373B893ed1DA89e1', 0.1);
+          sendContract.sendToken(56, '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], 1).catch(err=>console.log(err,'sendToken'));
+        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && 'Confirm' || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
@@ -286,6 +298,7 @@ const HomePage = (props: any) => {
             />
           </div>
         </Drawer>
+        {/* <KpModal open={true}>ddd</KpModal> */}
       </div>
 
     </div>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Menu, Dropdown, Button,Divider,Space } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
+import { Menu, Dropdown, Button, Divider, Space } from 'antd';
+import { EllipsisOutlined, HistoryOutlined } from '@ant-design/icons';
 import cbridge from '../assets/cbridge.png'
 import sendFinance from '@/assets/Send-Logo.svg'
 import Tabs from './Tabs';
@@ -54,9 +54,12 @@ export default function Header() {
       <div className='mid' style={{ display: 'flex', alignItems: 'center' }}>
         <Tabs></Tabs>
       </div>
-      <div className='right'>
-       <MetaMaskCard />
-          {/* <Button type='primary' className='topConnect'>Connect Wallet</Button> */}
+      <div className='right' style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Button style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>
+          <HistoryOutlined /> History
+        </Button>
+        <MetaMaskCard />
+        {/* <Button type='primary' className='topConnect'>Connect Wallet</Button> */}
 
       </div>
     </header >

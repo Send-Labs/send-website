@@ -1,0 +1,184 @@
+[
+    { "type": "constructor", "payable": false, "inputs": [] },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "CrosschainTransfer",
+      "inputs": [
+        { "type": "uint256", "name": "sourceChainId", "indexed": true },
+        { "type": "uint256", "name": "targetChainId", "indexed": true },
+        { "type": "address", "name": "token", "indexed": true },
+        { "type": "address", "name": "recipient", "indexed": false },
+        { "type": "uint256", "name": "amount", "indexed": false }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "DebtRecorded",
+      "inputs": [
+        { "type": "address", "name": "recipient", "indexed": true },
+        { "type": "address", "name": "token", "indexed": true },
+        { "type": "uint256", "name": "amount", "indexed": false }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "OwnershipTransferred",
+      "inputs": [
+        { "type": "address", "name": "previousOwner", "indexed": true },
+        { "type": "address", "name": "newOwner", "indexed": true }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "TokenDeposited",
+      "inputs": [
+        { "type": "address", "name": "token", "indexed": true },
+        { "type": "address", "name": "depositor", "indexed": true },
+        { "type": "uint256", "name": "amount", "indexed": false }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "TokenTransferred",
+      "inputs": [
+        { "type": "address", "name": "token", "indexed": true },
+        { "type": "address", "name": "recipient", "indexed": true },
+        { "type": "uint256", "name": "amount", "indexed": false }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "TokensWithdrawn",
+      "inputs": [
+        { "type": "address", "name": "token", "indexed": true },
+        { "type": "address", "name": "recipient", "indexed": true },
+        { "type": "uint256", "name": "amount", "indexed": false }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "_transferToken",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [
+        { "type": "address", "name": "token" },
+        { "type": "address", "name": "recipient" },
+        { "type": "uint256", "name": "amount" }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "chainId",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [],
+      "outputs": [{ "type": "uint256" }]
+    },
+    {
+      "type": "function",
+      "name": "depositToken",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [
+        { "type": "address", "name": "token" },
+        { "type": "uint256", "name": "amount" }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "getBalance",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [{ "type": "address", "name": "token" }],
+      "outputs": [{ "type": "uint256" }]
+    },
+    {
+      "type": "function",
+      "name": "getDebt",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [{ "type": "address", "name": "recipient" }],
+      "outputs": [{ "type": "uint256" }]
+    },
+    {
+      "type": "function",
+      "name": "router",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [],
+      "outputs": [{ "type": "address" }]
+    },
+    {
+      "type": "function",
+      "name": "sendToken",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [
+        { "type": "uint256", "name": "targetChainId" },
+        { "type": "address", "name": "token" },
+        { "type": "address", "name": "recipient" },
+        { "type": "uint256", "name": "amount" }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "transferOwnership",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [{ "type": "address", "name": "newOwner" }],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "transferToken",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [
+        { "type": "address", "name": "token" },
+        { "type": "address", "name": "recipient" },
+        { "type": "uint256", "name": "amount" }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "withdrawAllTokens",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [{ "type": "address", "name": "token" }],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "withdrawDebt",
+      "constant": false,
+      "payable": false,
+      "gas": 29000000,
+      "inputs": [{ "type": "address", "name": "recipient" }],
+      "outputs": []
+    }
+  ]
+  
