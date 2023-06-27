@@ -18,3 +18,18 @@ export const contractAddrs = {
 };
 
 export const getContractAddr = (contractName) => contractAddrs[contractName];
+
+export const getUsdtContractAddr =(chainId: string | number)=>{
+  const contractAddr={
+    56:'0x55d398326f99059fF775485246999027B3197955',
+    42161:'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9'
+  }
+  return contractAddr[chainId];
+}
+export const getSendContractAddr =(chainId: string | number)=>{
+  const contractAddr={
+    56:'0xd151247C657F2168725D1DD012010F523C3a29f1',
+    42161:'0x341401D4C3D1d099e26d10a8bee6082131bB743a'
+  }
+  return contractAddr[chainId];
+}

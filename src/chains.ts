@@ -70,7 +70,7 @@ export const MAINNET_CHAINS: ChainConfig = {
     urls: ['https://bsc-dataseed.binance.org'],
     name: 'BNB Chain',
     nativeCurrency: BNB,
-    blockExplorerUrls: ['https://arbiscan.io'],
+    blockExplorerUrls: ['https://bscscan.com/'],
     icon:'/bnb.svg',id:56
   },
   // 137: {

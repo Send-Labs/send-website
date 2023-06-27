@@ -1,10 +1,9 @@
-// import yayJpg from '@/assets/yay.jpg';
 import { connect } from 'umi';
 import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
-import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { getTokenList } from '@/constants';
-import { Button, Drawer, Tooltip, Input, Switch } from 'antd';
+import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
 import WalletProvider from "@/layouts/WalletProvider";
@@ -13,20 +12,18 @@ import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
-// import KpModal from "@/components/KpModal";
 import USDTABI from '@/abis/USDTARB.json'
 import SENDABI from '@/abis/SEND.json'
-
-
+import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [visible, setVisible] = useState(false);
-  // const [sendContract, setSendContract] = useState();
-
   const [value, setValue] = useState();
+  const [sendContract, setSendContract] = useState<any>()
   const [balance, setBalance] = useState();
   const [direction, setDirection] = useState(0);
   const [visibleSetting, setVisibleSetting] = useState(false);
+  const [allowance, setAllowance] = useState(0);
   const chainId = useChainId()
   const { currentChain, switchChain } = useContext(WalletProvider)!;
   const onClose = () => {
@@ -71,6 +68,8 @@ const HomePage = (props: any) => {
   const [currentToChain, setCurrentToChain] = useState(chainList[1]);
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
+
+  
   const accounts = useAccounts()
   const provider = useProvider()
 
@@ -80,39 +79,16 @@ const HomePage = (props: any) => {
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
-      approveToken();
-      // const usdtContract = new Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
-      // usdtContract.balanceOf('0xebaD00B2BaD5a981658706d0373B893ed1DA89e1').then(balance => {
-      //   debugger;
-      //   // setUsdtBalance(balance.toString());
-      // }).catch(error => {
-      //   console.error('Failed to fetch USDT balance:', error);
-      // });
-      const usdtContract = new ethers.Contract(chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', USDTABI, provider);
-      // const usdtContract = new ethers.Contract('0xdAC17F958D2ee523a2206206994597C13D831ec7', USDTABI, provider);
+      // approveToken();
+      checkApproval();
+      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SENDABI, provider?.getSigner(accounts[0])));
+      const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
-        // setUsdtBalance(balance.toString());
-        // const ban=  balance.dividedBy(new ethers.BigNumber('1e18'));
         const ba = balance / Math.pow(10, chainId == 56 && 18 || 6).toString();
         setBalance(ba.toFixed(4));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
       });
-
-      // setSendContract(new ethers.Contract(chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a', SENDABI, provider));
-
-      // let stale = false
-
-      // void Promise.all(accounts.map((account) => provider.getBalance(account))).then((balances) => {
-      //   if (stale) return
-      //   debugger;
-      //   // setBalances(balances)
-      // })
-
-      // return () => {
-      //   stale = true
-      //   // setBalances(undefined)
-      // }
     }
   }, [provider, accounts])
   const handleSwitchChain = () => {
@@ -127,8 +103,8 @@ const HomePage = (props: any) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     // 代币合约地址和目标地址
-    const tokenContractAddress = chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9';
-    const targetAddress =chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a';
+    const tokenContractAddress = getUsdtContractAddr(chainId);
+    const targetAddress = getSendContractAddr(chainId);
 
     // 获取当前 MetaMask 账户
     const signer = provider.getSigner();
@@ -146,6 +122,24 @@ const HomePage = (props: any) => {
     console.log('Transaction hash:', approveTxResponse.transactionHash);
     console.log('Transaction receipt:', approveTxResponse);
   }
+  async function checkApproval() {
+    // 连接到以太坊网络
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // 设置要查询的地址和代币合约地址
+    const ownerAddress = accounts[0];
+    const spenderAddress = getSendContractAddr(chainId);
+    const tokenContractAddress = getUsdtContractAddr(chainId);
+
+
+    // 创建代币合约实例
+    const tokenContract = new ethers.Contract(tokenContractAddress, USDTABI, provider);
+
+    // 调用 allowance 函数查询已授权的代币数量
+    const allowance = await tokenContract.allowance(ownerAddress, spenderAddress);
+
+    setAllowance(allowance.toString());
+  }
+  
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
@@ -192,27 +186,16 @@ const HomePage = (props: any) => {
           title="To"
           desc={`Expect to receive: ${value || 0} ${currentToToken?.name}`}
           choose />
-        {/* <div>
-          <div className='flex flex-between gap-2'>
-            <div>Rate</div>
-            <div>-</div>
-          </div>
-          <div className='flex flex-between gap-2'>
-            <div>Slippage</div>
-            <div>-</div>
-          </div>
-          <div className='flex flex-between gap-2'>
-            <div>Gas Estimate</div>
-            <div>-</div>
-          </div>
-        </div> */}
         <Button onClick={() => {
-          const sendContract = new ethers.Contract(chainId == 56 && '0xd151247C657F2168725D1DD012010F523C3a29f1' || '0x341401D4C3D1d099e26d10a8bee6082131bB743a', SENDABI, provider?.getSigner(accounts[0]));
-
-          // sendContract['sendToken(uint256,address,address,uint256)'](42161, '0xd151247C657F2168725D1DD012010F523C3a29f1', '0xebaD00B2BaD5a981658706d0373B893ed1DA89e1', 0.1);
-          // sendContract.sendToken(56, '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], 1000000000000000).catch(err=>console.log(err,'sendToken'));
-          sendContract.sendToken(currentToChain.id, chainId == 56 && '0x55d398326f99059fF775485246999027B3197955' || '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', accounts[0], value).catch(err => console.log(err, 'sendToken'));
-        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && 'Confirm' || 'Connect Wallet'}</Button>
+          if (!chainId) {
+            return;
+          }
+          if (allowance == 0) {
+            approveToken();
+            return;
+          }
+          sendContract.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0], value).catch(err => console.log(err, 'sendToken'));
+        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
@@ -325,14 +308,11 @@ const HomePage = (props: any) => {
             />
           </div>
         </Drawer>
-        {/* <KpModal open={true}>ddd</KpModal> */}
+
       </div>
-
     </div>
-
   );
 }
-
 export default connect(({ count }: any) => ({
   count,
 }))(HomePage);
