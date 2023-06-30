@@ -7,7 +7,6 @@ import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space } from
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
 import WalletProvider from "@/layouts/WalletProvider";
-const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
 import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
@@ -17,6 +16,7 @@ import SENDABI from '@/abis/SEND.json'
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import styles from './index.less';
 const HomePage = (props: any) => {
+  const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState();
   const [sendContract, setSendContract] = useState<any>()
@@ -69,7 +69,7 @@ const HomePage = (props: any) => {
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
 
-  
+
   const accounts = useAccounts()
   const provider = useProvider()
 
@@ -81,7 +81,7 @@ const HomePage = (props: any) => {
     if (provider && accounts?.length) {
       // approveToken();
       checkApproval();
-      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SENDABI, provider?.getSigner(accounts[0])));
+      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SENDABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
         const ba = balance / Math.pow(10, chainId == 56 && 18 || 6).toString();
@@ -139,7 +139,7 @@ const HomePage = (props: any) => {
 
     setAllowance(allowance.toString());
   }
-  
+
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
@@ -186,7 +186,7 @@ const HomePage = (props: any) => {
           title="To"
           desc={`Expect to receive: ${value || 0} ${currentToToken?.name}`}
           choose />
-        <Button onClick={() => {
+        <Button onClick={async() => {
           if (!chainId) {
             return;
           }
@@ -194,8 +194,9 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-          sendContract.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0], value).catch(err => console.log(err, 'sendToken'));
-        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+         const result=await sendContract.callStatic.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0],ethers.BigNumber.from(value).toBigInt()).catch(err => console.log(err, 'sendToken'));
+          console.log(result);
+       }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}

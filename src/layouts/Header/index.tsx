@@ -4,6 +4,7 @@ import { CloseOutlined, EllipsisOutlined, HistoryOutlined } from '@ant-design/ic
 import cbridge from '../assets/cbridge.png'
 import sendFinance from '@/assets/Send-Logo.svg'
 import Tabs from './Tabs';
+import { hooks } from '@/connectors/metaMask'
 import MetaMaskCard from "../MetaMaskCard";
 
 import './index.less'
@@ -44,6 +45,12 @@ export default function Header() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const columns = [
     {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+      render: (text) => <a>{text}</a>,
+    },
+    {
       title: 'From',
       dataIndex: 'from',
       key: 'from',
@@ -83,35 +90,40 @@ export default function Header() {
   const data = [
     {
       key: '1',
-      from: '0xeba...89e1',
-      to: '0xeba...89e1',
+      address:'0xeba...89e1',
+      from: 'BNB Chain',
+      to: 'Arbitrum',
       token: 'USDT',
       amount: '1.0000',
-      mode: 'flashbridge.',
+      mode: 'Flashbridge',
       time: '2023-06-27 00:00:00',
       status: 'Success',
     },
     {
       key: '2',
-      from: '0xeba...89e1',
-      to: '0xeba...89e1',
+      address:'0xeba...89e1',
+      from: 'BNB Chain',
+      to: 'Arbitrum',
       token: 'USDT',
       amount: '1.0000',
-      mode: 'flashbridge.',
+      mode: 'Flashbridge',
       time: '2023-06-27 00:00:00',
       status: 'Success',
     },
     {
       key: '3',
-      from: '0xeba...89e1',
-      to: '0xeba...89e1',
+      address:'0xeba...89e1',
+      from: 'BNB Chain',
+      to: 'Arbitrum',
       token: 'USDT',
       amount: '1.0000',
-      mode: 'flashbridge.',
+      mode: 'Flashbridge',
       time: '2023-06-27 00:00:00',
       status: 'Success',
     },
   ];
+  const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
+  const chainId = useChainId();
   return (
     <header style={{ padding: '0 30px' }}>
 
@@ -126,16 +138,16 @@ export default function Header() {
         <Tabs></Tabs>
       </div>
       <div className='right' style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Button onClick={()=>setHistoryOpen(true)}  style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>
+        {chainId && <Button onClick={() => setHistoryOpen(true)} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>
           <HistoryOutlined /> History
-        </Button>
+        </Button>}
         <MetaMaskCard />
         {/* <Button type='primary' className='topConnect'>Connect Wallet</Button> */}
 
       </div>
       <Modal width={800} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
-          <Table columns={columns} dataSource={data} />
-        </Modal>
+        <Table pagination={false} columns={columns} dataSource={data} />
+      </Modal>
     </header >
   )
 }
