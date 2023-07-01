@@ -60,7 +60,7 @@ const HomePage = (props: any) => {
     // },
     {
       'id': 42161,
-      'name': 'Arbitrum',
+      'name': 'Arbitrum One',
       'icon': '/arb.svg'
     }
   ];
