@@ -12,7 +12,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
 import USDTABI from '@/abis/USDTARB.json'
-import SENDABI from '@/abis/SEND.json'
+import {SEND_CONTRACT_ABI} from '@/abis/SEND'
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import styles from './index.less';
 const HomePage = (props: any) => {
@@ -81,11 +81,10 @@ const HomePage = (props: any) => {
     if (provider && accounts?.length) {
       // approveToken();
       checkApproval();
-      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SENDABI, provider?.getSigner()));
+      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
-        const ba = balance / Math.pow(10, chainId == 56 && 18 || 6).toString();
-        setBalance(ba.toFixed(4));
+        setBalance(ethers.utils.formatUnits(balance, 6));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
       });
@@ -184,7 +183,7 @@ const HomePage = (props: any) => {
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true); setDirection(1); }}
           title="To"
-          desc={`Expect to receive: ${value || 0} ${currentToToken?.name}`}
+          desc={value&&`Expect to receive: ${value} ${currentToToken?.name}`}
           choose />
         <Button onClick={async() => {
           if (!chainId) {
@@ -194,15 +193,20 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-         const result=await sendContract.callStatic.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0],ethers.BigNumber.from(value).toBigInt()).catch(err => console.log(err, 'sendToken'));
-          console.log(result);
+          debugger;
+          // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
+          sendContract.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0],BigNumber.from(value*1000000).toString()).then(data=>{
+            debugger;
+          }).catch(err => console.log(err, 'sendToken'));
+        //  const result=await 
+        //   console.log(result);
        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
           placement="bottom"
           onClose={onClose}
-          visible={visible}
+          open={visible}
           getContainer={false}
           maskClosable={false}
           // closeIcon={false}
@@ -240,7 +244,7 @@ const HomePage = (props: any) => {
           className={styles.h100}
           placement="bottom"
           onClose={() => setOpen(false)}
-          visible={open}
+          open={open}
           getContainer={false}
           maskClosable={false}
           // closeIcon={false}
@@ -266,7 +270,7 @@ const HomePage = (props: any) => {
           className={styles.h100}
           placement="bottom"
           onClose={() => setVisibleSetting(false)}
-          visible={visibleSetting}
+          open={visibleSetting}
           getContainer={false}
           maskClosable={false}
           // closeIcon={false}
@@ -279,7 +283,7 @@ const HomePage = (props: any) => {
               <Tooltip title="The default amount allows you to perform a couple of transactions (e.g. Approve and Swap). Once you approve the transfer in your wallet, the transaction gas amount will be higher than a regular transaction as this includes the selected amount of destination gas to be sent.">
                 <InfoCircleOutlined />
               </Tooltip>
-            </div>
+            </div>111111
             <hr style={{ background: '#323232', margin: '10px 0px 20px 0px' }} />
             <ButtonGroup value='none' onSelect={() => { }}>
               <ButtonGroup.Item value='none'>None</ButtonGroup.Item>
