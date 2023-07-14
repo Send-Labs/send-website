@@ -48,18 +48,19 @@ export default function Header() {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      render: (text) => <a>{text}</a>,
+      render: (text:string) => <a>{text}</a>,
     },
     {
       title: 'From',
       dataIndex: 'from',
       key: 'from',
-      render: (text) => <a>{text}</a>,
+      render: (text:string) => <a style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="BNB Chain"&&"/bnb.svg"||"/arb.svg"}/>{text}</a>,
     },
     {
       title: 'To',
       dataIndex: 'to',
       key: 'to',
+      render: (text:string) =>  <a style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="BNB Chain"&&"/bnb.svg"||"/arb.svg"}/>{text}</a>,
     },
     {
       title: 'Token',
@@ -145,7 +146,7 @@ export default function Header() {
         {/* <Button type='primary' className='topConnect'>Connect Wallet</Button> */}
 
       </div>
-      <Modal width={800} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
+      <Modal width={1000} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
         <Table pagination={false} columns={columns} dataSource={data} />
       </Modal>
     </header >
