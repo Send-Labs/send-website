@@ -1,4 +1,4 @@
-export  const SEND_CONTRACT_ABI = [
+export const SEND_CONTRACT_ABI = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -21,6 +21,12 @@ export  const SEND_CONTRACT_ABI = [
       },
       {
         indexed: true,
+        internalType: "uint256",
+        name: "transferId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
         internalType: "address",
         name: "token",
         type: "address",
@@ -274,6 +280,25 @@ export  const SEND_CONTRACT_ABI = [
     inputs: [
       {
         internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "sendCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "targetChainId",
         type: "uint256",
       },
@@ -313,6 +338,16 @@ export  const SEND_CONTRACT_ABI = [
   },
   {
     inputs: [
+      {
+        internalType: "uint256",
+        name: "sourceChainId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "transferId",
+        type: "uint256",
+      },
       {
         internalType: "address",
         name: "token",

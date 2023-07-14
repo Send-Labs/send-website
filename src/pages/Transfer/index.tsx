@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
 import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { getTokenList } from '@/constants';
-import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space } from 'antd';
+import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space, message } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
 import WalletProvider from "@/layouts/WalletProvider";
@@ -12,13 +12,15 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
 import USDTABI from '@/abis/USDTARB.json'
-import {SEND_CONTRACT_ABI} from '@/abis/SEND'
+import { SEND_CONTRACT_ABI } from '@/abis/SEND'
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import styles from './index.less';
 const HomePage = (props: any) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
+  const [valueAddress, setValueAddress] = useState("");
   const [sendContract, setSendContract] = useState<any>()
   const [balance, setBalance] = useState();
   const [direction, setDirection] = useState(0);
@@ -75,7 +77,9 @@ const HomePage = (props: any) => {
 
   useEffect(() => {
     setCurrentFromChain(CHAINS[chainId || 56]);
-    console.log('accounts', accounts);
+    setValue('');
+    setValueAddress(accounts&&accounts[0]||'')
+    
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
@@ -84,7 +88,8 @@ const HomePage = (props: any) => {
       setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
-        setBalance(ethers.utils.formatUnits(balance, 6));
+        const formatBalance=ethers.utils.formatUnits(balance, chainId == 56 ? 18 : 6)*1;
+        setBalance(formatBalance.toFixed(6));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
       });
@@ -141,6 +146,7 @@ const HomePage = (props: any) => {
 
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
+      {contextHolder}
       <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
           <span>Mode</span>
@@ -183,9 +189,20 @@ const HomePage = (props: any) => {
           selectToken={() => { setVisible(true); }}
           selectChain={() => { setOpen(true); setDirection(1); }}
           title="To"
-          desc={value&&`Expect to receive: ${value} ${currentToToken?.name}`}
+          desc={value && `Expect to receive: ${value} ${currentToToken?.name}`}
           choose />
-        <Button onClick={async() => {
+          <TokenInput
+          key="ti3"
+          simple
+          defaultValue={valueAddress}
+          onChange={(v: any) => setValue(valueAddress)}
+          currentChain={currentToChain}
+          currentToken={currentToToken}
+          selectToken={() => { setVisible(true); }}
+          selectChain={() => { setOpen(true); setDirection(1); }}
+          title="Recipient Address"
+          choose />
+        <Button onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -195,12 +212,21 @@ const HomePage = (props: any) => {
           }
           debugger;
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
-          sendContract.sendToken(currentToChain.id, getUsdtContractAddr(chainId), accounts[0],BigNumber.from(value*1000000).toString()).then(data=>{
-            debugger;
-          }).catch(err => console.log(err, 'sendToken'));
-        //  const result=await 
-        //   console.log(result);
-       }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+          sendContract.sendToken(currentToChain.id,
+            getUsdtContractAddr(chainId),
+            valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
+            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6))
+            .then(async (tx:ethers.providers.TransactionResponse) => {
+              messageApi.success('Send SuccessFul!')
+              const result=await tx.wait();
+              console.log('sendResult',result);
+              if(result.status==1){
+                messageApi.info('Send Successful!');
+              }
+            }).catch(err => messageApi.info('Send Fail!'));
+          //  const result=await 
+          //   console.log(result);
+        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}

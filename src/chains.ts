@@ -56,10 +56,10 @@ export const MAINNET_CHAINS: ChainConfig = {
   42161: {
     id:42161,
     icon:'/arb.svg',
-    urls: ['https://endpoints.omniatech.io/v1/arbitrum/one/public'],
+    urls: ['https://arb1.arbitrum.io/rpc'],
     name: 'Arbitrum One',
     nativeCurrency: ETH,
-    blockExplorerUrls: ['https://arbiscan.io'],
+    blockExplorerUrls: ['https://arbiscan.io/'],
   },
 }
 export const CHAINS: ChainConfig = {
