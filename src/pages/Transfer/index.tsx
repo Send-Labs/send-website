@@ -77,9 +77,9 @@ const HomePage = (props: any) => {
 
   useEffect(() => {
     setCurrentFromChain(CHAINS[chainId || 56]);
-    setValue('');
-    setValueAddress(accounts&&accounts[0]||'')
-    
+    // setValue('');
+    setValueAddress(accounts && accounts[0] || '')
+
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
@@ -88,7 +88,7 @@ const HomePage = (props: any) => {
       setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
-        const formatBalance=ethers.utils.formatUnits(balance, chainId == 56 ? 18 : 6)*1;
+        const formatBalance = ethers.utils.formatUnits(balance, chainId == 56 ? 18 : 6) * 1;
         setBalance(formatBalance.toFixed(6));
       }).catch(error => {
         console.error('Failed to fetch USDT balance:', error);
@@ -122,7 +122,7 @@ const HomePage = (props: any) => {
 
     // 发送交易并等待确认
     const approveTxResponse = await approveTx.wait();
-
+    setAllowance(0.1);
     console.log('Transaction hash:', approveTxResponse.transactionHash);
     console.log('Transaction receipt:', approveTxResponse);
   }
@@ -147,7 +147,7 @@ const HomePage = (props: any) => {
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       {contextHolder}
-      <div className='flex flex-column gap-5' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
+      <div className='flex flex-column gap-4' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
           <span>Mode</span>
 
@@ -191,7 +191,7 @@ const HomePage = (props: any) => {
           title="To"
           desc={value && `Expect to receive: ${value} ${currentToToken?.name}`}
           choose />
-          <TokenInput
+        <TokenInput
           key="ti3"
           simple
           defaultValue={valueAddress}
@@ -202,7 +202,7 @@ const HomePage = (props: any) => {
           selectChain={() => { setOpen(true); setDirection(1); }}
           title="Recipient Address"
           choose />
-        <Button onClick={async () => {
+        <Button disabled={value==""&&allowance != 0} onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -216,11 +216,11 @@ const HomePage = (props: any) => {
             getUsdtContractAddr(chainId),
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
             ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6))
-            .then(async (tx:ethers.providers.TransactionResponse) => {
+            .then(async (tx: ethers.providers.TransactionResponse) => {
               messageApi.success('Send SuccessFul!')
-              const result=await tx.wait();
-              console.log('sendResult',result);
-              if(result.status==1){
+              const result = await tx.wait();
+              console.log('sendResult', result);
+              if (result.status == 1) {
                 messageApi.info('Send Successful!');
               }
             }).catch(err => messageApi.info('Send Fail!'));
