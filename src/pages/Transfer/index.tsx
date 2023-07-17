@@ -195,11 +195,9 @@ const HomePage = (props: any) => {
           key="ti3"
           simple
           defaultValue={valueAddress}
-          onChange={(v: any) => setValue(valueAddress)}
+          onChange={(v: any) => setValueAddress(valueAddress)}
           currentChain={currentToChain}
           currentToken={currentToToken}
-          selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true); setDirection(1); }}
           title="Recipient Address"
           choose />
         <Button disabled={value==""&&allowance != 0} onClick={async () => {

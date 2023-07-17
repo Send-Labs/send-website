@@ -9,6 +9,7 @@ import WalletProvider from "./WalletProvider";
 import { CHAINS,getAddChainParameters } from '../chains'
 import { ConnectWithSelect } from './ConnectWithSelect'
 import { Status } from './Status'
+import { hideMiddleChars } from "@/utils";
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 interface Props {
@@ -36,15 +37,7 @@ export function Card({
   accounts,
   provider,
 }: Props) {
-  const hideMiddleChars = (str: string) => {
-    if (str.length <= 10) {
-      return str;
-    } else {
-      const startChars = str.slice(0, 6);
-      const endChars = str.slice(-4);
-      return `${startChars}...${endChars}`;
-    }
-  }
+
   const [desiredChainId, setDesiredChainId] = useState<number>(-1)
   const { currentChain } = useContext(WalletProvider)!;
   const switchChain = useCallback(

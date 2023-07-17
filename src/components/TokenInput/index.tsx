@@ -1,6 +1,8 @@
 import { DownOutlined } from '@ant-design/icons';
 import { useState,useEffect } from 'react';
+import { hideMiddleChars } from "@/utils";
 import styles from './index.less';
+import { Button } from 'antd';
 
 export default function (props: any) {
     const { title ,desc, choose, 
@@ -14,7 +16,7 @@ export default function (props: any) {
         setValue(maxValue);
         onChange(maxValue);
     }
-    useEffect(()=>{setValue(defaultValue)},[defaultValue])
+    useEffect(()=>{setValue(hideMiddleChars(defaultValue))},[defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
         <div className={`flex flex-between flex-align-center`}>
             <div>{title}</div>
@@ -40,10 +42,12 @@ export default function (props: any) {
                     width: '100%',
                     color: '#fff',
                     fontWeight: 'bold'
-                }} />||<input value={value} onChange={e=>{setValue(e.target.value);onChange(e.target.value)}} onFocus={() => setActive(true)} onBlur={() => setActive(false)} placeholder='Enter the address to receive the converted tokens' style={{
+                }} />||<><input value={value} onChange={e=>{setValue(e.target.value);onChange(e.target.value)}} onFocus={() => setActive(true)} onBlur={() => {setActive(false);}} placeholder='Enter the address to receive the tokens' style={{
                     fontSize: '14px',
                     width: '100%',
-                    color: '#fff'}} />}
+                    color: '#fff'}} /><Button  style={{padding:'0 5px',lineHeight:'unset' ,height:'unset'}} onClick={() => { setValue('');}}>
+                Edit
+              </Button></>}
             </div>
 
            {desc&&<div className='flex flex-between  gap-2'>
