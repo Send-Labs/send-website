@@ -161,7 +161,7 @@ const HomePage = (props: any) => {
   // 保存
   const saveTD = async (hash: string) => {
     const params = {
-      "address": valueAddress,
+      "address": accounts[0],
       "from": currentFromChain.id,
       "fromScan": hash,
       "to": currentToChain.id,
@@ -172,6 +172,7 @@ const HomePage = (props: any) => {
       "status": "1"
     }
     const result = await post('/api/transferHistory', params);
+    getTD(accounts[0]);
   }
   // 查询
   const getTD = async (address: string) => {
@@ -233,7 +234,7 @@ const HomePage = (props: any) => {
           key="ti3"
           simple
           defaultValue={valueAddress}
-          onChange={(v: any) => setValueAddress(valueAddress)}
+          onChange={(v: any) => setValueAddress(v)}
           currentChain={currentToChain}
           currentToken={currentToToken}
           title="Recipient Address"
@@ -246,7 +247,7 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-
+          debugger;
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
