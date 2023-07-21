@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Menu, Dropdown, Button, Divider, Space, Modal, Table } from 'antd';
 import { CloseOutlined, EllipsisOutlined, HistoryOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import cbridge from '../assets/cbridge.png'
 import sendFinance from '@/assets/Send-Logo.svg'
 import Tabs from './Tabs';
 import { hooks } from '@/connectors/metaMask'
 import MetaMaskCard from "../MetaMaskCard";
-
+import { hideMiddleChars } from "@/utils";
+import { getBlockExplorerUrls } from "@/constants/addresses";
 import './index.less'
+import { connect } from 'umi';
 
-export default function Header() {
+ function Header(props:any) {
   const menu = (
     <Menu
       items={[
@@ -48,24 +51,25 @@ export default function Header() {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      render: (text:string) => <a>{text}</a>,
+      render: (text:string) => <a>{hideMiddleChars(text)}</a>,
     },
     {
       title: 'From',
       dataIndex: 'from',
       key: 'from',
-      render: (text:string) => <a style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="BNB Chain"&&"/bnb.svg"||"/arb.svg"}/>{text}</a>,
+      render: (text:string,data:any) => <a target='_black' href={getBlockExplorerUrls(text)+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
     },
     {
       title: 'To',
       dataIndex: 'to',
       key: 'to',
-      render: (text:string) =>  <a style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="BNB Chain"&&"/bnb.svg"||"/arb.svg"}/>{text}</a>,
+      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}/address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
     },
     {
       title: 'Token',
       dataIndex: 'token',
       key: 'token',
+      render: (text:string) =>  <span style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={"/usdt.svg"}/>{text}</span>
     },
     {
       title: 'Amount',
@@ -76,16 +80,19 @@ export default function Header() {
       title: 'Mode',
       dataIndex: 'mode',
       key: 'mode',
+      render:()=>'FlashBridge'
     },
     {
       title: 'Time',
-      dataIndex: 'time',
+      dataIndex: 'cratetime',
       key: 'time',
+      render:(text:string)=>dayjs(text).format('YYYY-MM-DD HH:ss:mm')
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      render: (text:string) => 'done'
     },
   ];
   const data = [
@@ -125,6 +132,9 @@ export default function Header() {
   ];
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const chainId = useChainId();
+  useEffect(()=>{
+    console.log('propsprops',props);
+  });
   return (
     <header style={{ padding: '0 30px' }}>
 
@@ -147,8 +157,13 @@ export default function Header() {
 
       </div>
       <Modal width={1000} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
-        <Table pagination={false} columns={columns} dataSource={data} />
+        <Table pagination={false} columns={columns} dataSource={props.history.data} />
       </Modal>
     </header >
   )
 }
+
+
+export default connect(({ history }: any) => ({
+  history,
+}))(Header);

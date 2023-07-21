@@ -23,6 +23,8 @@
     "@web3-react/types": "^8.2.0",
     "@web3-react/url": "^8.2.0",
     "antd": "^4.24.10",
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.9",
     "ethers": "^5.7.1",
     "eventemitter3": "^5.0.1",
     "millify": "^5.0.1",

@@ -51,4 +51,10 @@ export default {
       ],
     },
   ],
+  proxy: {
+    '/api': {
+      'target': 'http://147.182.251.92:3000',
+      'changeOrigin': true,
+    },
+  },
 };

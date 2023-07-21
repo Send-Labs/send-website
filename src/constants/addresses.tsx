@@ -33,3 +33,10 @@ export const getSendContractAddr =(chainId: string | number)=>{
   }
   return contractAddr[chainId];
 }
+export const getBlockExplorerUrls =(chainId:number)=>{
+  const contractAddr={
+    56:'https://bscscan.com/',
+    42161: 'https://arbiscan.io/',
+  }
+  return contractAddr[chainId];
+}

@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
 import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { getTokenList } from '@/constants';
-import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space, message } from 'antd';
+import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space, message, notification } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
 import WalletProvider from "@/layouts/WalletProvider";
@@ -13,10 +13,11 @@ import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
 import USDTABI from '@/abis/USDTARB.json'
 import { SEND_CONTRACT_ABI } from '@/abis/SEND'
+import { post, get } from "@/utils/http";
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import styles from './index.less';
 const HomePage = (props: any) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [api, contextHolder] = notification.useNotification();
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState("");
@@ -79,10 +80,10 @@ const HomePage = (props: any) => {
     setCurrentFromChain(CHAINS[chainId || 56]);
     // setValue('');
     setValueAddress(accounts && accounts[0] || '')
-
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
+      getTD(accounts[0]);
       // approveToken();
       checkApproval();
       setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
@@ -144,6 +145,31 @@ const HomePage = (props: any) => {
     setAllowance(allowance.toString());
   }
 
+  // 保存
+  const saveTD = async (hash:string) => {
+    const params = {
+      "address": valueAddress,
+      "from": currentFromChain.id,
+      "fromScan": hash,
+      "to": currentToChain.id,
+      "toScan": valueAddress,
+      "token": "USDT",
+      "amount": value,
+      "mode": "1",
+      "status": "1"
+    }
+    const result = await post('/api/transferHistory', params);
+    debugger;
+  }
+  // 查询
+  const getTD = async (address: string) => {
+    const result = await get('/api/transferHistory?address=' + address);
+    const { dispatch } = props;
+    dispatch({
+      type: 'history/updateData',
+      payload: { data: result.data }
+    });
+  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       {contextHolder}
@@ -200,7 +226,7 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={value==""&&allowance != 0} onClick={async () => {
+        <Button disabled={value == "" && allowance != 0} onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -208,20 +234,24 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-          debugger;
+          
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
             ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6))
             .then(async (tx: ethers.providers.TransactionResponse) => {
-              messageApi.success('Send SuccessFul!')
+              // messageApi.success('Send SuccessFul!')
               const result = await tx.wait();
               console.log('sendResult', result);
               if (result.status == 1) {
-                messageApi.info('Send Successful!');
+                saveTD(result.transactionHash);
+                api.info({
+                  message: 'Send Successful!',
+                  placement:'topRight',
+                });
               }
-            }).catch(err => messageApi.info('Send Fail!'));
+            }).catch(err =>{});
           //  const result=await 
           //   console.log(result);
         }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
@@ -342,6 +372,6 @@ const HomePage = (props: any) => {
     </div>
   );
 }
-export default connect(({ count }: any) => ({
-  count,
+export default connect(({ history }: any) => ({
+  history,
 }))(HomePage);
