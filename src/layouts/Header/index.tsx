@@ -63,7 +63,7 @@ import { connect } from 'umi';
       title: 'To',
       dataIndex: 'to',
       key: 'to',
-      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}/address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
+      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
     },
     {
       title: 'Token',
