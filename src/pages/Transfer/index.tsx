@@ -1,13 +1,15 @@
 import { connect } from 'umi';
 import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
-import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined } from '@ant-design/icons';
+import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined, SmileOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { getTokenList } from '@/constants';
 import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space, message, notification } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
+import { ReactComponent as ViewIcon } from "@/assets/icon_open.svg";
 import WalletProvider from "@/layouts/WalletProvider";
 import { ethers } from 'ethers';
+import { getBlockExplorerUrls } from "@/constants/addresses";
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
@@ -67,6 +69,16 @@ const HomePage = (props: any) => {
       'icon': '/arb.svg'
     }
   ];
+  const chainOrg = {
+    56:{
+      'name': 'BNB Chain',
+      'icon': '/bnb.svg'
+    },
+    42161:{
+      'name': 'Arbitrum One',
+      'icon': '/arb.svg'
+    }
+  };
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
   const [currentToChain, setCurrentToChain] = useState(chainList[1]);
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
@@ -79,7 +91,8 @@ const HomePage = (props: any) => {
   useEffect(() => {
     setCurrentFromChain(CHAINS[chainId || 56]);
     // setValue('');
-    setValueAddress(accounts && accounts[0] || '')
+    setValueAddress(accounts && accounts[0] || '');
+    
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
@@ -146,7 +159,7 @@ const HomePage = (props: any) => {
   }
 
   // 保存
-  const saveTD = async (hash:string) => {
+  const saveTD = async (hash: string) => {
     const params = {
       "address": valueAddress,
       "from": currentFromChain.id,
@@ -159,7 +172,6 @@ const HomePage = (props: any) => {
       "status": "1"
     }
     const result = await post('/api/transferHistory', params);
-    debugger;
   }
   // 查询
   const getTD = async (address: string) => {
@@ -234,7 +246,7 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-          
+
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
@@ -247,11 +259,20 @@ const HomePage = (props: any) => {
               if (result.status == 1) {
                 saveTD(result.transactionHash);
                 api.info({
-                  message: 'Send Successful!',
-                  placement:'topRight',
+                  icon: <FileDoneOutlined />,
+                  message: 'Send Successfully!',
+                  description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
+                      <div style={{display:'flex',alignItems:'center',gap:'5px'}}>
+                        <img src={chainOrg[currentToChain.id]?.icon} style={{width:'24px' }} />
+                        <p style={{margin:0}}>{chainOrg[currentToChain.id]?.name}</p>
+                        <ViewIcon width={24} fill='#fff' />
+                      </div>
+                    </a>,
+                  placement: 'topRight',
+                  duration: 30
                 });
               }
-            }).catch(err =>{});
+            }).catch(err => { });
           //  const result=await 
           //   console.log(result);
         }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
