@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import { hideMiddleChars } from "@/utils";
 import styles from './index.less';
 import styles2 from '../SendButtonGroup/index.less';
-import { Button, Tooltip } from 'antd';
-import ButtonGroup from '../SendButtonGroup';
 
 export default function (props: any) {
     const { title, desc, choose,
@@ -12,6 +10,7 @@ export default function (props: any) {
         currentToken, currentChain, max, chooseToken,
         onMax, defaultValue, onChange, simple } = props;
     const [active, setActive] = useState(false);
+    const [visible, setVisible] = useState(true);
     const [value, setValue] = useState(defaultValue);
     const [oldValue, setOldValue] = useState(defaultValue);
     const handleChange = () => {
@@ -48,16 +47,20 @@ export default function (props: any) {
                     width: '100%',
                     color: '#fff',
                     fontWeight: 'bold'
-                }} /> || <> <div style={{ flex: 1 }}> <Tooltip title={oldValue}><input value={value} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} onFocus={() => { setActive(true); setValue(defaultValue); }} onBlur={() => { setActive(false);setValue(hideMiddleChars(defaultValue)) }} placeholder='Enter the address to receive the tokens' style={{
-                    fontSize: '14px',
-                    width: '100%',
-                    textAlign: 'left',
-                    color: '#fff'
-                }} />  </Tooltip>
+                }} /> || <> <div style={{ flex: 1 }}>
+                    <input value={value} onChange={e => { setValue(e.target.value); onChange(e.target.value) }}
+                        onFocus={() => { setActive(true); setValue(defaultValue); setVisible(false); }}
+                        onBlur={() => { setActive(false); setValue(hideMiddleChars(defaultValue)); setVisible(true); }}
+                        placeholder='Enter the address to receive the tokens' style={{
+                            fontSize: visible && '14px' || '12px',
+                            width: '100%',
+                            textAlign: 'left',
+                            color: '#fff'
+                        }} />
                 </div>
-                        <div className={`${styles2.button} ${styles2.primary}`} onClick={() => { onChange(''); }}>
+                        {visible && <div className={`${styles2.button} ${styles2.primary}`} onClick={() => { onChange(''); }}>
                             Edit
-                        </div></>}
+                        </div>}</>}
             </div>
 
             {desc && <div className='flex flex-between  gap-2'>

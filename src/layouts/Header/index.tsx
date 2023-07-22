@@ -49,7 +49,7 @@ import { connect } from 'umi';
   const [historyOpen, setHistoryOpen] = useState(false);
   const columns = [
     {
-      title: 'Address',
+      title: 'Recipient Address',
       dataIndex: 'toScan',
       key: 'address',
       render: (text:string) => <a>{hideMiddleChars(text)}</a>,
@@ -85,41 +85,7 @@ import { connect } from 'umi';
       render:(text:string)=>dayjs(text).format('YYYY-MM-DD HH:ss:mm')
     }
   ];
-  const data = [
-    {
-      key: '1',
-      address:'0xeba...89e1',
-      from: 'BNB Chain',
-      to: 'Arbitrum',
-      token: 'USDT',
-      amount: '1.0000',
-      mode: 'Flashbridge',
-      time: '2023-06-27 00:00:00',
-      status: 'Success',
-    },
-    {
-      key: '2',
-      address:'0xeba...89e1',
-      from: 'BNB Chain',
-      to: 'Arbitrum',
-      token: 'USDT',
-      amount: '1.0000',
-      mode: 'Flashbridge',
-      time: '2023-06-27 00:00:00',
-      status: 'Success',
-    },
-    {
-      key: '3',
-      address:'0xeba...89e1',
-      from: 'BNB Chain',
-      to: 'Arbitrum',
-      token: 'USDT',
-      amount: '1.0000',
-      mode: 'Flashbridge',
-      time: '2023-06-27 00:00:00',
-      status: 'Success',
-    },
-  ];
+
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const chainId = useChainId();
 
@@ -145,7 +111,7 @@ import { connect } from 'umi';
 
       </div>
       <Modal width={1000} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
-        <Table pagination={false} columns={columns} dataSource={props.history.data} />
+        <Table pagination={false} columns={columns} dataSource={props.history.data?.sort((a, b) => b.id - a.id)} />
       </Modal>
     </header >
   )
