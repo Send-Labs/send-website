@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { hideMiddleChars } from "@/utils";
 import styles from './index.less';
 import styles2 from '../SendButtonGroup/index.less';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import ButtonGroup from '../SendButtonGroup';
 
 export default function (props: any) {
@@ -13,12 +13,16 @@ export default function (props: any) {
         onMax, defaultValue, onChange, simple } = props;
     const [active, setActive] = useState(false);
     const [value, setValue] = useState(defaultValue);
+    const [oldValue, setOldValue] = useState(defaultValue);
     const handleChange = () => {
         onMax && onMax()
         setValue(maxValue);
         onChange(maxValue);
     }
-    useEffect(() => { setValue(hideMiddleChars(defaultValue)) }, [defaultValue])
+    useEffect(() => {
+        setValue(hideMiddleChars(defaultValue));
+        setOldValue(defaultValue);
+    }, [defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
         <div className={`flex flex-between flex-align-center`}>
             <div>{title}</div>
@@ -44,13 +48,14 @@ export default function (props: any) {
                     width: '100%',
                     color: '#fff',
                     fontWeight: 'bold'
-                }} /> || <><input value={value} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} onFocus={() => setActive(true)} onBlur={() => { setActive(false); }} placeholder='Enter the address to receive the tokens' style={{
+                }} /> || <> <div style={{ flex: 1 }}> <Tooltip title={oldValue}><input value={value} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} onFocus={() => { setActive(true); setValue(defaultValue); }} onBlur={() => { setActive(false);setValue(hideMiddleChars(defaultValue)) }} placeholder='Enter the address to receive the tokens' style={{
                     fontSize: '14px',
                     width: '100%',
                     textAlign: 'left',
                     color: '#fff'
-                }} />
-                        <div className={`${styles2.button} ${styles2.primary}`} onClick={() => { setValue(''); }}>
+                }} />  </Tooltip>
+                </div>
+                        <div className={`${styles2.button} ${styles2.primary}`} onClick={() => { onChange(''); }}>
                             Edit
                         </div></>}
             </div>

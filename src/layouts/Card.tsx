@@ -42,6 +42,7 @@ export function Card({
   const { currentChain } = useContext(WalletProvider)!;
   const switchChain = useCallback(
     async (desiredChainId: number) => {
+      
       setDesiredChainId(desiredChainId)
       try {
         if (
@@ -56,7 +57,7 @@ export function Card({
 
 
         await connector.activate(getAddChainParameters(desiredChainId))
-
+        localStorage.setItem('chainId',desiredChainId+"");
         setError(undefined)
       } catch (error) {
         setError(error)

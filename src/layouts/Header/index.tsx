@@ -4,6 +4,7 @@ import { CloseOutlined, EllipsisOutlined, HistoryOutlined } from '@ant-design/ic
 import dayjs from 'dayjs';
 import cbridge from '../assets/cbridge.png'
 import sendFinance from '@/assets/Send-Logo.svg'
+import { ReactComponent as ViewIcon } from "@/assets/icon_open.svg";
 import Tabs from './Tabs';
 import { hooks } from '@/connectors/metaMask'
 import MetaMaskCard from "../MetaMaskCard";
@@ -49,7 +50,7 @@ import { connect } from 'umi';
   const columns = [
     {
       title: 'Address',
-      dataIndex: 'address',
+      dataIndex: 'toScan',
       key: 'address',
       render: (text:string) => <a>{hideMiddleChars(text)}</a>,
     },
@@ -57,24 +58,19 @@ import { connect } from 'umi';
       title: 'From',
       dataIndex: 'from',
       key: 'from',
-      render: (text:string,data:any) => <a target='_black' href={getBlockExplorerUrls(text)+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
+      render: (text:string,data:any) => <a target='_black' href={getBlockExplorerUrls(text)+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'To',
       dataIndex: 'to',
       key: 'to',
-      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}</a>,
+      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
-      title: 'Token',
-      dataIndex: 'token',
-      key: 'token',
-      render: (text:string) =>  <span style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={"/usdt.svg"}/>{text}</span>
-    },
-    {
-      title: 'Amount',
+      title: 'Value',
       dataIndex: 'amount',
       key: 'amount',
+      render: (text:string,data:any) =><span><strong>{text}</strong>&nbsp;{data.token}</span>
     },
     {
       title: 'Mode',
@@ -87,13 +83,7 @@ import { connect } from 'umi';
       dataIndex: 'cratetime',
       key: 'time',
       render:(text:string)=>dayjs(text).format('YYYY-MM-DD HH:ss:mm')
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (text:string) => 'done'
-    },
+    }
   ];
   const data = [
     {
@@ -132,9 +122,7 @@ import { connect } from 'umi';
   ];
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
   const chainId = useChainId();
-  useEffect(()=>{
-    console.log('propsprops',props);
-  });
+
   return (
     <header style={{ padding: '0 30px' }}>
 

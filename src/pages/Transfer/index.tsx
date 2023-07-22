@@ -261,7 +261,7 @@ const HomePage = (props: any) => {
                 saveTD(result.transactionHash);
                 api.info({
                   icon: <FileDoneOutlined />,
-                  message: 'Send Successfully!',
+                  message: 'Done',
                   description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
                       <div style={{display:'flex',alignItems:'center',gap:'5px'}}>
                         <img src={chainOrg[currentToChain.id]?.icon} style={{width:'24px' }} />
@@ -276,7 +276,7 @@ const HomePage = (props: any) => {
             }).catch(err => { });
           //  const result=await 
           //   console.log(result);
-        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} type='primary' className='topConnect'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis',borderRadius: '30px',padding: '8px 26px',height:'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
