@@ -49,6 +49,8 @@ const HomePage = (props: any) => {
     }
   };
   const [open, setOpen] = useState(false);
+  const [openMost, setOpenMost] = useState(false);
+
   const chainList = [
     // {
     //   'name': 'Ethereum',
@@ -70,11 +72,11 @@ const HomePage = (props: any) => {
     }
   ];
   const chainOrg = {
-    56:{
+    56: {
       'name': 'BNB Chain',
       'icon': '/bnb.svg'
     },
-    42161:{
+    42161: {
       'name': 'Arbitrum One',
       'icon': '/arb.svg'
     }
@@ -92,7 +94,7 @@ const HomePage = (props: any) => {
     setCurrentFromChain(CHAINS[chainId || 56]);
     // setValue('');
     setValueAddress(accounts && accounts[0] || '');
-    
+
   }, [chainId]);
   useEffect(() => {
     if (provider && accounts?.length) {
@@ -199,21 +201,25 @@ const HomePage = (props: any) => {
             </ButtonGroup>
           </div>
         </div>
-
-        <TokenInput
-          key="ti1"
-          defaultValue={value}
-          onChange={(v: any) => setValue(v)}
-          max
-          currentChain={currentFromChain}
-          currentToken={currentFromToken}
-          selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true); setDirection(0); }}
-          title="From"
-          maxValue={balance}
-          desc={balance >= 0 && `Balance: ${balance} ${currentFromToken?.name}`}
-          choose
-          chooseToken />
+        <Tooltip open={openMost} placement="right" title='10 USDT At Most in the Small-Amount Mainnet'>
+          <TokenInput
+            key="ti1"
+            defaultValue={value}
+            onChange={(v: any) => {
+              setValue(v);
+              setOpenMost(v > 10);
+            }}
+            max
+            currentChain={currentFromChain}
+            currentToken={currentFromToken}
+            selectToken={() => { setVisible(true); }}
+            selectChain={() => { setOpen(true); setDirection(0); }}
+            title="From"
+            maxValue={balance}
+            desc={balance >= 0 && `Balance: ${balance} ${currentFromToken?.name}`}
+            choose
+            chooseToken />
+        </Tooltip>
         <div style={{ textAlign: 'center' }}>
           <div className='swap-hover' onClick={handleSwitchChain}>
             <ArrowDownOutlined style={{ color: '#ffffff' }} />
@@ -239,7 +245,7 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={(value == "" && allowance != 0)||!chainId} onClick={async () => {
+        <Button disabled={(value == "" && allowance != 0) || !chainId|| value>10} onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -247,7 +253,6 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
-          debugger;
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
@@ -263,12 +268,12 @@ const HomePage = (props: any) => {
                   icon: <FileDoneOutlined />,
                   message: 'Done',
                   description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
-                      <div style={{display:'flex',alignItems:'center',gap:'5px'}}>
-                        <img src={chainOrg[currentToChain.id]?.icon} style={{width:'24px' }} />
-                        <p style={{margin:0}}>{chainOrg[currentToChain.id]?.name}</p>
-                        <ViewIcon width={24} fill='#fff' />
-                      </div>
-                    </a>,
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <img src={chainOrg[currentToChain.id]?.icon} style={{ width: '24px' }} />
+                      <p style={{ margin: 0 }}>{chainOrg[currentToChain.id]?.name}</p>
+                      <ViewIcon width={24} fill='#fff' />
+                    </div>
+                  </a>,
                   placement: 'topRight',
                   duration: 30
                 });
@@ -276,7 +281,7 @@ const HomePage = (props: any) => {
             }).catch(err => { });
           //  const result=await 
           //   console.log(result);
-        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis',borderRadius: '30px',padding: '8px 26px',height:'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis', borderRadius: '30px', padding: '8px 26px', height: 'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
         <Drawer
           title="Select Token"
           className={styles.h100}
