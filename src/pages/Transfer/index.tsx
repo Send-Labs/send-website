@@ -239,7 +239,7 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={value == "" && allowance != 0} onClick={async () => {
+        <Button disabled={(value == "" && allowance != 0)||!chainId} onClick={async () => {
           if (!chainId) {
             return;
           }
