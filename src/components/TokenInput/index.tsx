@@ -11,6 +11,7 @@ export default function (props: any) {
         onMax, defaultValue, onChange, simple } = props;
     const [active, setActive] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [editing, setEditing] = useState(false);
     const [value, setValue] = useState(defaultValue);
     const [oldValue, setOldValue] = useState(defaultValue);
     const handleChange = () => {
@@ -19,7 +20,7 @@ export default function (props: any) {
         onChange(maxValue);
     }
     useEffect(() => {
-        setValue(hideMiddleChars(defaultValue));
+       !editing&&setValue(hideMiddleChars(defaultValue));
         setOldValue(defaultValue);
     }, [defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
@@ -49,8 +50,13 @@ export default function (props: any) {
                     fontWeight: 'bold'
                 }} /> || <> <div style={{ flex: 1 }}>
                     <input value={value} onChange={e => { setValue(e.target.value); onChange(e.target.value) }}
-                        onFocus={() => { setActive(true); setValue(defaultValue); setVisible(false); }}
-                        onBlur={() => { setActive(false); setValue(hideMiddleChars(defaultValue)); setVisible(true); }}
+                        onFocus={() => { 
+                            setActive(true); 
+                            setValue(defaultValue); 
+                            setVisible(false); 
+                            setEditing(true);
+                        }}
+                        onBlur={() => {  setEditing(false);setActive(false); setValue(hideMiddleChars(defaultValue)); setVisible(true); }}
                         placeholder='Enter the address to receive the tokens' style={{
                             fontSize: visible && '14px' || '12px',
                             width: '100%',
