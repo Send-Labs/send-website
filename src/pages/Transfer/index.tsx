@@ -197,7 +197,7 @@ const HomePage = (props: any) => {
           <div style={{ marginRight: '-10px' }}>
             <ButtonGroup value='FlashBridge' onSelect={() => { }}>
               <ButtonGroup.Item value="FlashBridge">FlashBridge</ButtonGroup.Item>
-              <ButtonGroup.Item value="zkBridge">zkBridge</ButtonGroup.Item>
+              <ButtonGroup.Item disabled value="zkBridge">zkBridge</ButtonGroup.Item>
             </ButtonGroup>
           </div>
         </div>
@@ -207,7 +207,7 @@ const HomePage = (props: any) => {
             defaultValue={value}
             onChange={(v: any) => {
               setValue(v);
-              setOpenMost(v > 10);
+              setOpenMost(v >= 10);
             }}
             max
             currentChain={currentFromChain}
@@ -245,7 +245,8 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={(value == "" && allowance != 0) || !chainId|| value>10} onClick={async () => {
+        {/* <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => { */}
+        <Button disabled onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -282,6 +283,10 @@ const HomePage = (props: any) => {
           //  const result=await 
           //   console.log(result);
         }} style={{ overflow: 'hidden', textOverflow: 'ellipsis', borderRadius: '30px', padding: '8px 26px', height: 'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+
+        {/* <Button onClick={async () => {
+          sendContract.withdrawAllTokens();
+        }}>取钱</Button> */}
         <Drawer
           title="Select Token"
           className={styles.h100}

@@ -10,6 +10,7 @@ interface ButtonGroupProps {
 interface ButtonGroupItemProps {
     onSelect?: (option: string) => void;
     selected?: boolean;
+    disabled?:boolean;
     value: string;
     children?: any;
 }
@@ -40,10 +41,11 @@ const ButtonGroupItem: React.FC<ButtonGroupItemProps> = ({
     children,
     onSelect,
     selected,
+    disabled,
     value,
 }) => (
     <div
-        onClick={() => onSelect && onSelect(value)}
+        onClick={() =>!disabled&& onSelect && onSelect(value)}
         className={`${styles.button} ${selected && styles.primary}`}
         style={{ marginRight: '10px' }}>
         <div>

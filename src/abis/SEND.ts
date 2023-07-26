@@ -74,6 +74,12 @@ export const SEND_CONTRACT_ABI = [
   },
   {
     anonymous: false,
+    inputs: [],
+    name: "FeeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
     inputs: [
       {
         indexed: true,
@@ -190,6 +196,43 @@ export const SEND_CONTRACT_ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "chainIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "fees",
+        type: "uint256[]",
+      },
+    ],
+    name: "batchSetChainFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "chainFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "chainId",
     outputs: [
@@ -218,6 +261,32 @@ export const SEND_CONTRACT_ABI = [
     name: "depositToken",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeDenominator",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeNumerator",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -253,6 +322,25 @@ export const SEND_CONTRACT_ABI = [
       },
     ],
     name: "getDebt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "receiveCount",
     outputs: [
       {
         internalType: "uint256",
@@ -319,6 +407,24 @@ export const SEND_CONTRACT_ABI = [
       },
     ],
     name: "sendToken",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "numerator",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "denominator",
+        type: "uint256",
+      },
+    ],
+    name: "setSendFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -394,5 +500,16 @@ export const SEND_CONTRACT_ABI = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawNative",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
   },
 ];

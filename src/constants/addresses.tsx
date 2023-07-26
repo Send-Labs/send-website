@@ -28,8 +28,8 @@ export const getUsdtContractAddr =(chainId: string | number)=>{
 }
 export const getSendContractAddr =(chainId: string | number)=>{
   const contractAddr={
-    56:'0x162C7EC514Cd835AC3760A3B234d9f9228279029',
-    42161:'0x839837fAC18314924Ee292BfAB4b8bCA81D11864'
+    56:'0x04fEfd2cCAD9782174Bc2aD81ba76432e06e3B5a',
+    42161:'0x6Bc39f8de47fE6aBFB05f55E0F6b216c5F3cbd00'
   }
   return contractAddr[chainId];
 }
