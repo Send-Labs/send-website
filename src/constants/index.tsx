@@ -96,6 +96,14 @@ export const tokenListPolygon = [
     icon: '/usdt.svg',
     pools: ['main pool'],
   },
+  {
+    key: '4',
+    name: 'USDC',
+    address: '0x74E3fcEB6D94F1445E2Ed3a2A495578B3E04Af63',
+    decimals: 6,
+    icon: '/usdc.svg',
+    pools: ['main pool'],
+  },
   // {
   //   key: '6',
   //   name: 'BUSD',

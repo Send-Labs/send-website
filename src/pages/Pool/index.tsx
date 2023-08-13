@@ -6,10 +6,11 @@ import {
   Table,
   Drawer,
   Modal,
+  Button,
 } from 'antd';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
 // import usePriceFeed from '@/components/Covalent';
-import usePriceFeed from '@/components/Binance';
+// import usePriceFeed from '@/components/Binance';
 import { readState } from '@/apis';
 import { getContractAddr } from '@/constants/addresses';
 import DataProvider from '@/abis/DataProvider.json';
@@ -19,7 +20,7 @@ import KpRpc from '@/components/KpRpc';
 import KpTabs from '@/components/KpTabs';
 import KpChildTable from '@/components/KpChildTable';
 import PoolCard from '@/components/PoolCard';
-
+import { ethers } from 'ethers';
 import {
   networkColumns,
   childNetworkColumns,
@@ -35,20 +36,21 @@ import {
 
 import styles from './index.less';
 import MarketDashboard from '@/components/KpMarketDashboard';
-
+import { SEND_CONTRACT_ABI } from '@/abis/SEND'
 import { hooks, metaMask } from '../../connectors/metaMask'
 import { Card } from './Card'
-
+import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
+import SettingInput from '@/components/SettingInput';
 const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
 
 const { TabPane } = Tabs;
 
 const Page = (props) => {
- 
+
   const chainId = useChainId()
 
   const tokenList = getTokenList(chainId);
-
+  const [sendContract, setSendContract] = useState<any>()
   const [selectedTab, setSelectedTab] = useState('Supply');
   const [pool, setPool] = useState(false);
   const [open, setOpen] = useState(false);
@@ -66,12 +68,35 @@ const Page = (props) => {
   const [tokenTMP, setTokenTMP] = useState({});
   const [KpTokenList, setKpTokenList] = useState({}); // for making tokenlist from pool with most tokens
   // const [tmpPools, setTmpPools] = useState({});
-  const [testData, setTestData] = useState({});
+  const [depositTokenValue, setDepositTokenValue] = useState(0);
+  const [tokenBalance, setTokenBalance] = useState("");
+  const [debt, setDebt] = useState("");
 
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState('1');
   const [keyPool, setKeyPool] = useState('1');
-
+  const [chainFee, setChainFee] = useState([{
+    icon: '/bnb.svg',
+    id: 56,
+    fee: '0'
+  }, {
+    id: 42161,
+    icon: '/arb.svg',
+    fee: '0'
+  },
+  {
+    id: 1,
+    icon: '/eth.svg',
+    fee: '0'
+  }, {
+    id: 8453,
+    icon: '/base.svg',
+    fee: '0'
+  }, {
+    id: 300,
+    icon: '/optimism.png',
+    fee: '0'
+  }]);
   //   const showDrawer = () => {
   //     setVisible(true);
   //   };
@@ -84,11 +109,11 @@ const Page = (props) => {
     setVisible(true);
   };
   const onSelectTokenCurrent = (item) => {
-    setR1({assets:[{name:item.name,icon:item.icon}]});
+    setR1({ assets: [{ name: item.name, icon: item.icon }] });
     setVisible(false);
   };
   const onSelectChainCurrent = (item) => {
-    setR2({network:[{name:item.symbol,icon:item.icon}]});
+    setR2({ network: [{ name: item.symbol, icon: item.icon }] });
     setOpenDrawer(false);
   };
   const onChange = (key: any) => {
@@ -98,63 +123,63 @@ const Page = (props) => {
     setKeyPool(key);
   };
   //   // Covalent price feed
-  let latestPrices = usePriceFeed();
+  // let latestPrices = usePriceFeed();
 
 
-  const poolData = useMemo(() => {
-    let pools = Object.keys(dashboardData);
-    let poolData = pools.map((pool, idx) => {
-      let tokens = Object.keys(dashboardData[pool]).map((token) => {
-        const temp = {
-          key: pool,
-          token: pool,
-          name: token,
-          ltv: parseFloat(dashboardData[pool][token].ltv) || 0,
-          totalSupply:
-            Math.round(
-              parseFloat(dashboardData[pool][token]?.totalSupply) * 1000,
-            ) / 1000,
-          totalBorrow:
-            Math.round(
-              parseFloat(dashboardData[pool][token]?.totalBorrow) * 1000,
-            ) / 1000,
-          supplyApr: parseFloat(dashboardData[pool][token].supplyApr) || 0,
-          borrowApr: parseFloat(dashboardData[pool][token].borrowApr) || 0,
-        };
-        return temp;
-      });
+  // const poolData = useMemo(() => {
+  //   let pools = Object.keys(dashboardData);
+  //   let poolData = pools.map((pool, idx) => {
+  //     let tokens = Object.keys(dashboardData[pool]).map((token) => {
+  //       const temp = {
+  //         key: pool,
+  //         token: pool,
+  //         name: token,
+  //         ltv: parseFloat(dashboardData[pool][token].ltv) || 0,
+  //         totalSupply:
+  //           Math.round(
+  //             parseFloat(dashboardData[pool][token]?.totalSupply) * 1000,
+  //           ) / 1000,
+  //         totalBorrow:
+  //           Math.round(
+  //             parseFloat(dashboardData[pool][token]?.totalBorrow) * 1000,
+  //           ) / 1000,
+  //         supplyApr: parseFloat(dashboardData[pool][token].supplyApr) || 0,
+  //         borrowApr: parseFloat(dashboardData[pool][token].borrowApr) || 0,
+  //       };
+  //       return temp;
+  //     });
 
-      const stats = {
-        ltv:
-          tokens.reduce((prev, token) => prev + token.ltv, 0) / tokens.length,
-        totalBorrow: tokens.reduce(
-          (prev, token) => prev + token.totalBorrow,
-          0,
-        ),
-        totalSupply: tokens.reduce(
-          (prev, token) => prev + token.totalSupply,
-          0,
-        ),
-        borrowApr:
-          tokens.reduce((prev, token) => prev + token.borrowApr, 0) /
-          tokens.length,
-        supplyApr:
-          tokens.reduce((prev, token) => prev + token.supplyApr, 0) /
-          tokens.length,
-      };
-      return {
-        key: pool,
-        icon: pool.icon,
-        name: pool,
-        tokens,
-        ...stats,
-      };
-    });
-    console.log('debug check:', tokenList, ' :', latestPrices);
+  //     const stats = {
+  //       ltv:
+  //         tokens.reduce((prev, token) => prev + token.ltv, 0) / tokens.length,
+  //       totalBorrow: tokens.reduce(
+  //         (prev, token) => prev + token.totalBorrow,
+  //         0,
+  //       ),
+  //       totalSupply: tokens.reduce(
+  //         (prev, token) => prev + token.totalSupply,
+  //         0,
+  //       ),
+  //       borrowApr:
+  //         tokens.reduce((prev, token) => prev + token.borrowApr, 0) /
+  //         tokens.length,
+  //       supplyApr:
+  //         tokens.reduce((prev, token) => prev + token.supplyApr, 0) /
+  //         tokens.length,
+  //     };
+  //     return {
+  //       key: pool,
+  //       icon: pool.icon,
+  //       name: pool,
+  //       tokens,
+  //       ...stats,
+  //     };
+  //   });
+  //   console.log('debug check:', tokenList, ' :', latestPrices);
 
-    // setPoolData(poolDataTmp)
-    return poolData;
-  }, [dashboardData, latestPrices]);
+  //   // setPoolData(poolDataTmp)
+  //   return poolData;
+  // }, [dashboardData, latestPrices]);
 
 
   //   // only expand one row at a time: https://stackoverflow.com/questions/67295603/react-and-expandedrow-render-in-ant-design
@@ -185,8 +210,155 @@ const Page = (props) => {
       'icon': '/arb.svg'
     }
   ];
+  const accounts = useAccounts()
+  const provider = useProvider()
+  useEffect(() => {
+
+    if (!getSendContractAddr(chainId)) {
+      return;
+    }
+    if (provider && accounts?.length) {
+      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
+      // setTimeout(() => {
+      //   getChainFee();
+      // }, 1000);
+
+    }
+  }, [provider, accounts])
+  const getChainFee = async () => {
+    let newData = [...chainFee]
+    await Promise.all(newData.map(async (item, index) => {
+      const chainIds: number = item.id;
+      const tx = await sendContract.chainFee(chainIds);
+      item.fee = ethers.BigNumber.from(tx).toString();
+
+    }))
+    setChainFee(data => {
+      return newData;
+    })
+  }
+  const setChainsFee = async () => {
+    // 长度对应
+    const chainIds: number[] = chainFee.map(item => item.id)
+    const fees: string[] = chainFee.map(item => item.fee)
+    debugger
+    const tx = await sendContract.batchSetChainFee(chainIds, fees.map(fee => ethers.utils.parseEther(fee)))
+    console.log(tx)
+  }
+
+  const depositToken = async () => {
+    const tx = await sendContract.depositToken(getUsdtContractAddr(chainId), ethers.utils.parseUnits('0.1', chainId == 56 ? 18 : 6));
+    console.log(tx);
+  }
+
+  const getBalance = async () => {
+    const tx = await sendContract.getBalance(getUsdtContractAddr(chainId));
+    setTokenBalance(ethers.BigNumber.from(tx).toString());
+  }
+
+  const withdrawAllTokens = async () => {
+    // 取出所有代币
+    const tx = await sendContract.withdrawAllTokens(getUsdtContractAddr(chainId));
+    console.log(tx);
+  }
+  const withdrawNative = async () => {
+    // 取出所有原生资产
+    const tx = await sendContract.withdrawNative();
+    console.log(tx);
+  }
+
+  const getDebt=async () => {
+    // 长度对应
+    const tx = await sendContract.getDebt(accounts[0], getUsdtContractAddr(chainId));
+    setDebt(ethers.BigNumber.from(tx).toString());
+  }
+  const withdrawDebt = async () => {
+    // 长度对应
+    const tx = await sendContract.withdrawDebt(getUsdtContractAddr(chainId));
+    console.log(tx)
+  }
   return (
     <div className={styles.market}>
+      <Tabs
+        defaultActiveKey="1"
+        type="card"
+        style={{
+          width: '400px',
+          border: '1px solid #1b1d23',
+          borderBottom: '0',
+          transform: 'translateY(1px)',
+          marginBottom: '4px'
+        }}
+      >
+        <TabPane tab="Setting" key="1">
+        </TabPane>
+      </Tabs>
+      <div style={{ backgroundColor: 'rgb(28, 27, 27)', padding: '15px', marginBottom: '30px' }}>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          {
+            chainFee.map((item: any, index: number) => <SettingInput
+              key={index}
+              defaultValue={item.fee}
+              onChange={(v: any) => setChainFee(data => {
+                let newData = [...data]
+                newData[index].fee = v;
+                return newData;
+              })}
+              currentToken={item.icon}
+              selectToken={() => { setVisible(true); }}
+              choose />)
+          }
+        </div>
+
+        <Button onClick={getChainFee} type='primary' className='topConnect' style={{ marginRight: '15px' }}>Get Fees</Button>
+        <Button onClick={setChainsFee} type='primary' className='topConnect'>Submit</Button>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+          <SettingInput
+            key={'1234'}
+            defaultValue={tokenBalance}
+            choose />
+
+          <Button onClick={depositToken} type='primary' className='topConnect'>DepositToken</Button>
+
+        </div>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+          <SettingInput
+            key={'123'}
+            defaultValue={depositTokenValue}
+            onChange={(v: any) => setDashboardData(v)}
+            choose />
+
+          <Button onClick={getBalance} type='primary' className='topConnect'>GetBalance</Button>
+
+        </div>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+          <Button onClick={withdrawAllTokens} type='primary' className='topConnect'>withdrawAllTokens</Button>
+          <Button onClick={withdrawNative} type='primary' className='topConnect'>withdrawNative</Button>
+        </div>
+      </div>
+      <Tabs
+        defaultActiveKey="1"
+        type="card"
+        style={{
+          width: '400px',
+          border: '1px solid #1b1d23',
+          borderBottom: '0',
+          transform: 'translateY(1px)',
+          marginBottom: '4px'
+        }}
+      >
+        <TabPane tab="Users" key="1">
+        </TabPane>
+      </Tabs>
+      <div style={{ backgroundColor: 'rgb(28, 27, 27)', padding: '15px', marginBottom: '30px' }}>
+      <Button onClick={getDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>getDebt</Button>
+    <p>debt：{debt}</p>  
+      <Button onClick={withdrawDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>withdrawDebt</Button>
+
+      
+
+      
+      </div>
       <Tabs
         defaultActiveKey="1"
         onChange={onChangePool}
@@ -299,7 +471,8 @@ const Page = (props) => {
                               dataSource={record.childData}
                               onRow={(record2) => {
                                 return {
-                                  onClick: (event) => {debugger
+                                  onClick: (event) => {
+                                    debugger
                                     setR1(record);
                                     setR2(record2);
                                     setOpen(true);

@@ -16,7 +16,8 @@ import { CHAINS } from '@/chains'
 import USDTABI from '@/abis/USDTARB.json'
 import { SEND_CONTRACT_ABI } from '@/abis/SEND'
 import { post, get } from "@/utils/http";
-import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
+import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
+import useSendContract from "@/hooks/useSendContract";
 import styles from './index.less';
 const HomePage = (props: any) => {
   const [api, contextHolder] = notification.useNotification();
@@ -69,7 +70,19 @@ const HomePage = (props: any) => {
       'id': 42161,
       'name': 'Arbitrum One',
       'icon': '/arb.svg'
-    }
+    }, {
+      'id': 1,
+      icon: '/eth.svg',
+      name: 'Ethereum',
+    }, {
+      'id': 8453,
+      icon: '/base.svg',
+      name: 'Base'
+    }, {
+      'id': 300,
+      icon: '/optimism.png',
+      name: 'Optimism',
+    },
   ];
   const chainOrg = {
     56: {
@@ -79,7 +92,19 @@ const HomePage = (props: any) => {
     42161: {
       'name': 'Arbitrum One',
       'icon': '/arb.svg'
-    }
+    },
+    1: {
+      icon: '/eth.svg',
+      name: 'Ethereum',
+    },
+    8453: {
+      icon: '/base.svg',
+      name: 'Base'
+    },
+    300: {
+      icon: '/optimism.png',
+      name: 'Optimism',
+    },
   };
   const [currentToToken, setCurrentToToken] = useState(getTokenList(null)[0]);
   const [currentToChain, setCurrentToChain] = useState(chainList[1]);
@@ -97,10 +122,14 @@ const HomePage = (props: any) => {
 
   }, [chainId]);
   useEffect(() => {
+    if (!getSendContractAddr(chainId)) {
+      return;
+    }
     if (provider && accounts?.length) {
       getTD(accounts[0]);
       // approveToken();
       checkApproval();
+
       setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
@@ -118,7 +147,6 @@ const HomePage = (props: any) => {
     switchChain(currentToChain.id)
   }
   async function approveToken() {
-    debugger;
     // 获取 MetaMask 提供的以太坊提供程序
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 

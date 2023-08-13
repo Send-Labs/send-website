@@ -61,6 +61,30 @@ export const MAINNET_CHAINS: ChainConfig = {
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://arbiscan.io/'],
   },
+  1: {
+    id:1,
+    icon:'/eth.svg',
+    urls: ['https://ethereum.publicnode.com'],
+    name: 'Ethereum',
+    nativeCurrency: ETH,
+    blockExplorerUrls: ['https://etherscan.io/'],
+  },
+  8453: {
+    id:8453,
+    icon:'/base.svg',
+    urls: ['https://base.meowrpc.com'],
+    name: 'Base',
+    nativeCurrency: ETH,
+    blockExplorerUrls: ['https://basescan.org/'],
+  },
+  300: {
+    id:300,
+    icon:'/optimism.png',
+    urls: ['https://arb1.arbitrum.io/rpc'],
+    name: 'Optimism',
+    nativeCurrency: ETH,
+    blockExplorerUrls: ['https://arbiscan.io/'],
+  },
 }
 export const CHAINS: ChainConfig = {
   ...MAINNET_CHAINS,

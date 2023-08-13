@@ -12,7 +12,7 @@ export const toBN = (num:any, decimals:any) => {
 };
 
 export const hideMiddleChars = (str: string) => {
-  if (str.length <= 10) {
+  if (!str||str.length <= 10) {
     return str;
   } else {
     const startChars = str.slice(0, 6);

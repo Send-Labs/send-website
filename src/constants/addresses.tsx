@@ -19,14 +19,14 @@ export const contractAddrs = {
 
 export const getContractAddr = (contractName) => contractAddrs[contractName];
 
-export const getUsdtContractAddr =(chainId: string | number)=>{
+export const getUsdtContractAddr =(chainId: string | number|undefined)=>{
   const contractAddr={
     56:'0x55d398326f99059fF775485246999027B3197955',
     42161:'0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9'
   }
   return contractAddr[chainId];
 }
-export const getSendContractAddr =(chainId: string | number)=>{
+export const getSendContractAddr =(chainId: string | number|undefined)=>{
   const contractAddr={
     56:'0x04fEfd2cCAD9782174Bc2aD81ba76432e06e3B5a',
     42161:'0x6Bc39f8de47fE6aBFB05f55E0F6b216c5F3cbd00'
