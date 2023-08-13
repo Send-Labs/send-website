@@ -282,9 +282,9 @@ const Page = (props) => {
     console.log(tx)
   }
   const getBl = async () => {
-    debugger
     const token = SEND_CONSTANTS?.[chainId];
-    const tx = await provider?.getSigner().getBalance(token.send_contract)
+    console.log('token', token)
+    const tx = await provider?.getBalance(token.send_contract)
     console.log('abccccccccc',tx);
   }
   return (
