@@ -73,6 +73,7 @@ const Page = (props) => {
   const [depositTokenValue, setDepositTokenValue] = useState(0);
   const [tokenBalance, setTokenBalance] = useState("");
   const [debt, setDebt] = useState("");
+  const [bl, setBl] = useState("");
 
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState('1');
@@ -273,19 +274,23 @@ const Page = (props) => {
 
   const getDebt = async () => {
     // 长度对应
-    const tx = await sendContract.getDebt(accounts[0], getUsdtContractAddr(chainId));
-    setDebt(ethers.BigNumber.from(tx).toString());
+    const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const tx = await sendContract.getDebt(accounts[0], token.address);
+    setDebt(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), token.decimals));
+
   }
   const withdrawDebt = async () => {
     // 长度对应
-    const tx = await sendContract.withdrawDebt(getUsdtContractAddr(chainId));
+    const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const tx = await sendContract.withdrawDebt(token.address);
     console.log(tx)
   }
   const getBl = async () => {
     const token = SEND_CONSTANTS?.[chainId];
     console.log('token', token)
     const tx = await provider?.getBalance(token.send_contract)
-    console.log('abccccccccc',tx);
+    setBl(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), token.decimals));
+
   }
   return (
     <div className={styles.market}>
@@ -362,7 +367,7 @@ const Page = (props) => {
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
         
-          <Button onClick={getBl} type='primary' className='topConnect'>getBl</Button>
+          <Button onClick={getBl} type='primary' className='topConnect'>getBl:{bl}</Button>
           <Button onClick={withdrawAllTokens} type='primary' className='topConnect'>withdrawAllTokens</Button>
           <Button onClick={withdrawNative} type='primary' className='topConnect'>withdrawNative</Button>
         </div>
