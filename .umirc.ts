@@ -7,6 +7,9 @@ export default {
     "@umijs/plugins/dist/qiankun",
     "@umijs/plugins/dist/model",
   ],
+  history: {
+    type: 'hash'
+  },
   // 启用本地化配置
   locale: {
     default: 'zh-CN',
@@ -16,7 +19,7 @@ export default {
     baseSeparator: '-',
   },
   theme: {
-    'primary-color':'#ff5c28',
+    'primary-color': '#ff5c28',
     'table-header-bg': '#1c1b1b',
     'table-header-color': '#ffffff',
     'table-selected-row-bg': '#1c1b1b',

@@ -267,7 +267,7 @@ const Page = (props) => {
     console.log(tx);
   }
 
-  const getDebt=async () => {
+  const getDebt = async () => {
     // 长度对应
     const tx = await sendContract.getDebt(accounts[0], getUsdtContractAddr(chainId));
     setDebt(ethers.BigNumber.from(tx).toString());
@@ -351,13 +351,13 @@ const Page = (props) => {
         </TabPane>
       </Tabs>
       <div style={{ backgroundColor: 'rgb(28, 27, 27)', padding: '15px', marginBottom: '30px' }}>
-      <Button onClick={getDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>getDebt</Button>
-    <p>debt：{debt}</p>  
-      <Button onClick={withdrawDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>withdrawDebt</Button>
+        <Button onClick={getDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>getDebt</Button>
+        <p>debt：{debt}</p>
+        <Button onClick={withdrawDebt} type='primary' className='topConnect' style={{ marginRight: '15px' }}>withdrawDebt</Button>
 
-      
 
-      
+
+
       </div>
       <Tabs
         defaultActiveKey="1"
