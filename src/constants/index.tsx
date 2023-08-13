@@ -192,3 +192,92 @@ export const getTokenByAddress = (chainId, address) => {
   const tokenList = getTokenList(chainId);
   return tokenList.find((token) => token.address == address);
 };
+
+export interface TokenInfo {
+  address: string;
+  decimals: number;
+}
+
+export const SEND_CONSTANTS: {
+  [chain_id: number]: {
+    chain_name: string;
+    send_contract: string;
+    start_block: number;
+    token: {
+      USDT?: TokenInfo;
+      USDC?: TokenInfo;
+    },
+  }
+} = {
+  1: {
+    chain_name: "ETH-Mainnet",
+    send_contract: "",
+    start_block: 0,
+    token: {
+      USDT: {
+        address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        decimals: 6
+      },
+      USDC: {
+        address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        decimals: 6
+      }
+    },
+  },
+  56: {
+    chain_name: "BSC",
+    send_contract: "0x04fEfd2cCAD9782174Bc2aD81ba76432e06e3B5a",
+    start_block: 30211876,
+    token: {
+      USDT: {
+        address: "0x55d398326f99059fF775485246999027B3197955",
+        decimals: 18
+      },
+      USDC: {
+        address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+        decimals: 18
+      }
+    },
+  },
+  42161: {
+    chain_name: "Arbitrum",
+    send_contract: "0x6Bc39f8de47fE6aBFB05f55E0F6b216c5F3cbd00",
+    start_block: 114100526,
+    token: {
+      USDT: {
+        address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+        decimals: 6
+      },
+      USDC: {
+        address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        decimals: 6
+      }
+    },
+  },
+  8453: {
+    chain_name: "Base",
+    send_contract: "",
+    start_block: 0,
+    token: {
+      USDC: {
+        address: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+        decimals: 6
+      }
+    }
+  },
+  10: {
+    chain_name: "Optimism",
+    send_contract: "",
+    start_block: 0,
+    token: {
+      USDT: {
+        address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
+        decimals: 6
+      },
+      USDC: {
+        address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+        decimals: 6
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ import {
   Drawer,
   Modal,
   Button,
+  Select,
 } from 'antd';
 import { getNetworks, getTokenList, pools, getToken } from '@/constants';
 // import usePriceFeed from '@/components/Covalent';
@@ -40,6 +41,7 @@ import { SEND_CONTRACT_ABI } from '@/abis/SEND'
 import { hooks, metaMask } from '../../connectors/metaMask'
 import { Card } from './Card'
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
+import { SEND_CONSTANTS } from "@/constants";
 import SettingInput from '@/components/SettingInput';
 const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
 
@@ -75,6 +77,7 @@ const Page = (props) => {
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState('1');
   const [keyPool, setKeyPool] = useState('1');
+  const [chooseDT, setChooseDT] = useState('USDT');
   const [chainFee, setChainFee] = useState([{
     icon: '/bnb.svg',
     id: 56,
@@ -247,12 +250,13 @@ const Page = (props) => {
   }
 
   const depositToken = async () => {
-    const tx = await sendContract.depositToken(getUsdtContractAddr(chainId), ethers.utils.parseUnits('0.1', chainId == 56 ? 18 : 6));
+    const tx = await sendContract.depositToken(getUsdtContractAddr(chainId), ethers.utils.parseUnits(depositTokenValue, chainId == 56 ? 18 : 6));
     console.log(tx);
   }
 
   const getBalance = async () => {
-    const tx = await sendContract.getBalance(getUsdtContractAddr(chainId));
+    const token=SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const tx = await sendContract.getBalance(token?.address);
     setTokenBalance(ethers.BigNumber.from(tx).toString());
   }
 
@@ -315,16 +319,31 @@ const Page = (props) => {
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
           <SettingInput
             key={'1234'}
-            defaultValue={tokenBalance}
+            defaultValue={depositTokenValue}
             choose />
 
           <Button onClick={depositToken} type='primary' className='topConnect'>DepositToken</Button>
 
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+        <Select
+      defaultValue="USDT"
+      style={{ width: 120 }}
+      onChange={(v)=>setChooseDT(v)}
+      options={[
+        {
+          value: 'USDT',
+          label: 'USDT',
+        },
+        {
+          value: 'USDC',
+          label: 'USDC',
+        }
+      ]}
+    />
           <SettingInput
             key={'123'}
-            defaultValue={depositTokenValue}
+            defaultValue={tokenBalance}
             onChange={(v: any) => setDashboardData(v)}
             choose />
 
