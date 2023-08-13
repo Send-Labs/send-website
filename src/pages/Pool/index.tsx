@@ -38,9 +38,9 @@ import {
 import styles from './index.less';
 import MarketDashboard from '@/components/KpMarketDashboard';
 import { SEND_CONTRACT_ABI } from '@/abis/SEND'
+import { ERC20_ABI } from '@/abis/ERC20_ABI';
 import { hooks, metaMask } from '../../connectors/metaMask'
 import { Card } from './Card'
-import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
 import { SEND_CONSTANTS } from "@/constants";
 import SettingInput from '@/components/SettingInput';
 const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
@@ -218,11 +218,12 @@ const Page = (props) => {
   const provider = useProvider()
   useEffect(() => {
 
-    if (!getSendContractAddr(chainId)) {
+    if (!SEND_CONSTANTS[chainId].send_contract) {
       return;
     }
+
     if (provider && accounts?.length) {
-      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
+      setSendContract(new ethers.Contract(SEND_CONSTANTS[chainId].send_contract, SEND_CONTRACT_ABI, provider?.getSigner()));
       // setTimeout(() => {
       //   getChainFee();
       // }, 1000);
@@ -243,7 +244,6 @@ const Page = (props) => {
     // 长度对应
     const chainIds: number[] = chainFee.map(item => item.id)
     const fees: string[] = chainFee.map(item => item.fee)
-    debugger
     const tx = await sendContract.batchSetChainFee(chainIds, fees.map(fee => ethers.utils.parseEther(fee)))
     console.log(tx)
   }
@@ -264,7 +264,8 @@ const Page = (props) => {
 
   const withdrawAllTokens = async () => {
     // 取出所有代币
-    const tx = await sendContract.withdrawAllTokens(getUsdtContractAddr(chainId));
+    const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const tx = await sendContract.withdrawAllTokens(token.address);
     console.log(tx);
   }
   const withdrawNative = async () => {
@@ -295,27 +296,26 @@ const Page = (props) => {
   }
 
   async function approveToken() {
-    const token = SEND_CONSTANTS?.[chainId];
+    const chain_setting = SEND_CONSTANTS?.[chainId];
     // 获取 MetaMask 提供的以太坊提供程序
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     // 代币合约地址和目标地址
-    const tokenContractAddress = token?.[chooseDT]?.address;
-    const targetAddress = token.send_contract;
+    const tokenContractAddress = chain_setting?.token?.[chooseDT]?.address;
+    const targetAddress = chain_setting.send_contract;
 
     // 获取当前 MetaMask 账户
     const signer = provider.getSigner();
     const walletAddress = await signer.getAddress();
 
     // 创建代币合约实例
-    const tokenContract = new ethers.Contract(tokenContractAddress, USDTABI, signer);
-    debugger
+    console.log('token address', tokenContractAddress)
+    const tokenContract = new ethers.Contract(tokenContractAddress, ERC20_ABI, signer);
     // 构建 approve 函数的交易对象
     const approveTx = await tokenContract.approve(targetAddress, ethers.constants.MaxUint256);
 
     // 发送交易并等待确认
     const approveTxResponse = await approveTx.wait();
-    setAllowance(0.1);
     console.log('Transaction hash:', approveTxResponse.transactionHash);
     console.log('Transaction receipt:', approveTxResponse);
   }

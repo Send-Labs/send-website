@@ -274,7 +274,7 @@ const HomePage = (props: any) => {
           title="Recipient Address"
           choose />
         {/* <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => { */}
-        <Button disabled onClick={async () => {
+        <Button onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -286,7 +286,9 @@ const HomePage = (props: any) => {
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
-            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6))
+            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6),{
+              // value: ethers.utils.parseUnits("0.00006", 18)
+            })
             .then(async (tx: ethers.providers.TransactionResponse) => {
               // messageApi.success('Send SuccessFul!')
               const result = await tx.wait();

@@ -64,7 +64,7 @@ export const MAINNET_CHAINS: ChainConfig = {
   1: {
     id:1,
     icon:'/eth.svg',
-    urls: ['https://ethereum.publicnode.com'],
+    urls: ['https://mainnet.infura.io/v3/'],
     name: 'Ethereum',
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://etherscan.io/'],
@@ -72,18 +72,18 @@ export const MAINNET_CHAINS: ChainConfig = {
   8453: {
     id:8453,
     icon:'/base.svg',
-    urls: ['https://base.meowrpc.com'],
+    urls: ['https://mainnet.base.org'],
     name: 'Base',
     nativeCurrency: ETH,
     blockExplorerUrls: ['https://basescan.org/'],
   },
-  300: {
-    id:300,
+  10: {
+    id:10,
     icon:'/optimism.png',
-    urls: ['https://arb1.arbitrum.io/rpc'],
+    urls: ['https://mainnet.optimism.io'],
     name: 'Optimism',
     nativeCurrency: ETH,
-    blockExplorerUrls: ['https://arbiscan.io/'],
+    blockExplorerUrls: ['https://optimistic.etherscan.io/'],
   },
 }
 export const CHAINS: ChainConfig = {
