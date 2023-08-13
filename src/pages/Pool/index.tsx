@@ -225,7 +225,6 @@ const Page = (props) => {
       // setTimeout(() => {
       //   getChainFee();
       // }, 1000);
-
     }
   }, [provider, accounts])
   const getChainFee = async () => {
@@ -250,14 +249,15 @@ const Page = (props) => {
   }
 
   const depositToken = async () => {
-    const tx = await sendContract.depositToken(getUsdtContractAddr(chainId), ethers.utils.parseUnits(depositTokenValue, chainId == 56 ? 18 : 6));
+    const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const tx = await sendContract.depositToken(token?.address, ethers.utils.parseUnits(depositTokenValue, chainId == 56 ? 18 : 6));
     console.log(tx);
   }
 
   const getBalance = async () => {
-    const token=SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+    const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
     const tx = await sendContract.getBalance(token?.address);
-    setTokenBalance(ethers.BigNumber.from(tx).toString());
+    setTokenBalance(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), token.decimals));
   }
 
   const withdrawAllTokens = async () => {
@@ -280,6 +280,12 @@ const Page = (props) => {
     // 长度对应
     const tx = await sendContract.withdrawDebt(getUsdtContractAddr(chainId));
     console.log(tx)
+  }
+  const getBl = async () => {
+    debugger
+    const token = SEND_CONSTANTS?.[chainId];
+    const tx = await provider?.getSigner().getBalance(token.send_contract)
+    console.log('abccccccccc',tx);
   }
   return (
     <div className={styles.market}>
@@ -317,6 +323,24 @@ const Page = (props) => {
         <Button onClick={getChainFee} type='primary' className='topConnect' style={{ marginRight: '15px' }}>Get Fees</Button>
         <Button onClick={setChainsFee} type='primary' className='topConnect'>Submit</Button>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+          <Select
+            defaultValue="USDT"
+            style={{ width: 120 }}
+            onChange={(v) => setChooseDT(v)}
+            options={[
+              {
+                value: 'USDT',
+                label: 'USDT',
+              },
+              {
+                value: 'USDC',
+                label: 'USDC',
+              }
+            ]}
+          />
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
           <SettingInput
             key={'1234'}
             defaultValue={depositTokenValue}
@@ -326,21 +350,7 @@ const Page = (props) => {
 
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-        <Select
-      defaultValue="USDT"
-      style={{ width: 120 }}
-      onChange={(v)=>setChooseDT(v)}
-      options={[
-        {
-          value: 'USDT',
-          label: 'USDT',
-        },
-        {
-          value: 'USDC',
-          label: 'USDC',
-        }
-      ]}
-    />
+
           <SettingInput
             key={'123'}
             defaultValue={tokenBalance}
@@ -351,6 +361,8 @@ const Page = (props) => {
 
         </div>
         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+        
+          <Button onClick={getBl} type='primary' className='topConnect'>getBl</Button>
           <Button onClick={withdrawAllTokens} type='primary' className='topConnect'>withdrawAllTokens</Button>
           <Button onClick={withdrawNative} type='primary' className='topConnect'>withdrawNative</Button>
         </div>

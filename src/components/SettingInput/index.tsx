@@ -20,7 +20,6 @@ export default function (props: any) {
         onChange(maxValue);
     }
     useEffect(() => {
-        debugger
         setValue(defaultValue);
     }, [defaultValue])
     return <div className='text-gray-4 flex flex-column gap-2' >
