@@ -250,7 +250,9 @@ const Page = (props) => {
 
   const depositToken = async () => {
     const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
-    const tx = await sendContract.depositToken(token?.address, ethers.utils.parseUnits(depositTokenValue, chainId == 56 ? 18 : 6));
+    console.log('token', token)
+    console.log('depositValue', depositTokenValue)
+    const tx = await sendContract.depositToken(token?.address, ethers.utils.parseUnits('' + depositTokenValue, token.decimals));
     console.log(tx);
   }
 
@@ -348,6 +350,7 @@ const Page = (props) => {
           <SettingInput
             key={'1234'}
             defaultValue={depositTokenValue}
+            onChange={(v) => setDepositTokenValue(v)}
             choose />
 
           <Button onClick={depositToken} type='primary' className='topConnect'>DepositToken</Button>
