@@ -233,8 +233,7 @@ const Page = (props) => {
     await Promise.all(newData.map(async (item, index) => {
       const chainIds: number = item.id;
       const tx = await sendContract.chainFee(chainIds);
-      item.fee = ethers.BigNumber.from(tx).toString();
-
+      item.fee = ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(),18)
     }))
     setChainFee(data => {
       return newData;
