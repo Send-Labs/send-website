@@ -15,6 +15,7 @@ import { Contract } from '@ethersproject/contracts';
 import { CHAINS } from '@/chains'
 import USDTABI from '@/abis/USDTARB.json'
 import { SEND_CONTRACT_ABI } from '@/abis/SEND'
+import Decimal from 'decimal.js';
 import { post, get } from "@/utils/http";
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
 import useSendContract from "@/hooks/useSendContract";
@@ -218,7 +219,7 @@ const HomePage = (props: any) => {
       {contextHolder}
       <div className='flex flex-column gap-4' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
-          <span>Mode</span>
+          <span>Mode{currentFromToken.name}</span>
 
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
@@ -274,7 +275,7 @@ const HomePage = (props: any) => {
           title="Recipient Address"
           choose />
         {/* <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => { */}
-        <Button onClick={async () => {
+        <Button disabled onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -282,13 +283,37 @@ const HomePage = (props: any) => {
             approveToken();
             return;
           }
+          const chainList = [{
+            id: currentFromChain.id,
+            fee: 0
+          }, {
+            id: currentToChain.id,
+            fee: 0
+          }]
+          // getfees
+
+          let allFees = new Decimal('0');
+          await Promise.all(chainList.map(async (item, index) => {
+            const chainIds: number = item.id;
+            const tx = await sendContract.chainFee(chainIds);
+            const num = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18) / 10);
+            // allFees.plus(num)
+            
+            // const num2 = new Decimal('0.2');
+
+            // 进行高精度加法计算
+            allFees = allFees.plus(num);
+            // console.log('aaaa',result.toString());
+          }))
+          debugger;
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
+          console.log(allFees.toString())
           sendContract.sendToken(currentToChain.id,
             getUsdtContractAddr(chainId),
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
-            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6),{
-              // value: ethers.utils.parseUnits("0.00006", 18)
-            })
+            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6), {
+            value: ethers.utils.parseUnits(allFees.toString(), 18)
+          })
             .then(async (tx: ethers.providers.TransactionResponse) => {
               // messageApi.success('Send SuccessFul!')
               const result = await tx.wait();
