@@ -269,7 +269,7 @@ const Page = (props) => {
       token?.address,
       ethers.utils.parseUnits("" + depositTokenValue, token.decimals),
       {
-        gasLimit: chainId === 1 ? "60000" : "1000000"
+        gasLimit: chainId === 1 ? "100000" : "2000000"
       }
     );
     console.log(tx);
