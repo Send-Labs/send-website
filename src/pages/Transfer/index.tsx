@@ -289,9 +289,11 @@ const HomePage = (props: any) => {
           // getfees
 
           let allFees = new Decimal('0');
+          let targetFees;
           await Promise.all(chainList.map(async (item, index) => {
             const chainIds: number = item.id;
             const tx = await sendContract.chainFee(chainIds);
+            const oldNum=new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18));
             const num = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18) / 10);
             // allFees.plus(num)
             
@@ -299,10 +301,14 @@ const HomePage = (props: any) => {
 
             // 进行高精度加法计算
             allFees = allFees.plus(num);
+            if(index==1){
+              allFees = allFees.plus(oldNum);
+            }
             // console.log('aaaa',result.toString());
           }))
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           console.log(allFees.toString())
+          allFees
           sendContract.sendToken(currentToChain.id,
             SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address,
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
