@@ -141,7 +141,6 @@ const HomePage = (props: any) => {
     }
   }, [provider, accounts,currentFromToken])
   const handleSwitchChain = () => {
-    debugger;
     setCurrentFromChain(currentToChain);
     setCurrentToChain(currentFromChain);
     switchChain(currentToChain.id)
@@ -302,7 +301,6 @@ const HomePage = (props: any) => {
             allFees = allFees.plus(num);
             // console.log('aaaa',result.toString());
           }))
-          debugger;
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           console.log(allFees.toString())
           sendContract.sendToken(currentToChain.id,

@@ -536,7 +536,6 @@ const Page = (props) => {
                               onRow={(record2) => {
                                 return {
                                   onClick: (event) => {
-                                    debugger
                                     setR1(record);
                                     setR2(record2);
                                     setOpen(true);
