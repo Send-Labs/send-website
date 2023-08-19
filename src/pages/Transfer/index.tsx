@@ -120,18 +120,28 @@ const HomePage = (props: any) => {
     setCurrentFromChain(CHAINS[chainId || 56]);
     // setValue('');
     setValueAddress(accounts && accounts[0] || '');
+    // chainId==8453&& setCurrentFromToken(getTokenList(null)[1])
   }, [chainId]);
+  useEffect(()=>{
+    if(chainId==8453){
+      setCurrentFromToken(getTokenList(null)[1])
+      setCurrentToToken(getTokenList(null)[1])
+    }
+  })
   useEffect(() => {
     if (!SEND_CONSTANTS?.[chainId]?.send_contract) {
+      return;
+    }
+    if(!SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name]?.address){
       return;
     }
     if (provider && accounts?.length) {
       getTD(accounts[0]);
       // approveToken();
       checkApproval();
-
+   
       setSendContract(new ethers.Contract(SEND_CONSTANTS?.[chainId]?.send_contract, SEND_CONTRACT_ABI, provider?.getSigner()));
-      const usdtContract = new ethers.Contract(SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address, USDTABI, provider);
+      const usdtContract = new ethers.Contract(SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name]?.address, USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
         const formatBalance = ethers.utils.formatUnits(balance, chainId == 56 ? 18 : 6) * 1;
         setBalance(formatBalance.toFixed(6));
@@ -215,7 +225,7 @@ const HomePage = (props: any) => {
       {contextHolder}
       <div className='flex flex-column gap-4' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
-          <span>Mode{currentFromToken.name}</span>
+          <span>Mode</span>
 
           {/* 先隐藏 */}
           {/* <div style={{ cursor: 'pointer' }} onClick={() => setVisibleSetting(true)}><SettingOutlined /></div> */}
@@ -365,7 +375,20 @@ const HomePage = (props: any) => {
           <hr />
 
           <div className={styles.tokenlist}>
-            {getTokenList(null).map((item) => (
+            {chainId==8453&& getTokenList(null).map((item) => (
+              <div
+                className={styles.item}
+                onClick={() => onSelectTokenCurrent(item)}
+              >
+                <div>
+                  <img src={item.icon} style={{ marginRight: '15px' }} />
+                  <p>{item.name}</p>
+                </div>
+                <div>
+                  <p>0</p>
+                </div>
+              </div>
+            ))||getTokenList(null).filter(item=>item.name!="USDT").map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}
