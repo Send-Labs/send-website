@@ -2,7 +2,7 @@ import { connect } from 'umi';
 import { useEffect, useState, useContext } from 'react';
 import TokenInput from '@/components/TokenInput';
 import { SettingOutlined, ArrowDownOutlined, InfoCircleOutlined, CloseOutlined, SmileOutlined, FileDoneOutlined } from '@ant-design/icons';
-import { getTokenList } from '@/constants';
+import { SEND_CONSTANTS, getTokenList } from '@/constants';
 import { Button, Drawer, Tooltip, Input, Switch, Modal, Table, Tag, Space, message, notification } from 'antd';
 import ButtonGroup from '@/components/SendButtonGroup';
 import { hooks } from '@/connectors/metaMask'
@@ -120,10 +120,9 @@ const HomePage = (props: any) => {
     setCurrentFromChain(CHAINS[chainId || 56]);
     // setValue('');
     setValueAddress(accounts && accounts[0] || '');
-
   }, [chainId]);
   useEffect(() => {
-    if (!getSendContractAddr(chainId)) {
+    if (!SEND_CONSTANTS?.[chainId]?.send_contract) {
       return;
     }
     if (provider && accounts?.length) {
@@ -131,8 +130,8 @@ const HomePage = (props: any) => {
       // approveToken();
       checkApproval();
 
-      setSendContract(new ethers.Contract(getSendContractAddr(chainId), SEND_CONTRACT_ABI, provider?.getSigner()));
-      const usdtContract = new ethers.Contract(getUsdtContractAddr(chainId), USDTABI, provider);
+      setSendContract(new ethers.Contract(SEND_CONSTANTS?.[chainId]?.send_contract, SEND_CONTRACT_ABI, provider?.getSigner()));
+      const usdtContract = new ethers.Contract(SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address, USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
         const formatBalance = ethers.utils.formatUnits(balance, chainId == 56 ? 18 : 6) * 1;
         setBalance(formatBalance.toFixed(6));
@@ -140,7 +139,7 @@ const HomePage = (props: any) => {
         console.error('Failed to fetch USDT balance:', error);
       });
     }
-  }, [provider, accounts])
+  }, [provider, accounts,currentFromToken])
   const handleSwitchChain = () => {
     debugger;
     setCurrentFromChain(currentToChain);
@@ -152,16 +151,14 @@ const HomePage = (props: any) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     // 代币合约地址和目标地址
-    const tokenContractAddress = getUsdtContractAddr(chainId);
-    const targetAddress = getSendContractAddr(chainId);
+    const tokenContractAddress = SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address;
+    const targetAddress = SEND_CONSTANTS?.[chainId]?.send_contract;
 
     // 获取当前 MetaMask 账户
     const signer = provider.getSigner();
     const walletAddress = await signer.getAddress();
-
     // 创建代币合约实例
     const tokenContract = new ethers.Contract(tokenContractAddress, USDTABI, signer);
-    debugger
     // 构建 approve 函数的交易对象
     const approveTx = await tokenContract.approve(targetAddress, ethers.constants.MaxUint256);
 
@@ -176,8 +173,8 @@ const HomePage = (props: any) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     // 设置要查询的地址和代币合约地址
     const ownerAddress = accounts[0];
-    const spenderAddress = getSendContractAddr(chainId);
-    const tokenContractAddress = getUsdtContractAddr(chainId);
+    const spenderAddress = SEND_CONSTANTS?.[chainId]?.send_contract;
+    const tokenContractAddress = SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address;
 
 
     // 创建代币合约实例
@@ -274,8 +271,8 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        {/* <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => { */}
-        <Button disabled onClick={async () => {
+        <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => {
+        // <Button disabled onClick={async () => {
           if (!chainId) {
             return;
           }
@@ -309,7 +306,7 @@ const HomePage = (props: any) => {
           // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
           console.log(allFees.toString())
           sendContract.sendToken(currentToChain.id,
-            getUsdtContractAddr(chainId),
+            SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address,
             valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
             ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6), {
             value: ethers.utils.parseUnits(allFees.toString(), 18)
