@@ -98,7 +98,7 @@ const Page = (props) => {
       fee: "0",
     },
     {
-      id: 300,
+      id: 10,
       icon: "/optimism.png",
       fee: "0",
     },
