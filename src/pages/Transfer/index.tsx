@@ -375,7 +375,7 @@ const HomePage = (props: any) => {
           <hr />
 
           <div className={styles.tokenlist}>
-            {chainId==8453&& getTokenList(null).map((item) => (
+            {chainId!=8453&& getTokenList(null).map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}
