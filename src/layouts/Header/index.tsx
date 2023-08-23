@@ -112,7 +112,7 @@ import { connect } from 'umi';
 
       </div>
       <Modal width={1000} open={historyOpen} onCancel={() => setHistoryOpen(false)} footer={null} closeIcon={<CloseOutlined style={{ color: '#fff' }} />}>
-        <Table pagination={false} columns={columns} dataSource={props.history.data?.sort((a, b) => b.id - a.id)} />
+        <Table columns={columns} dataSource={props.history.data?.sort((a, b) => b.id - a.id)} />
       </Modal>
     </header >
   )
