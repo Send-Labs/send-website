@@ -10,6 +10,7 @@ import { hooks } from '@/connectors/metaMask'
 import MetaMaskCard from "../MetaMaskCard";
 import { hideMiddleChars } from "@/utils";
 import { getBlockExplorerUrls } from "@/constants/addresses";
+import { MAINNET_CHAINS } from "@/chains";
 import './index.less'
 import { connect } from 'umi';
 
@@ -58,13 +59,13 @@ import { connect } from 'umi';
       title: 'From',
       dataIndex: 'from',
       key: 'from',
-      render: (text:string,data:any) => <a target='_black' href={getBlockExplorerUrls(text)+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      render: (text:string,data:any) => <a target='_black' href={MAINNET_CHAINS[text]?.blockExplorerUrls[0]+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'To',
       dataIndex: 'to',
       key: 'to',
-      render: (text:string,data:any) =>  <a target='_black' href={`${getBlockExplorerUrls(text)}address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={text=="56"&&"/bnb.svg"||"/arb.svg"}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      render: (text:string,data:any) =>  <a target='_black' href={`${MAINNET_CHAINS[text]?.blockExplorerUrls[0]}address/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'Value',

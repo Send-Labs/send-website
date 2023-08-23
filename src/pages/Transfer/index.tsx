@@ -80,7 +80,7 @@ const HomePage = (props: any) => {
       icon: '/base.svg',
       name: 'Base'
     }, {
-      'id': 300,
+      'id': 10,
       icon: '/optimism.png',
       name: 'Optimism',
     },
@@ -102,7 +102,7 @@ const HomePage = (props: any) => {
       icon: '/base.svg',
       name: 'Base'
     },
-    300: {
+    10: {
       icon: '/optimism.png',
       name: 'Optimism',
     },
@@ -203,7 +203,7 @@ const HomePage = (props: any) => {
       "fromScan": hash,
       "to": currentToChain.id,
       "toScan": valueAddress,
-      "token": "USDT",
+      "token": currentFromChain.name,
       "amount": value,
       "mode": "1",
       "status": "1"
@@ -213,7 +213,7 @@ const HomePage = (props: any) => {
   }
   // 查询
   const getTD = async (address: string) => {
-    const result = await get('/api/transferHistory?address=' + address);
+    const result = await get('/api/transferHistory?address=0x08bf2999c67a807fd1708670e4c48ada46aabac5');
     const { dispatch } = props;
     dispatch({
       type: 'history/updateData',

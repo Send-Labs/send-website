@@ -37,6 +37,9 @@ export const getBlockExplorerUrls =(chainId:number)=>{
   const contractAddr={
     56:'https://bscscan.com/',
     42161: 'https://arbiscan.io/',
+    1: 'https://etherscan.io/',
+    8453: 'https://basescan.org/',
+    10: 'https://optimistic.etherscan.io/',
   }
   return contractAddr[chainId];
 }
