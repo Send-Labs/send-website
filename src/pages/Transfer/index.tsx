@@ -20,6 +20,17 @@ import { post, get } from "@/utils/http";
 import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses';
 import useSendContract from "@/hooks/useSendContract";
 import styles from './index.less';
+
+// 定义一个防抖函数
+function debounce(fn, delay) {
+  let timeout;
+  return function () {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      fn.apply(this, arguments)
+    }, delay)
+  }
+}
 const HomePage = (props: any) => {
   const [api, contextHolder] = notification.useNotification();
   const { useChainId, useAccounts, useIsActivating, useIsActive, useProvider, useENSNames } = hooks
@@ -122,8 +133,8 @@ const HomePage = (props: any) => {
     setValueAddress(accounts && accounts[0] || '');
     // chainId==8453&& setCurrentFromToken(getTokenList(null)[1])
   }, [chainId]);
-  useEffect(()=>{
-    if(chainId==8453){
+  useEffect(() => {
+    if (chainId == 8453) {
       setCurrentFromToken(getTokenList(null)[1])
       setCurrentToToken(getTokenList(null)[1])
     }
@@ -132,14 +143,14 @@ const HomePage = (props: any) => {
     if (!SEND_CONSTANTS?.[chainId]?.send_contract) {
       return;
     }
-    if(!SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name]?.address){
+    if (!SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name]?.address) {
       return;
     }
     if (provider && accounts?.length) {
       getTD(accounts[0]);
       // approveToken();
       checkApproval();
-   
+
       setSendContract(new ethers.Contract(SEND_CONSTANTS?.[chainId]?.send_contract, SEND_CONTRACT_ABI, provider?.getSigner()));
       const usdtContract = new ethers.Contract(SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name]?.address, USDTABI, provider);
       usdtContract.balanceOf(accounts[0]).then(balance => {
@@ -149,7 +160,7 @@ const HomePage = (props: any) => {
         console.error('Failed to fetch USDT balance:', error);
       });
     }
-  }, [provider, accounts,currentFromToken])
+  }, [provider, accounts, currentFromToken])
   const handleSwitchChain = () => {
     setCurrentFromChain(currentToChain);
     setCurrentToChain(currentFromChain);
@@ -213,7 +224,7 @@ const HomePage = (props: any) => {
   }
   // 查询
   const getTD = async (address: string) => {
-    const result = await get('/api/transferHistory?address=0x08bf2999c67a807fd1708670e4c48ada46aabac5');
+    const result = await get('/api/transferHistory?address='+address);
     const { dispatch } = props;
     dispatch({
       type: 'history/updateData',
@@ -280,75 +291,77 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={async () => {
-        // <Button disabled onClick={async () => {
-          if (!chainId) {
-            return;
-          }
-          if (allowance == 0) {
-            approveToken();
-            return;
-          }
-          const chainList = [{
-            id: currentFromChain.id,
-            fee: 0
-          }, {
-            id: currentToChain.id,
-            fee: 0
-          }]
-          // getfees
-
-          let allFees = new Decimal('0');
-          let targetFees;
-          await Promise.all(chainList.map(async (item, index) => {
-            const chainIds: number = item.id;
-            const tx = await sendContract.chainFee(chainIds);
-            const oldNum=new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18));
-            const num = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18) / 10);
-            // allFees.plus(num)
-            
-            // const num2 = new Decimal('0.2');
-
-            // 进行高精度加法计算
-            allFees = allFees.plus(num);
-            if(index==1){
-              allFees = allFees.plus(oldNum);
-            }
-            // console.log('aaaa',result.toString());
-          }))
-          // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
-          console.log(allFees.toString())
-          allFees
-          sendContract.sendToken(currentToChain.id,
-            SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address,
-            valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
-            ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6), {
-            value: ethers.utils.parseUnits(allFees.toString(), 18)
-          })
-            .then(async (tx: ethers.providers.TransactionResponse) => {
-              // messageApi.success('Send SuccessFul!')
-              const result = await tx.wait();
-              console.log('sendResult', result);
-              if (result.status == 1) {
-                saveTD(result.transactionHash);
-                api.info({
-                  icon: <FileDoneOutlined />,
-                  message: 'Done',
-                  description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <img src={chainOrg[currentToChain.id]?.icon} style={{ width: '24px' }} />
-                      <p style={{ margin: 0 }}>{chainOrg[currentToChain.id]?.name}</p>
-                      <ViewIcon width={24} fill='#fff' />
-                    </div>
-                  </a>,
-                  placement: 'topRight',
-                  duration: 30
-                });
+        <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={
+          debounce(
+            async () => {
+              // <Button disabled onClick={async () => {
+              if (!chainId) {
+                return;
               }
-            }).catch(err => { });
-          //  const result=await 
-          //   console.log(result);
-        }} style={{ overflow: 'hidden', textOverflow: 'ellipsis', borderRadius: '30px', padding: '8px 26px', height: 'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
+              if (allowance == 0) {
+                approveToken();
+                return;
+              }
+              const chainList = [{
+                id: currentFromChain.id,
+                fee: 0
+              }, {
+                id: currentToChain.id,
+                fee: 0
+              }]
+              // getfees
+
+              let allFees = new Decimal('0');
+              let targetFees;
+              await Promise.all(chainList.map(async (item, index) => {
+                const chainIds: number = item.id;
+                const tx = await sendContract.chainFee(chainIds);
+                const oldNum = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18));
+                const num = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18) / 10);
+                // allFees.plus(num)
+
+                // const num2 = new Decimal('0.2');
+
+                // 进行高精度加法计算
+                allFees = allFees.plus(num);
+                if (index == 1) {
+                  allFees = allFees.plus(oldNum);
+                }
+                // console.log('aaaa',result.toString());
+              }))
+              // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
+              console.log(allFees.toString())
+              allFees
+              sendContract.sendToken(currentToChain.id,
+                SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address,
+                valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
+                ethers.utils.parseUnits(value, chainId == 56 ? 18 : 6), {
+                value: ethers.utils.parseUnits(allFees.toString(), 18)
+              })
+                .then(async (tx: ethers.providers.TransactionResponse) => {
+                  // messageApi.success('Send SuccessFul!')
+                  const result = await tx.wait();
+                  console.log('sendResult', result);
+                  if (result.status == 1) {
+                    saveTD(result.transactionHash);
+                    api.info({
+                      icon: <FileDoneOutlined />,
+                      message: 'Done',
+                      description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <img src={chainOrg[currentToChain.id]?.icon} style={{ width: '24px' }} />
+                          <p style={{ margin: 0 }}>{chainOrg[currentToChain.id]?.name}</p>
+                          <ViewIcon width={24} fill='#fff' />
+                        </div>
+                      </a>,
+                      placement: 'topRight',
+                      duration: 30
+                    });
+                  }
+                }).catch(err => { });
+              //  const result=await 
+              //   console.log(result);
+            }, 500)} style={{ overflow: 'hidden', textOverflow: 'ellipsis', borderRadius: '30px', padding: '8px 26px', height: 'auto' }} type='primary'>{chainId && (allowance == 0 && 'Approve' || 'Confirm') || 'Connect Wallet'}</Button>
 
         {/* <Button onClick={async () => {
           sendContract.withdrawAllTokens();
@@ -375,7 +388,7 @@ const HomePage = (props: any) => {
           <hr />
 
           <div className={styles.tokenlist}>
-            {chainId!=8453&& getTokenList(null).map((item) => (
+            {chainId != 8453 && getTokenList(null).map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}
@@ -388,7 +401,7 @@ const HomePage = (props: any) => {
                   <p>0</p>
                 </div>
               </div>
-            ))||getTokenList(null).filter(item=>item.name!="USDT").map((item) => (
+            )) || getTokenList(null).filter(item => item.name != "USDT").map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}

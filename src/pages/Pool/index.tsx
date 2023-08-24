@@ -45,6 +45,40 @@ const {
 
 const { TabPane } = Tabs;
 
+function ValueOf({chainId, chooseDT}:any) {
+  const [result, setResult] = useState('');
+
+  useEffect(() => {
+    async function fetchData() {
+      const provider = new ethers.providers.JsonRpcProvider(SEND_CONSTANTS[chainId]?.provider_url);
+      console.log('SEND_CONSTANTS',SEND_CONSTANTS)
+      const contractAddress = SEND_CONSTANTS[chainId]?.send_contract;
+      console.log('contractAddress',contractAddress,chainId)
+
+      const sendContract = new ethers.Contract(contractAddress, SEND_CONTRACT_ABI, provider);
+
+      try {
+        const token = SEND_CONSTANTS?.[chainId]?.token?.[chooseDT];
+        const tx = await sendContract.getBalance(token?.address);
+        setResult(ethers.utils.formatUnits(
+          ethers.BigNumber.from(tx).toString(),
+          token.decimals
+        ));
+      } catch (error) {
+        console.error('Error calling contract function:', error);
+      }
+    }
+
+    fetchData();
+  }, []); // 空数组表示仅在组件挂载和卸载时执行一次
+
+  return (
+    <span>
+      {result}
+    </span>
+  );
+}
+
 const Page = (props) => {
   const chainId = useChainId();
 
@@ -128,63 +162,7 @@ const Page = (props) => {
   const onChangePool = (key: any) => {
     setKeyPool(key);
   };
-  //   // Covalent price feed
-  // let latestPrices = usePriceFeed();
 
-  // const poolData = useMemo(() => {
-  //   let pools = Object.keys(dashboardData);
-  //   let poolData = pools.map((pool, idx) => {
-  //     let tokens = Object.keys(dashboardData[pool]).map((token) => {
-  //       const temp = {
-  //         key: pool,
-  //         token: pool,
-  //         name: token,
-  //         ltv: parseFloat(dashboardData[pool][token].ltv) || 0,
-  //         totalSupply:
-  //           Math.round(
-  //             parseFloat(dashboardData[pool][token]?.totalSupply) * 1000,
-  //           ) / 1000,
-  //         totalBorrow:
-  //           Math.round(
-  //             parseFloat(dashboardData[pool][token]?.totalBorrow) * 1000,
-  //           ) / 1000,
-  //         supplyApr: parseFloat(dashboardData[pool][token].supplyApr) || 0,
-  //         borrowApr: parseFloat(dashboardData[pool][token].borrowApr) || 0,
-  //       };
-  //       return temp;
-  //     });
-
-  //     const stats = {
-  //       ltv:
-  //         tokens.reduce((prev, token) => prev + token.ltv, 0) / tokens.length,
-  //       totalBorrow: tokens.reduce(
-  //         (prev, token) => prev + token.totalBorrow,
-  //         0,
-  //       ),
-  //       totalSupply: tokens.reduce(
-  //         (prev, token) => prev + token.totalSupply,
-  //         0,
-  //       ),
-  //       borrowApr:
-  //         tokens.reduce((prev, token) => prev + token.borrowApr, 0) /
-  //         tokens.length,
-  //       supplyApr:
-  //         tokens.reduce((prev, token) => prev + token.supplyApr, 0) /
-  //         tokens.length,
-  //     };
-  //     return {
-  //       key: pool,
-  //       icon: pool.icon,
-  //       name: pool,
-  //       tokens,
-  //       ...stats,
-  //     };
-  //   });
-  //   console.log('debug check:', tokenList, ' :', latestPrices);
-
-  //   // setPoolData(poolDataTmp)
-  //   return poolData;
-  // }, [dashboardData, latestPrices]);
 
   //   // only expand one row at a time: https://stackoverflow.com/questions/67295603/react-and-expandedrow-render-in-ant-design
   const onTableRowExpand = (expanded, record) => {
@@ -373,6 +351,7 @@ const Page = (props) => {
       >
         <TabPane tab="Setting" key="1"></TabPane>
       </Tabs>
+      <ValueOf chainId='56' chooseDT='USDT' />
       <div
         style={{
           backgroundColor: "rgb(28, 27, 27)",
@@ -608,42 +587,42 @@ const Page = (props) => {
                   {/* <MarketDashboard KpTokenList={KpTokenList} /> */}
                 </>
               )) || (
-                <>
-                  <Table
-                    style={{
-                      border: "1px solid #1b1d23",
-                      whiteSpace: "nowrap",
-                    }}
-                    columns={networkColumns}
-                    dataSource={dataNetwork}
-                    expandable={{
-                      expandRowByClick: true,
-                      expandedRowRender: (record) => (
-                        <div style={{ background: "#040000" }}>
-                          <KpChildTable
-                            style={{ margin: "0" }}
-                            columns={childNetworkColumns}
-                            showHeader={false}
-                            pagination={false}
-                            dataSource={record.childData}
-                            onRow={(record2) => {
-                              return {
-                                onClick: (event) => {
-                                  setR1(record);
-                                  setR2(record2);
-                                  setOpen(true);
-                                }, // 点击行
-                              };
-                            }}
-                          />
-                        </div>
-                      ),
-                    }}
-                    pagination={false}
-                  />
-                  {/* <MarketDashboard /> */}
-                </>
-              )}
+                  <>
+                    <Table
+                      style={{
+                        border: "1px solid #1b1d23",
+                        whiteSpace: "nowrap",
+                      }}
+                      columns={networkColumns}
+                      dataSource={dataNetwork}
+                      expandable={{
+                        expandRowByClick: true,
+                        expandedRowRender: (record) => (
+                          <div style={{ background: "#040000" }}>
+                            <KpChildTable
+                              style={{ margin: "0" }}
+                              columns={childNetworkColumns}
+                              showHeader={false}
+                              pagination={false}
+                              dataSource={record.childData}
+                              onRow={(record2) => {
+                                return {
+                                  onClick: (event) => {
+                                    setR1(record);
+                                    setR2(record2);
+                                    setOpen(true);
+                                  }, // 点击行
+                                };
+                              }}
+                            />
+                          </div>
+                        ),
+                      }}
+                      pagination={false}
+                    />
+                    {/* <MarketDashboard /> */}
+                  </>
+                )}
             </Col>
           </Row>
         </Col>
