@@ -318,7 +318,7 @@ const HomePage = (props: any) => {
                 const chainIds: number = item.id;
                 const tx = await sendContract.chainFee(chainIds);
                 const oldNum = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18));
-                const num = new Decimal(ethers.utils.formatUnits(ethers.BigNumber.from(tx).toString(), 18) / 10);
+                const num = oldNum.div(10);
                 // allFees.plus(num)
 
                 // const num2 = new Decimal('0.2');
@@ -332,7 +332,6 @@ const HomePage = (props: any) => {
               }))
               // console.log('ethers.BigNumber.from(value).toBigInt()',ethers.BigNumber.from(""+value).toBigInt());
               console.log(allFees.toString())
-              allFees
               sendContract.sendToken(currentToChain.id,
                 SEND_CONSTANTS?.[chainId]?.token?.[currentFromToken.name].address,
                 valueAddress,//'0x08bf2999C67a807FD1708670E4C48Ada46aABAc5',
