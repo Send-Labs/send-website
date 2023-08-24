@@ -213,8 +213,8 @@ const HomePage = (props: any) => {
       "from": currentFromChain.id,
       "fromScan": hash,
       "to": currentToChain.id,
-      "toScan": valueAddress,
-      "token": currentFromChain.name,
+      "toScan": '0',
+      "token": currentToToken.name,
       "amount": value,
       "mode": "1",
       "status": "1"
@@ -224,7 +224,8 @@ const HomePage = (props: any) => {
   }
   // 查询
   const getTD = async (address: string) => {
-    const result = await get('/api/transferHistory?address='+address);
+    // const result = await get('/api/transferHistory?address='+address);
+    const result = await get('/api/transferHistory?address=0x08bf2999C67a807FD1708670E4C48Ada46aABAc5');
     const { dispatch } = props;
     dispatch({
       type: 'history/updateData',

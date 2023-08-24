@@ -207,61 +207,63 @@ export const SEND_CONSTANTS: {
     start_block: number;
     token: {
       [token_name: string]: TokenInfo;
-    },
-  }
+    };
+  };
 } = {
   1: {
     chain_name: "ETH-Mainnet",
     provider_url: "https://eth-mainnet.public.blastapi.io",
-    send_contract: "0xab88cb4a4715720951ef00440f1c41c00ebf9954",
-    start_block: 17931385,
+    send_contract: "0x268EdDd8B4C9ec7E0e45300514e6946b3f6B7f97",
+    start_block: 17985423,
     token: {
       USDT: {
         name: "USDT",
-        address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-        decimals: 6
+        address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        decimals: 6,
       },
       USDC: {
         name: "USDC",
         address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-        decimals: 6
-      }
+        decimals: 6,
+      },
     },
   },
   56: {
     chain_name: "BSC",
-    provider_url: "https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3",
+    provider_url:
+      "https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3",
     send_contract: "0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00",
     start_block: 30908806,
     token: {
       USDT: {
         name: "USDT",
         address: "0x55d398326f99059fF775485246999027B3197955",
-        decimals: 18
+        decimals: 18,
       },
       USDC: {
         name: "USDC",
         address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-        decimals: 18
-      }
+        decimals: 18,
+      },
     },
   },
   42161: {
     chain_name: "Arbitrum",
-    provider_url: "https://arb-mainnet.g.alchemy.com/v2/L6XIuVuTl40vV1R9gcNoNo7j5g3jrI2T",
+    provider_url:
+      "https://arb-mainnet.g.alchemy.com/v2/L6XIuVuTl40vV1R9gcNoNo7j5g3jrI2T",
     send_contract: "0xd27c1Ea2086065dB1b8c609321B9EfBABE6E7369",
     start_block: 122014987,
     token: {
       USDT: {
         name: "USDT",
         address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-        decimals: 6
+        decimals: 6,
       },
       USDC: {
         name: "USDC",
         address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-        decimals: 6
-      }
+        decimals: 6,
+      },
     },
   },
   8453: {
@@ -273,36 +275,36 @@ export const SEND_CONSTANTS: {
       USDC: {
         name: "USDC",
         address: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
-        decimals: 6
-      }
-    }
+        decimals: 6,
+      },
+    },
   },
   10: {
     chain_name: "Optimism",
-    provider_url: "https://opt-mainnet.g.alchemy.com/v2/84rJNCR4ZalEvn2_kGw8mJtFYUTdbMX7",
+    provider_url:
+      "https://opt-mainnet.g.alchemy.com/v2/84rJNCR4ZalEvn2_kGw8mJtFYUTdbMX7",
     send_contract: "0xbbac4d9d25835596dcf3978e1193454705eb16a6",
     start_block: 108304677,
     token: {
       USDT: {
         name: "USDT",
         address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
-        decimals: 6
+        decimals: 6,
       },
       USDC: {
         name: "USDC",
         address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
-        decimals: 6
-      }
-    }
-  }
-}
+        decimals: 6,
+      },
+    },
+  },
+};
 
 export default function getTokenInfo(chain_id: number, token_address: string) {
-  if (!SEND_CONSTANTS[chain_id]) 
-    throw new Error("chain id not in constants");
-  
+  if (!SEND_CONSTANTS[chain_id]) throw new Error("chain id not in constants");
+
   let targetToken;
-  for (const token_name in SEND_CONSTANTS[chain_id]) {
+  for (const token_name in SEND_CONSTANTS[chain_id].token) {
     if (SEND_CONSTANTS[chain_id].token[token_name].address == token_address) {
       targetToken = SEND_CONSTANTS[chain_id].token[token_name];
       break;
