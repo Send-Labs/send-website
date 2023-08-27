@@ -122,7 +122,8 @@ const HomePage = (props: any) => {
   const [currentToChain, setCurrentToChain] = useState(chainList[1]);
   const [currentFromToken, setCurrentFromToken] = useState(getTokenList(null)[0]);
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
-
+  const [isToBase, setIsToBase] = useState(false);
+  
 
   const accounts = useAccounts()
   const provider = useProvider()
@@ -260,7 +261,7 @@ const HomePage = (props: any) => {
             currentChain={currentFromChain}
             currentToken={currentFromToken}
             selectToken={() => { setVisible(true); }}
-            selectChain={() => { setOpen(true); setDirection(0); }}
+            selectChain={() => { setOpen(true); setDirection(0);setIsToBase(false); }}
             title="From"
             maxValue={balance}
             desc={balance >= 0 && `Balance: ${balance} ${currentFromToken?.name}`}
@@ -279,10 +280,12 @@ const HomePage = (props: any) => {
           currentChain={currentToChain}
           currentToken={currentToToken}
           selectToken={() => { setVisible(true); }}
-          selectChain={() => { setOpen(true); setDirection(1); }}
+          selectChain={() => { setOpen(true); setDirection(1);setIsToBase(true); }}
           title="To"
           desc={value && `Expect to receive: ${value} ${currentToToken?.name}`}
-          choose />
+          choose 
+          chooseToken={currentToChain.name=="Base"}
+          />
         <TokenInput
           key="ti3"
           simple
@@ -388,7 +391,7 @@ const HomePage = (props: any) => {
           <hr />
 
           <div className={styles.tokenlist}>
-            {chainId != 8453 && getTokenList(null).map((item) => (
+            {(chainId != 8453||isToBase) && getTokenList(null).map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}
@@ -461,7 +464,7 @@ const HomePage = (props: any) => {
               <Tooltip title="The default amount allows you to perform a couple of transactions (e.g. Approve and Swap). Once you approve the transfer in your wallet, the transaction gas amount will be higher than a regular transaction as this includes the selected amount of destination gas to be sent.">
                 <InfoCircleOutlined />
               </Tooltip>
-            </div>111111
+            </div>
             <hr style={{ background: '#323232', margin: '10px 0px 20px 0px' }} />
             <ButtonGroup value='none' onSelect={() => { }}>
               <ButtonGroup.Item value='none'>None</ButtonGroup.Item>

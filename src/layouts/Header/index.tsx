@@ -51,7 +51,7 @@ import { connect } from 'umi';
   const columns = [
     {
       title: 'Recipient Address',
-      dataIndex: 'toScan',
+      dataIndex: 'address',
       key: 'address',
       render: (text:string) => <a>{hideMiddleChars(text)}</a>,
     },
