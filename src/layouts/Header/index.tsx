@@ -59,13 +59,13 @@ import { connect } from 'umi';
       title: 'From',
       dataIndex: 'from',
       key: 'from',
-      render: (text:string,data:any) => <a target='_black' href={MAINNET_CHAINS[text]?.blockExplorerUrls[0]+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      render: (text:string,data:any) => <a target='_blank' href={MAINNET_CHAINS[text]?.blockExplorerUrls[0]+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'To',
       dataIndex: 'to',
       key: 'to',
-      render: (text:string,data:any) =>  <a target='_black' href={`${MAINNET_CHAINS[text]?.blockExplorerUrls[0]}tx/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{text=="56"&&'BNB Chain'||'Arbitrum One'}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      render: (text:string,data:any) =>  <a target='_blank' href={`${MAINNET_CHAINS[text]?.blockExplorerUrls[0]}tx/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'Value',
