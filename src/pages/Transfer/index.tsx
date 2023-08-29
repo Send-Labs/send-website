@@ -245,18 +245,6 @@ const HomePage = (props: any) => {
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       {contextHolder}
-      <TokenBalance
-        rpc="https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
-        tokenAddress="0x55d398326f99059fF775485246999027B3197955"
-        contractAddress="0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00"
-        decimal="18"
-      />
-      <TokenBalance
-        rpc="https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
-        tokenAddress="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
-        contractAddress="0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00"
-        decimal="18"
-      />
       {/* <Button onClick={abc}>aa</Button> */}
       <div className='flex flex-column gap-4' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
