@@ -11,6 +11,7 @@ import KpBuy from "@/components/KpBuy";
 import KpRpc from "@/components/KpRpc";
 import KpTabs from "@/components/KpTabs";
 import KpChildTable from "@/components/KpChildTable";
+import TokenLine from "@/components/TokenLine";
 import PoolCard from "@/components/PoolCard";
 import { ethers } from "ethers";
 import {
@@ -158,7 +159,7 @@ const Page = (props) => {
       });
     }
   }
-  console.log('tokenListBalance',tokenListBalance);
+  console.log('tokenListBalance', tokenListBalance);
   const onClose = () => {
     setVisible(false);
   };
@@ -537,16 +538,25 @@ const Page = (props) => {
           // (keyPool == "3" && dataTopPool)
         }
         pagination={false}
-        // onRow={(record2) => {
-        //   return {
-        //     onClick: (event) => {
-        //       setR1(record2);
-        //       setR2(record2);
-        //       setOpen(true);
-        //     }, // 点击行
-        //   };
-        // }}
+      // onRow={(record2) => {
+      //   return {
+      //     onClick: (event) => {
+      //       setR1(record2);
+      //       setR2(record2);
+      //       setOpen(true);
+      //     }, // 点击行
+      //   };
+      // }}
       />
+      <div
+        style={{
+          backgroundColor: "rgb(28, 27, 27)",
+          padding: "15px",
+          marginBottom: "30px",
+        }}
+      >
+        <TokenLine />
+      </div>
       <Row>
         <Col className={styles.main} span={24}>
           {/* <KpRpc totalSupply={totalSupply} totalBorrows={totalBorrows} /> */}
