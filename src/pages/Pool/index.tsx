@@ -45,15 +45,15 @@ const {
 
 const { TabPane } = Tabs;
 
-function ValueOf({chainId, chooseDT}:any) {
+function ValueOf({ chainId, chooseDT }: any) {
   const [result, setResult] = useState('');
 
   useEffect(() => {
     async function fetchData() {
       const provider = new ethers.providers.JsonRpcProvider(SEND_CONSTANTS[chainId]?.provider_url);
-      console.log('SEND_CONSTANTS',SEND_CONSTANTS)
+      console.log('SEND_CONSTANTS', SEND_CONSTANTS)
       const contractAddress = SEND_CONSTANTS[chainId]?.send_contract;
-      console.log('contractAddress',contractAddress,chainId)
+      console.log('contractAddress', contractAddress, chainId)
 
       const sendContract = new ethers.Contract(contractAddress, SEND_CONTRACT_ABI, provider);
 
@@ -140,7 +140,25 @@ const Page = (props) => {
   //   const showDrawer = () => {
   //     setVisible(true);
   //   };
+  let tokenListBalance = [];
 
+  for (const chainId in SEND_CONSTANTS) {
+    const chainInfo = SEND_CONSTANTS[chainId];
+    const { chain_name, provider_url, send_contract, token } = chainInfo;
+
+    for (const tokenName in token) {
+      const tokenInfo = token[tokenName];
+      tokenListBalance.push({
+        chain_name,
+        provider_url,
+        send_contract,
+        token_name: tokenName,
+        token_address: tokenInfo.address,
+        decimals: tokenInfo.decimals,
+      });
+    }
+  }
+  console.log('tokenListBalance',tokenListBalance);
   const onClose = () => {
     setVisible(false);
   };
@@ -513,21 +531,21 @@ const Page = (props) => {
       <Table
         style={{ border: "1px solid #1b1d23", marginBottom: "50px" }}
         columns={mypoololumns}
-        dataSource={
-          (keyPool == "1" && dataMyPool) ||
-          (keyPool == "2" && dataAvailable) ||
-          (keyPool == "3" && dataTopPool)
+        dataSource={tokenListBalance
+          // (keyPool == "1" && dataMyPool) ||
+          // (keyPool == "2" && dataAvailable) ||
+          // (keyPool == "3" && dataTopPool)
         }
         pagination={false}
-        onRow={(record2) => {
-          return {
-            onClick: (event) => {
-              setR1(record2);
-              setR2(record2);
-              setOpen(true);
-            }, // 点击行
-          };
-        }}
+        // onRow={(record2) => {
+        //   return {
+        //     onClick: (event) => {
+        //       setR1(record2);
+        //       setR2(record2);
+        //       setOpen(true);
+        //     }, // 点击行
+        //   };
+        // }}
       />
       <Row>
         <Col className={styles.main} span={24}>

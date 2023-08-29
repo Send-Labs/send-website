@@ -21,6 +21,8 @@ import { getUsdtContractAddr, getSendContractAddr } from '@/constants/addresses'
 import useSendContract from "@/hooks/useSendContract";
 import styles from './index.less';
 import { ERC20_ABI } from '@/abis/ERC20_ABI';
+import { JsonRpcProvider } from "@ethersproject/providers";
+import TokenBalance from '@/components/TokenBalance';
 // 定义一个防抖函数
 function debounce(fn, delay) {
   let timeout;
@@ -49,15 +51,14 @@ const HomePage = (props: any) => {
   };
   const onSelectTokenCurrent = (item: any) => {
     setVisible(false);
-    debugger;
-    if(isToD){
+    if (isToD) {
       setCurrentToToken(item);
     }
-    else{
+    else {
       setCurrentFromToken(item);
       setCurrentToToken(item);
     }
-   
+
   };
   const onSelectChainCurrent = (item: any) => {
     setOpen(false);
@@ -131,7 +132,7 @@ const HomePage = (props: any) => {
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
   const [isToBase, setIsToBase] = useState(false);
   const [isToD, setIsTD] = useState(false);
-  
+
 
   const accounts = useAccounts()
   const provider = useProvider()
@@ -143,11 +144,11 @@ const HomePage = (props: any) => {
     // chainId==8453&& setCurrentFromToken(getTokenList(null)[1])
   }, [chainId]);
   useEffect(() => {
-    if (chainId == 8453&&!isToD) {
+    if (chainId == 8453 && !isToD) {
       setCurrentFromToken(getTokenList(null)[1])
       setCurrentToToken(getTokenList(null)[1])
     }
-    console.log('changetoken',currentToToken)
+    console.log('changetoken', currentToToken)
   })
   useEffect(() => {
     if (!SEND_CONSTANTS?.[chainId]?.send_contract) {
@@ -233,7 +234,7 @@ const HomePage = (props: any) => {
   }
   // 查询
   const getTD = async (address: string) => {
-    const result = await get('/api/transferHistory?address='+address);
+    const result = await get('/api/transferHistory?address=' + address);
     // const result = await get('/api/transferHistory?address=0x08bf2999C67a807FD1708670E4C48Ada46aABAc5');
     const { dispatch } = props;
     dispatch({
@@ -241,37 +242,21 @@ const HomePage = (props: any) => {
       payload: { data: result.data }
     });
   }
-  async function abc(params:type) {
-    // const web3 = new Web3('https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3');
-    // ERC20 代币合约地址
-const tokenContractAddress = '0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00'; // ERC20 代币合约地址
-
-
-
-// 用户地址
-const userAddress = '0x55d398326f99059fF775485246999027B3197955'; // 用户钱包地址
-
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-// 实例化 ERC20 代币合约
-const tokenContract = new ethers.Contract(tokenContractAddress,ERC20_ABI,signer);
-
-// 查询代币余额
-async function getTokenBalance() {
-  try {
-    debugger;
-    const balance = await tokenContract.balanceOf(userAddress);
-    console.log(`Token Balance: ${balance}`);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-getTokenBalance();
-  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       {contextHolder}
+      <TokenBalance
+        rpc="https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
+        tokenAddress="0x55d398326f99059fF775485246999027B3197955"
+        contractAddress="0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00"
+        decimal="18"
+      />
+      <TokenBalance
+        rpc="https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
+        tokenAddress="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        contractAddress="0x6bc39f8de47fe6abfb05f55e0f6b216c5f3cbd00"
+        decimal="18"
+      />
       {/* <Button onClick={abc}>aa</Button> */}
       <div className='flex flex-column gap-4' style={{ width: '375px', backgroundColor: '#1c1b1b', padding: '1.25rem', border: '1px solid #2f343e', borderRadius: '1rem', position: 'relative', overflow: 'hidden' }}>
         <div className='flex flex-between flex-align-center' style={{ marginBottom: '15px' }}>
@@ -297,8 +282,8 @@ getTokenBalance();
             max
             currentChain={currentFromChain}
             currentToken={currentFromToken}
-            selectToken={() => { setVisible(true);setIsTD(false);setIsToBase(false); }}
-            selectChain={() => { setOpen(true); setDirection(0);setIsToBase(false); }}
+            selectToken={() => { setVisible(true); setIsTD(false); setIsToBase(false); }}
+            selectChain={() => { setOpen(true); setDirection(0); setIsToBase(false); }}
             title="From"
             maxValue={balance}
             desc={balance >= 0 && `Balance: ${balance} ${currentFromToken?.name}`}
@@ -316,13 +301,13 @@ getTokenBalance();
           onChange={(v: any) => setValue(v)}
           currentChain={currentToChain}
           currentToken={currentToToken}
-          selectToken={() => { setVisible(true);setIsTD(true);setIsToBase(true); }}
-          selectChain={() => { setOpen(true); setDirection(1);setIsToBase(true); }}
+          selectToken={() => { setVisible(true); setIsTD(true); setIsToBase(true); }}
+          selectChain={() => { setOpen(true); setDirection(1); setIsToBase(true); }}
           title="To"
           desc={value && `Expect to receive: ${value} ${currentToToken?.name}`}
-          choose 
-          chooseToken={currentFromChain.name=="Base"}
-          />
+          choose
+          chooseToken={currentFromChain.name == "Base"}
+        />
         <TokenInput
           key="ti3"
           simple
@@ -428,7 +413,7 @@ getTokenBalance();
           <hr />
 
           <div className={styles.tokenlist}>
-            {(chainId != 8453||isToBase) && getTokenList(null).map((item) => (
+            {(chainId != 8453 || isToBase) && getTokenList(null).map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}

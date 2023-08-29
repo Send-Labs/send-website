@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-
+import TokenBalance from '@/components/TokenBalance';
 //  network
 export const networkColumns = [
   {
@@ -53,7 +53,7 @@ export const networkColumns = [
 
   },
   {
-    
+
     title: 'APR',
     dataIndex: 'apr',
     sorter: (a, b) => a.borrowApr - b.borrowApr,
@@ -108,7 +108,7 @@ export const childNetworkColumns = [
 
   },
   {
-    
+
     title: 'APR',
     dataIndex: 'apr',
     sorter: (a, b) => a.borrowApr - b.borrowApr,
@@ -332,7 +332,7 @@ export const assetColumns = [
 
   },
   {
-    
+
     title: 'APR',
     dataIndex: 'apr',
     sorter: (a, b) => a.borrowApr - b.borrowApr,
@@ -360,7 +360,7 @@ export const childAssetColumns = [
     defaultSortOrder: 'descend',
     sorter: (a, b) => a - b,
     showSorterTooltip: false,
-    render: (text) => text &&text.length>0 && <><img style={{ width: '30px', marginRight: '5px' }} src={text[0].icon} />{text[0].name}</>,
+    render: (text) => text && text.length > 0 && <><img style={{ width: '30px', marginRight: '5px' }} src={text[0].icon} />{text[0].name}</>,
   },
   {
     title: 'Liquidity',
@@ -584,11 +584,11 @@ export const dataAssets = [
       icon: 'usdc.svg'
     }],
     network: [
-      { name: 'Ethereum', icon: 'eth.svg' }, 
+      { name: 'Ethereum', icon: 'eth.svg' },
       { name: 'BNB Chain', icon: 'bnb.svg' },
-      { name: 'Arbitrum', icon: 'arbitrum.svg' }, 
+      { name: 'Arbitrum', icon: 'arbitrum.svg' },
       { name: 'Polygon', icon: 'polygon.svg' },
-      { name: 'Arbitrum', icon: 'arb.svg' }, 
+      { name: 'Arbitrum', icon: 'arb.svg' },
     ],
     liquidity: '$4,179,163.96',
     vol24h: '$26,068,439.18',
@@ -658,39 +658,47 @@ export const dataAssets = [
     ],
   },
 ];
-
+const tokenImg={
+  'ETH-Mainnet':'eth.svg',
+  'Optimism':'optimism.png',
+  'BSC':'bnb.svg',
+  'Base':'base.svg',
+  'Arbitrum':'arb.svg'
+}
 // my pools
 export const mypoololumns = [
   {
     title: 'Asset',
     width: '20%',
-    dataIndex: 'assets',
+    // dataIndex: 'token_name',
     // specify the condition of filtering result
     // here is that finding the name started with `value`
     // sorter: (a, b) => a.name.length - b.name.length,
     // showSorterTooltip: false,
-    render: text => {
-      return text && text.map(item => <><img style={{ width: '30px', marginRight: '5px' }} src={item.icon} /><b>{item.name}</b></>) || <span></span>
+    render: (data) => {
+      return <><img style={{ width: '30px', marginRight: '5px' }} src={`${data.token_name.toLowerCase()}.svg`} /><b>{data.token_name}</b></>
     },
   },
   {
     title: 'Network',
     width: '20%',
-    dataIndex: 'network',
-    defaultSortOrder: 'descend',
-    sorter: (a, b) => a - b,
-    showSorterTooltip: false,
-    render: text => {
-      return text && text.map(item => <><img style={{ width: '30px', marginRight: '5px' }} src={item.icon} /><b>{item.name}</b></>) || <span></span>
+    // dataIndex: 'chain_name',
+    // render: text => {
+    //   return text && text.map(item => <><img style={{ width: '30px', marginRight: '5px' }} src={item.icon} /><b>{item.name}</b></>) || <span></span>
+    // },
+    render: (data) => {
+      return <><img style={{ width: '30px', marginRight: '5px' }} src={`${tokenImg[data.chain_name]}`} /><b>{data.chain_name}</b></>
     },
   },
   {
     title: 'Liquidity',
     width: '20%',
-    dataIndex: 'liquidity',
-    sorter: (a, b) => a.totalSupply - b.totalSupply,
-    showSorterTooltip: false,
-
+    render: data => <TokenBalance
+      rpc={data.provider_url}
+      tokenAddress={data.token_address}
+      contractAddress={data.send_contract}
+      decimals={data.decimals}
+    />
   },
   {
     title: 'Volume (24h)',
@@ -708,7 +716,7 @@ export const mypoololumns = [
 
   },
   {
-    
+
     title: 'APR',
     dataIndex: 'apr',
     sorter: (a, b) => a.borrowApr - b.borrowApr,
