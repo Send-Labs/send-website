@@ -34,6 +34,15 @@ const TokenLine = () => {
     //     formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
     //   },
     // },
+    yAxis: {
+      grid: {
+        line: {
+          style: {
+            stroke: 'rgba(255,255,255,0.1)',
+          }
+        }
+      }
+    }
   };
 
   return <Line {...config} />;
