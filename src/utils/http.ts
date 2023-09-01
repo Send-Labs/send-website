@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Set the base URL for your API server
 // const baseURL = 'http://147.182.251.92:3000';
-const baseURL = 'https://movie.jdd001.top';
+const baseURL = '';
 
 // Create an instance of Axios with custom configurations
 const instance = axios.create({
