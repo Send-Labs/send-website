@@ -83,7 +83,7 @@ import { connect } from 'umi';
       title: 'Time',
       dataIndex: 'cratetime',
       key: 'time',
-      render:(text:string)=>dayjs(text).format('YYYY-MM-DD HH:ss:mm')
+      render:(text:string)=>dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     }
   ];
 
