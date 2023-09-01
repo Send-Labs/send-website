@@ -51,27 +51,27 @@ import { connect } from 'umi';
   const columns = [
     {
       title: 'Recipient Address',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'addressFrom',
+      key: 'addressFrom',
       render: (text:string) => <a>{hideMiddleChars(text)}</a>,
     },
     {
       title: 'From',
-      dataIndex: 'from',
-      key: 'from',
-      render: (text:string,data:any) => <a target='_blank' href={MAINNET_CHAINS[text]?.blockExplorerUrls[0]+'tx/'+data.fromScan} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      dataIndex: 'chainFrom',
+      key: 'chainFrom',
+      render: (text:string,data:any) => <a target='_blank' href={MAINNET_CHAINS[text]?.blockExplorerUrls[0]+'tx/'+data.hashFrom} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'To',
-      dataIndex: 'to',
-      key: 'to',
-      render: (text:string,data:any) =>  <a target='_blank' href={`${MAINNET_CHAINS[text]?.blockExplorerUrls[0]}tx/${data.toScan}#tokentxns`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
+      dataIndex: 'chainTo',
+      key: 'chainTo',
+      render: (text:string,data:any) =>  <a target='_blank' href={`${MAINNET_CHAINS[text]?.blockExplorerUrls[0]}tx/${data.hashTo}`} style={{display:'flex',alignItems:'center',gap:'5px'}}><img width={16} src={MAINNET_CHAINS[text]?.icon}/>{MAINNET_CHAINS[text]?.name}<ViewIcon width={16} height={16} fill='#fff' /></a>,
     },
     {
       title: 'Value',
-      dataIndex: 'amount',
-      key: 'amount',
-      render: (text:string,data:any) =><span><strong>{text}</strong>&nbsp;{data.token}</span>
+      dataIndex: 'tokenAmount',
+      key: 'tokenAmount',
+      render: (text:string,data:any) =><span><strong>{text}</strong>&nbsp;{data.tokenSymbol}</span>
     },
     {
       title: 'Mode',

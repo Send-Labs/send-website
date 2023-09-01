@@ -216,25 +216,41 @@ const HomePage = (props: any) => {
 
     setAllowance(allowance.toString());
   }
-  // 保存
+  // 轮询
   const saveTD = async (hash: string) => {
-    const params = {
-      "address": accounts[0],
-      "from": currentFromChain.id,
-      "fromScan": hash,
-      "to": currentToChain.id,
-      "toScan": '0',
-      "token": currentToToken.name,
-      "amount": value,
-      "mode": "1",
-      "status": "1"
+
+    try {
+      const response = await get('/api/transferHistory?addressFrom=' + accounts[0]);
+      // 检查你想要的结果是否满足条件，如果满足条件则返回数据，否则继续递归调用makeRequest函数
+      if (response.code==200&&response.data.length>0&&response.data[response.data.length-1].hashFrom==hash) {
+        getTD(accounts[0]);
+        api.info({
+          icon: <FileDoneOutlined />,
+          message: 'Done',
+          description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/tx/${response.data[0].hashTo}`} className={styles.tokenlist}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <img src={chainOrg[currentToChain.id]?.icon} style={{ width: '24px' }} />
+              <p style={{ margin: 0 }}>{chainOrg[currentToChain.id]?.name}</p>
+              <ViewIcon width={24} fill='#fff' />
+            </div>
+          </a>,
+          placement: 'topRight',
+          duration: 30
+        });
+      } else {
+        // 继续递归调用makeRequest函数，直到满足条件为止
+        saveTD(hash);
+      }
+    } catch (error) {
+      // 处理错误情况，可以根据需要进行重试或者返回错误信息
+      console.error('网络请求错误:', error);
+      throw error; // 可以选择抛出错误以中断递归
     }
-    const result = await post('/api/transferHistory', params);
-    getTD(accounts[0]);
+
   }
   // 查询
   const getTD = async (address: string) => {
-    const result = await get('/api/transferHistory?address=' + address);
+    const result = await get('/api/transferHistory?addressFrom=' + address);
     // const result = await get('/api/transferHistory?address=0x08bf2999C67a807FD1708670E4C48Ada46aABAc5');
     const { dispatch } = props;
     dispatch({
@@ -357,19 +373,6 @@ const HomePage = (props: any) => {
                   console.log('sendResult', result);
                   if (result.status == 1) {
                     saveTD(result.transactionHash);
-                    api.info({
-                      icon: <FileDoneOutlined />,
-                      message: 'Done',
-                      description: <a target='_blank' href={`${getBlockExplorerUrls(currentToChain.id)}/address/${valueAddress}#tokentxns`} className={styles.tokenlist}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                          <img src={chainOrg[currentToChain.id]?.icon} style={{ width: '24px' }} />
-                          <p style={{ margin: 0 }}>{chainOrg[currentToChain.id]?.name}</p>
-                          <ViewIcon width={24} fill='#fff' />
-                        </div>
-                      </a>,
-                      placement: 'topRight',
-                      duration: 30
-                    });
                   }
                 }).catch(err => { });
               //  const result=await 
