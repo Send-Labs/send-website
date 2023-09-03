@@ -151,6 +151,9 @@ const HomePage = (props: any) => {
     if(currentToChain.id==8453){
       setCurrentToToken(getTokenList(null)[1])
     }
+    if(currentToChain.id!=8453&&currentFromToken.name=='USDT'){
+      setCurrentToToken(getTokenList(null)[0])
+    }
     console.log('changetoken', currentToToken)
   })
   useEffect(() => {
