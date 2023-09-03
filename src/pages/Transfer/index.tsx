@@ -132,7 +132,7 @@ const HomePage = (props: any) => {
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
   const [isToBase, setIsToBase] = useState(false);
   const [isToD, setIsTD] = useState(false);
-
+  const [isAll, setIsAll] = useState(true)
 
   const accounts = useAccounts()
   const provider = useProvider()
@@ -146,6 +146,9 @@ const HomePage = (props: any) => {
   useEffect(() => {
     if (chainId == 8453 && !isToD) {
       setCurrentFromToken(getTokenList(null)[1])
+      setCurrentToToken(getTokenList(null)[1])
+    }
+    if(currentToChain.id==8453){
       setCurrentToToken(getTokenList(null)[1])
     }
     console.log('changetoken', currentToToken)
@@ -222,7 +225,7 @@ const HomePage = (props: any) => {
     try {
       const response = await get('/api/transferHistory?addressFrom=' + accounts[0]);
       // 检查你想要的结果是否满足条件，如果满足条件则返回数据，否则继续递归调用makeRequest函数
-      if (response.code==200&&response.data.length>0&&response.data[response.data.length-1].hashFrom==hash) {
+      if (response.code == 200 && response.data.length > 0 && response.data[response.data.length - 1].hashFrom == hash) {
         getTD(accounts[0]);
         api.info({
           icon: <FileDoneOutlined />,
@@ -286,7 +289,10 @@ const HomePage = (props: any) => {
             max
             currentChain={currentFromChain}
             currentToken={currentFromToken}
-            selectToken={() => { setVisible(true); setIsTD(false); setIsToBase(false); }}
+            selectToken={() => {
+              setVisible(true); setIsTD(false); setIsToBase(false);
+              setIsAll(currentFromChain.id != 8453)
+            }}
             selectChain={() => { setOpen(true); setDirection(0); setIsToBase(false); }}
             title="From"
             maxValue={balance}
@@ -305,7 +311,16 @@ const HomePage = (props: any) => {
           onChange={(v: any) => setValue(v)}
           currentChain={currentToChain}
           currentToken={currentToToken}
-          selectToken={() => { setVisible(true); setIsTD(true); setIsToBase(true); }}
+          selectToken={() => {
+            setVisible(true); setIsTD(true); setIsToBase(true);
+            if (currentFromChain.id == 8453 && currentToChain.id != 8453) {
+              setIsAll(true);
+            }
+            else{
+              setIsAll(false);
+            }
+
+          }}
           selectChain={() => { setOpen(true); setDirection(1); setIsToBase(true); }}
           title="To"
           desc={value && `Expect to receive: ${value} ${currentToToken?.name}`}
@@ -404,7 +419,7 @@ const HomePage = (props: any) => {
           <hr />
 
           <div className={styles.tokenlist}>
-            {(chainId != 8453 || isToBase) && getTokenList(null).map((item) => (
+            {isAll && getTokenList(null).map((item) => (
               <div
                 className={styles.item}
                 onClick={() => onSelectTokenCurrent(item)}
