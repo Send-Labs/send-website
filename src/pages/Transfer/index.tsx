@@ -132,7 +132,8 @@ const HomePage = (props: any) => {
   const [currentFromChain, setCurrentFromChain] = useState(chainList[1]);
   const [isToBase, setIsToBase] = useState(false);
   const [isToD, setIsTD] = useState(false);
-  const [isAll, setIsAll] = useState(true)
+  const [isAll, setIsAll] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   const accounts = useAccounts()
   const provider = useProvider()
@@ -177,6 +178,7 @@ const HomePage = (props: any) => {
         console.error('Failed to fetch USDT balance:', error);
       });
     }
+    getAuth()
   }, [provider, accounts, currentFromToken])
   const handleSwitchChain = () => {
     setCurrentFromChain(currentToChain);
@@ -264,6 +266,12 @@ const HomePage = (props: any) => {
       payload: { data: result.data }
     });
   }
+  const getAuth = async () => {
+    const result = await get('/api/whiteList?walletAddress=' + accounts[0]);
+    if(result&&result.code==200&&result.data&&result.data.length>0){
+      setIsAuth(true);
+    }
+  }
   return (
     <div style={{ padding: '50px 0' }} className='flex flex-center'>
       {contextHolder}
@@ -287,7 +295,7 @@ const HomePage = (props: any) => {
             defaultValue={value}
             onChange={(v: any) => {
               setValue(v);
-              setOpenMost(v >= 10);
+              setOpenMost(v > 10);
             }}
             max
             currentChain={currentFromChain}
@@ -339,7 +347,7 @@ const HomePage = (props: any) => {
           currentToken={currentToToken}
           title="Recipient Address"
           choose />
-        <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10} onClick={
+        <Button disabled={(value == "" && allowance != 0) || !chainId || value > 10|| !isAuth} onClick={
           debounce(
             async () => {
               // <Button disabled onClick={async () => {
